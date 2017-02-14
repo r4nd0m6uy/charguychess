@@ -37,11 +37,13 @@ public:
   void setTurn(Color color);
   const Board& getBoard() const;
   void setBoard(const Board& board);
+  bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
 
 private:
   Board m_board;
   Color m_turn;
+
 };
 
 }       // namespace

@@ -63,7 +63,7 @@ void GameLogic::setBoard(const Board& board)
 }
 
 //--------------------------------------------------------------------------------------------
-bool GameLogic::applyMove(const Move& m)
+bool GameLogic::isMoveLegal(const Move& m) const
 {
   PlayerPiece movedPiece = m_board.getPiece(m.getFrom());
 
@@ -71,12 +71,13 @@ bool GameLogic::applyMove(const Move& m)
   if(movedPiece.getColor() != m_turn)
     return false;
 
-  // Check if legal
+  // Pawn move
   if(movedPiece.getPiece() == PAWN)
   {
     unsigned int sideCount = std::abs(m.getFrom().getFile() - m.getTo().getFile());
     int fwCnt = m.getTo().getRank() - m.getFrom().getRank();
     int fwCntAbs = std::abs(fwCnt);
+    const PlayerPiece& capturedPiece = m_board.getPiece(m.getTo());
 
     // Pawn moves forward
     if(sideCount == 0)
@@ -99,7 +100,7 @@ bool GameLogic::applyMove(const Move& m)
         return false;
 
       // Can move forward only if square is free
-      if(m_board.getPiece(m.getTo()).getColor() != NO_COLOR)
+      if(capturedPiece.getColor() != NO_COLOR)
         return false;
     }
     else
@@ -113,15 +114,24 @@ bool GameLogic::applyMove(const Move& m)
         return false;
 
       // Only if there is a piece of the opposite color
-      const PlayerPiece& capturedPiece = m_board.getPiece(m.getTo());
       if(capturedPiece.getColor() == NO_COLOR || capturedPiece.getColor() == m_turn)
         return false;
     }
   }
 
+  return true;
+}
+
+//--------------------------------------------------------------------------------------------
+bool GameLogic::applyMove(const Move& m)
+{
+  // Precondition
+  if(!isMoveLegal(m))
+    return false;
+
   // Apply move
+  m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
   m_board.setPiece(PlayerPiece(), m.getFrom());
-  m_board.setPiece(movedPiece, m.getTo());
 
   // Next player turn
   if(m_turn == BLACK)

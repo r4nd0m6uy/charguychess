@@ -37,175 +37,29 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesBackward)
-{
-  GameLogic gl;
-  Square from(A, FIVE);
-  Square to(A, SIX);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), from);
-  gl.setBoard(b);
-  gl.setTurn(BLACK);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, whitePawnMovesBackward)
-{
-  GameLogic gl;
-  Square from(A, FOUR);
-  Square to(A, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(WHITE, PAWN), from);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesEmptySquare)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, THREE);
-  Move m(from, to);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeftTooFarLeft)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(G, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeftTooFarForward)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, FOUR);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeft)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesTwoForward)
-{
-  GameLogic gl;
-  Square from(A, SEVEN);
-  Square to(A, FIVE);
-  Board b;
-  Move m(from, to);
-
-  gl.setTurn(BLACK);
-
-  CHECK(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesForward)
-{
-  GameLogic gl;
-  Square from(A, SEVEN);
-  Square to(A, SIX);
-  Board b;
-  Move m(from, to);
-
-  gl.setTurn(BLACK);
-
-  CHECK(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesForwardButPiecePresent)
+TEST(GameLogicTest, legalMoveApplied)
 {
   GameLogic gl;
   Square from(A, TWO);
   Square to(A, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(WHITE, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesTwoForwardButAlreadyMoved)
-{
-  GameLogic gl;
-  Square from(A, THREE);
-  Square to(A, FIVE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(), Square(A, TWO));
-  b.setPiece(PlayerPiece(WHITE, PAWN), from);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesThreeForward)
-{
-  GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, FIVE);
-  Move m(from, to);
-
-  CHECK_FALSE(gl.applyMove(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesTwoForward)
-{
-  GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, FOUR);
   Move m(from, to);
 
   CHECK(gl.applyMove(m));
+
+  // Board is updated on legal move
+  const PlayerPiece& pieceFrom = gl.getBoard().getPiece(from);
+  CHECK_EQUAL(NO_COLOR, pieceFrom.getColor());
+  CHECK_EQUAL(NO_PIECE, pieceFrom.getPiece());
+
+  const PlayerPiece& pieceTo = gl.getBoard().getPiece(to);
+  CHECK_EQUAL(WHITE, pieceTo.getColor());
+  CHECK_EQUAL(PAWN, pieceTo.getPiece());
+
+  CHECK_EQUAL(BLACK, gl.getTurn());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, illegalMoveWrongFromColor)
+TEST(GameLogicTest, illegalMoveNotApplied)
 {
   GameLogic gl;
   Square from(A, SEVEN);
@@ -227,6 +81,185 @@ TEST(GameLogicTest, illegalMoveWrongFromColor)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, blackPawnMovesBackward)
+{
+  GameLogic gl;
+  Square from(A, FIVE);
+  Square to(A, SIX);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), from);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, whitePawnMovesBackward)
+{
+  GameLogic gl;
+  Square from(A, FOUR);
+  Square to(A, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesEmptySquare)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, THREE);
+  Move m(from, to);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeftTooFarLeft)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(G, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeftTooFarForward)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, FOUR);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeft)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, blackPawnMovesTwoForward)
+{
+  GameLogic gl;
+  Square from(A, SEVEN);
+  Square to(A, FIVE);
+  Board b;
+  Move m(from, to);
+
+  gl.setTurn(BLACK);
+
+  CHECK(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, blackPawnMovesForward)
+{
+  GameLogic gl;
+  Square from(A, SEVEN);
+  Square to(A, SIX);
+  Board b;
+  Move m(from, to);
+
+  gl.setTurn(BLACK);
+
+  CHECK(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnMovesForwardButPiecePresent)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(WHITE, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnMovesTwoForwardButAlreadyMoved)
+{
+  GameLogic gl;
+  Square from(A, THREE);
+  Square to(A, FIVE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(), Square(A, TWO));
+  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnMovesThreeForward)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, FIVE);
+  Move m(from, to);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnMovesTwoForward)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, FOUR);
+  Move m(from, to);
+
+  CHECK(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, illegalMoveWrongFromColor)
+{
+  GameLogic gl;
+  Square from(A, SEVEN);
+  Square to(A, SIX);
+  Move m(from, to);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, pawnMovesOneForward)
 {
   GameLogic gl;
@@ -234,18 +267,7 @@ TEST(GameLogicTest, pawnMovesOneForward)
   Square to(A, THREE);
   Move m(from, to);
 
-  CHECK(gl.applyMove(m));
-
-  // Board is updated on legal move
-  const PlayerPiece& pieceFrom = gl.getBoard().getPiece(from);
-  CHECK_EQUAL(NO_COLOR, pieceFrom.getColor());
-  CHECK_EQUAL(NO_PIECE, pieceFrom.getPiece());
-
-  const PlayerPiece& pieceTo = gl.getBoard().getPiece(to);
-  CHECK_EQUAL(WHITE, pieceTo.getColor());
-  CHECK_EQUAL(PAWN, pieceTo.getPiece());
-
-  CHECK_EQUAL(BLACK, gl.getTurn());
+  CHECK(gl.isMoveLegal(m));
 }
 
 //--------------------------------------------------------------------------------------------
