@@ -31,25 +31,27 @@ namespace cgc {
 typedef uint64_t BitBoard;
 
 enum Rank{
-  ONE,
+  ONE = 0,
   TWO,
   THREE,
   FOUR,
   FIVE,
   SIX,
   SEVEN,
-  EIGHT
+  EIGHT,
+  LAST_RANK = EIGHT
 };
 
 enum File{
-  A,
+  A = 0,
   B,
   C,
   D,
   E,
   F,
   G,
-  H
+  H,
+  LAST_FILE = H
 };
 
 enum Color

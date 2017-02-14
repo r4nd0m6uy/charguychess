@@ -40,13 +40,13 @@ PlayerPiece::~PlayerPiece()
 }
 
 //--------------------------------------------------------------------------------------------
-Color PlayerPiece::getColor()
+Color PlayerPiece::getColor() const
 {
   return m_color;
 }
 
 //--------------------------------------------------------------------------------------------
-Piece PlayerPiece::getPiece()
+Piece PlayerPiece::getPiece() const
 {
   return m_piece;
 }

@@ -33,8 +33,8 @@ public:
   PlayerPiece(Color c, Piece p);
   ~PlayerPiece();
 
-  Color getColor();
-  Piece getPiece();
+  Color getColor() const;
+  Piece getPiece() const;
 
 private:
   Color m_color;

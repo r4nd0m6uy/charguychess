@@ -19,7 +19,10 @@
 #ifndef _CGC_BOARD_HPP_
 #define _CGC_BOARD_HPP_
 
+#include <vector>
+
 #include "ChessDefinitions.hpp"
+#include "PlayerPiece.hpp"
 
 namespace cgc {
 
@@ -32,8 +35,11 @@ public:
   Board();
   ~Board();
 
+  const PlayerPiece& getPiece(File f, Rank r) const;
+
 private:
-  BitBoard m_bitBoard;
+  typedef std::vector< std::vector<PlayerPiece> > BoardPieces;
+  BoardPieces m_boardPieces;
 };
 
 }       // namespace
