@@ -39,7 +39,7 @@ TEST_GROUP(BoardTest)
 TEST(BoardTest, blackRookOnH8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(H, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(H, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(ROOK, pp.getPiece());
@@ -49,7 +49,7 @@ TEST(BoardTest, blackRookOnH8)
 TEST(BoardTest, blackKnightOnG8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(G, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(G, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(KNIGHT, pp.getPiece());
@@ -59,7 +59,7 @@ TEST(BoardTest, blackKnightOnG8)
 TEST(BoardTest, blackBishopOnF8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(F, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(F, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(BISHOP, pp.getPiece());
@@ -69,7 +69,7 @@ TEST(BoardTest, blackBishopOnF8)
 TEST(BoardTest, blackKingOnE8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(E, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(E, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(KING, pp.getPiece());
@@ -79,7 +79,7 @@ TEST(BoardTest, blackKingOnE8)
 TEST(BoardTest, blackQueenOnD8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(D, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(D, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(QUEEN, pp.getPiece());
@@ -89,7 +89,7 @@ TEST(BoardTest, blackQueenOnD8)
 TEST(BoardTest, blackBishopOnC8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(C, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(C, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(BISHOP, pp.getPiece());
@@ -99,7 +99,7 @@ TEST(BoardTest, blackBishopOnC8)
 TEST(BoardTest, blackKnightOnB8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(B, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(B, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(KNIGHT, pp.getPiece());
@@ -109,7 +109,7 @@ TEST(BoardTest, blackKnightOnB8)
 TEST(BoardTest, blackRookOnA8)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(A, EIGHT);
+  const PlayerPiece& pp = b.getPiece(Square(A, EIGHT));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(ROOK, pp.getPiece());
@@ -119,7 +119,7 @@ TEST(BoardTest, blackRookOnA8)
 TEST(BoardTest, blackPawnOnH7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(H, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(H, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -129,7 +129,7 @@ TEST(BoardTest, blackPawnOnH7)
 TEST(BoardTest, blackPawnOnG7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(G, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(G, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -139,7 +139,7 @@ TEST(BoardTest, blackPawnOnG7)
 TEST(BoardTest, blackPawnOnF7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(F, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(F, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -149,7 +149,7 @@ TEST(BoardTest, blackPawnOnF7)
 TEST(BoardTest, blackPawnOnE7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(E, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(E, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -159,7 +159,7 @@ TEST(BoardTest, blackPawnOnE7)
 TEST(BoardTest, blackPawnOnD7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(D, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(D, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -169,7 +169,7 @@ TEST(BoardTest, blackPawnOnD7)
 TEST(BoardTest, blackPawnOnC7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(C, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(C, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -179,7 +179,7 @@ TEST(BoardTest, blackPawnOnC7)
 TEST(BoardTest, blackPawnOnB7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(B, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(B, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -189,7 +189,7 @@ TEST(BoardTest, blackPawnOnB7)
 TEST(BoardTest, blackPawnOnA7)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(A, SEVEN);
+  const PlayerPiece& pp = b.getPiece(Square(A, SEVEN));
 
   CHECK_EQUAL(BLACK, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -199,7 +199,7 @@ TEST(BoardTest, blackPawnOnA7)
 TEST(BoardTest, whitePawnOnH2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(H, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(H, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -209,7 +209,7 @@ TEST(BoardTest, whitePawnOnH2)
 TEST(BoardTest, whitePawnOnG2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(G, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(G, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -219,7 +219,7 @@ TEST(BoardTest, whitePawnOnG2)
 TEST(BoardTest, whitePawnOnF2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(F, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(F, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -229,7 +229,7 @@ TEST(BoardTest, whitePawnOnF2)
 TEST(BoardTest, whitePawnOnE2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(E, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(E, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -239,7 +239,7 @@ TEST(BoardTest, whitePawnOnE2)
 TEST(BoardTest, whitePawnOnD2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(D, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(D, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -249,7 +249,7 @@ TEST(BoardTest, whitePawnOnD2)
 TEST(BoardTest, whitePawnOnC2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(C, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(C, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -259,7 +259,7 @@ TEST(BoardTest, whitePawnOnC2)
 TEST(BoardTest, whitePawnOnB2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(B, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(B, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -269,7 +269,7 @@ TEST(BoardTest, whitePawnOnB2)
 TEST(BoardTest, whitePawnOnA2)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(A, TWO);
+  const PlayerPiece& pp = b.getPiece(Square(A, TWO));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(PAWN, pp.getPiece());
@@ -279,7 +279,7 @@ TEST(BoardTest, whitePawnOnA2)
 TEST(BoardTest, whiteRookOnH1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(H, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(H, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(ROOK, pp.getPiece());
@@ -289,7 +289,7 @@ TEST(BoardTest, whiteRookOnH1)
 TEST(BoardTest, whiteKnightOnG1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(G, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(G, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(KNIGHT, pp.getPiece());
@@ -299,7 +299,7 @@ TEST(BoardTest, whiteKnightOnG1)
 TEST(BoardTest, whiteBishopOnF1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(F, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(F, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(BISHOP, pp.getPiece());
@@ -309,7 +309,7 @@ TEST(BoardTest, whiteBishopOnF1)
 TEST(BoardTest, whiteKingOnE1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(E, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(E, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(KING, pp.getPiece());
@@ -319,7 +319,7 @@ TEST(BoardTest, whiteKingOnE1)
 TEST(BoardTest, whiteQueenOnD1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(D, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(D, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(QUEEN, pp.getPiece());
@@ -329,7 +329,7 @@ TEST(BoardTest, whiteQueenOnD1)
 TEST(BoardTest, whiteBishopOnC1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(C, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(C, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(BISHOP, pp.getPiece());
@@ -339,7 +339,7 @@ TEST(BoardTest, whiteBishopOnC1)
 TEST(BoardTest, whiteKnightOnB1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(B, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(B, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(KNIGHT, pp.getPiece());
@@ -349,7 +349,7 @@ TEST(BoardTest, whiteKnightOnB1)
 TEST(BoardTest, whiteRookOnA1)
 {
   Board b;
-  const PlayerPiece& pp = b.getPiece(A, ONE);
+  const PlayerPiece& pp = b.getPiece(Square(A, ONE));
 
   CHECK_EQUAL(WHITE, pp.getColor());
   CHECK_EQUAL(ROOK, pp.getPiece());

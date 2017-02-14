@@ -67,9 +67,9 @@ Board::~Board()
 }
 
 //--------------------------------------------------------------------------------------------
-const PlayerPiece& Board::getPiece(File f, Rank r) const
+const PlayerPiece& Board::getPiece(const Square& s) const
 {
-  return m_boardPieces[r][f];
+  return m_boardPieces[s.getRank()][s.getFile()];
 }
 
 }       // namespace

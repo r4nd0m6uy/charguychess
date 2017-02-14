@@ -22,6 +22,7 @@
 #include <vector>
 
 #include "ChessDefinitions.hpp"
+#include "Square.hpp"
 #include "PlayerPiece.hpp"
 
 namespace cgc {
@@ -35,7 +36,7 @@ public:
   Board();
   ~Board();
 
-  const PlayerPiece& getPiece(File f, Rank r) const;
+  const PlayerPiece& getPiece(const Square& s) const;
 
 private:
   typedef std::vector< std::vector<PlayerPiece> > BoardPieces;
