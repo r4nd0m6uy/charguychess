@@ -1,6 +1,7 @@
 set(APP_SOURCES
   chess/Board.cpp
   chess/PlayerPiece.cpp
+  chess/Square.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})
