@@ -8,7 +8,11 @@ A DIY chess hardware
 > make
 
 ## Compiling the tests
-Add *COMPILE_TESTS=ON* argument to cmake
+Install Cpputest>=3.8 or set the CPPUTEST_HOME environment variable:
+
+> export CPPUTEST_HOME /opt/cpputest
+
+Then add *COMPILE_TESTS=ON* argument to cmake
 
 > mkdir build ; cd build
 
