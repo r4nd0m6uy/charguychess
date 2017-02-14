@@ -36,6 +36,19 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, setPiece)
+{
+  Board b;
+  PlayerPiece p(BLACK, BISHOP);
+  Square s(G, FOUR);
+
+  b.setPiece(p, s);
+  const PlayerPiece& newPiece = b.getPiece(s);
+  CHECK_EQUAL(BLACK, newPiece.getColor());
+  CHECK_EQUAL(BISHOP, newPiece.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, blackRookOnH8)
 {
   Board b;

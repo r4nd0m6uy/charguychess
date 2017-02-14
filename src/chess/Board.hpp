@@ -37,6 +37,7 @@ public:
   ~Board();
 
   const PlayerPiece& getPiece(const Square& s) const;
+  void setPiece(const PlayerPiece& p, const Square& s);
 
 private:
   typedef std::vector< std::vector<PlayerPiece> > BoardPieces;

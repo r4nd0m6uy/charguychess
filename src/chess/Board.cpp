@@ -72,4 +72,10 @@ const PlayerPiece& Board::getPiece(const Square& s) const
   return m_boardPieces[s.getRank()][s.getFile()];
 }
 
+//--------------------------------------------------------------------------------------------
+void Board::setPiece(const PlayerPiece& p, const Square& s)
+{
+  m_boardPieces[s.getRank()][s.getFile()] = p;
+}
+
 }       // namespace
