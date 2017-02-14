@@ -41,6 +41,24 @@ Board::Board():
   m_boardPieces[TWO][F] = PlayerPiece(WHITE, PAWN);
   m_boardPieces[TWO][G] = PlayerPiece(WHITE, PAWN);
   m_boardPieces[TWO][H] = PlayerPiece(WHITE, PAWN);
+
+  // Black player initial position
+  m_boardPieces[SEVEN][A] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][B] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][C] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][D] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][E] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][F] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][G] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[SEVEN][H] = PlayerPiece(BLACK, PAWN);
+  m_boardPieces[EIGHT][A] = PlayerPiece(BLACK, ROOK);
+  m_boardPieces[EIGHT][B] = PlayerPiece(BLACK, KNIGHT);
+  m_boardPieces[EIGHT][C] = PlayerPiece(BLACK, BISHOP);
+  m_boardPieces[EIGHT][D] = PlayerPiece(BLACK, QUEEN);
+  m_boardPieces[EIGHT][E] = PlayerPiece(BLACK, KING);
+  m_boardPieces[EIGHT][F] = PlayerPiece(BLACK, BISHOP);
+  m_boardPieces[EIGHT][G] = PlayerPiece(BLACK, KNIGHT);
+  m_boardPieces[EIGHT][H] = PlayerPiece(BLACK, ROOK);
 }
 
 //--------------------------------------------------------------------------------------------

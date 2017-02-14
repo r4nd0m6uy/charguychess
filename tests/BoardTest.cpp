@@ -36,6 +36,166 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackRookOnH8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(H, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(ROOK, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackKnightOnG8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(G, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(KNIGHT, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackBishopOnF8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(F, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(BISHOP, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackKingOnE8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(E, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(KING, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackQueenOnD8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(D, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(QUEEN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackBishopOnC8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(C, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(BISHOP, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackKnightOnB8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(B, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(KNIGHT, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackRookOnA8)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(A, EIGHT);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(ROOK, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnH7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(H, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnG7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(G, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnF7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(F, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnE7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(E, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnD7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(D, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnC7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(C, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnB7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(B, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, blackPawnOnA7)
+{
+  Board b;
+  const PlayerPiece& pp = b.getPiece(A, SEVEN);
+
+  CHECK_EQUAL(BLACK, pp.getColor());
+  CHECK_EQUAL(PAWN, pp.getPiece());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, whitePawnOnH2)
 {
   Board b;
