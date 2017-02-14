@@ -3,6 +3,7 @@ set(APP_SOURCES
   chess/PlayerPiece.cpp
   chess/Square.cpp
   chess/Move.cpp
+  chess/GameLogic.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})
