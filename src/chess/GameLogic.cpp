@@ -74,30 +74,48 @@ bool GameLogic::applyMove(const Move& m)
   // Check if legal
   if(movedPiece.getPiece() == PAWN)
   {
-    // Pawn moves forward
-    if(m.getFrom().getFile() == m.getTo().getFile())
-    {
-      unsigned int forwardCount = std::abs(m.getTo().getRank() - m.getFrom().getRank());
+    unsigned int sideCount = std::abs(m.getFrom().getFile() - m.getTo().getFile());
+    int fwCnt = m.getTo().getRank() - m.getFrom().getRank();
+    int fwCntAbs = std::abs(fwCnt);
 
-      // Can moves two foward only from start position
-      if(forwardCount == 2)
+    // Pawn moves forward
+    if(sideCount == 0)
+    {
+      // Can only move forward
+      if( (fwCnt < 0 && m_turn == WHITE) ||
+          (fwCnt > 0 && m_turn == BLACK) )
+        return false;
+
+      // Can move two foward only from start position
+      if(fwCntAbs == 2)
       {
         if( (m_turn == WHITE && m.getFrom().getRank() != TWO) ||
             (m_turn == BLACK && m.getFrom().getRank() != SEVEN) )
           return false;
       }
+
       // Can move only one forward the rest of the time
-      else if(forwardCount != 1)
+      else if(fwCntAbs != 1)
         return false;
 
       // Can move forward only if square is free
       if(m_board.getPiece(m.getTo()).getColor() != NO_COLOR)
         return false;
     }
-    // Pawn captures a piece
     else
     {
-      return false;
+      // Only one rank forward
+      if(fwCntAbs != 1)
+        return false;
+
+      // Only one file beside
+      if(sideCount != 1)
+        return false;
+
+      // Only if there is a piece of the opposite color
+      const PlayerPiece& capturedPiece = m_board.getPiece(m.getTo());
+      if(capturedPiece.getColor() == NO_COLOR || capturedPiece.getColor() == m_turn)
+        return false;
     }
   }
 

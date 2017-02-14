@@ -37,6 +37,93 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, blackPawnMovesBackward)
+{
+  GameLogic gl;
+  Square from(A, FIVE);
+  Square to(A, SIX);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), from);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK_FALSE(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, whitePawnMovesBackward)
+{
+  GameLogic gl;
+  Square from(A, FOUR);
+  Square to(A, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesEmptySquare)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, THREE);
+  Move m(from, to);
+
+  CHECK_FALSE(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeftTooFarLeft)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(G, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeftTooFarForward)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, FOUR);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnCapturesLeft)
+{
+  GameLogic gl;
+  Square from(E, TWO);
+  Square to(F, THREE);
+  Board b;
+  Move m(from, to);
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, blackPawnMovesTwoForward)
 {
   GameLogic gl;
