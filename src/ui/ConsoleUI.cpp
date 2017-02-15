@@ -212,7 +212,7 @@ void ConsoleUI::showLegalSquare(const std::string& square)
 
   if(!s.isValid())
   {
-    std::cout << "Cannot parse " << square << std::endl;
+    std::cout << "Invalid square " << square << std::endl;
     return;
   }
 

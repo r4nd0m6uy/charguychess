@@ -73,6 +73,8 @@ void GameLogic::newGame()
 {
   m_turn = WHITE;
   m_board = Board();
+  m_capPiecesWhite.clear();
+  m_capPiecesBlack.clear();
   raiseBoardChanged();
 }
 
