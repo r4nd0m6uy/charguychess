@@ -52,6 +52,7 @@ private:
   void printPrompt();
   void printGreeting();
   void printHelp();
+  void readMove(const std::string& move);
 };
 
 }       // namespace

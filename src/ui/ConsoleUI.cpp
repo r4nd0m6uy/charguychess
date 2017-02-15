@@ -96,6 +96,8 @@ void ConsoleUI::readReady()
     printHelp();
   else if(cmd.find("show") == 0)
     showBoard(m_gl.getTurn(), m_gl.getBoard());
+  else if(cmd.find("move") == 0)
+    readMove(cmd.substr(5, 4));
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else
@@ -161,9 +163,31 @@ void ConsoleUI::printGreeting()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::printHelp()
 {
-  std::cout << "help      Print this help" << std::endl;
-  std::cout << "show      Show the board" << std::endl;
-  std::cout << "quit      Quit the application" << std::endl;
+  std::cout << "help          Print this help" << std::endl;
+  std::cout << "show          Show the board" << std::endl;
+  std::cout << "move <move>   Do a move (e2e4)" << std::endl;
+  std::cout << "quit          Quit the application" << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::readMove(const std::string& move)
+{
+  if(move.length() != 4 ||
+      move[0] < 'a' || move[0] > 'h' ||
+      move[1] < '1' || move[1] > '8' ||
+      move[2] < 'a' || move[2] > 'h' ||
+      move[3] < '1' || move[3] > '8')
+  {
+    std::cout << "Error parsing move " << move << std::endl;
+    return;
+  }
+
+  Square from(static_cast<File>((int)(move[0] - 'a')), static_cast<Rank>(move[1] - '0' - 1));
+  Square to(static_cast<File>(move[2] - 'a'), static_cast<Rank>(move[3] - '0' - 1));
+  if(!m_gl.applyMove(Move(from, to)))
+  {
+    std::cout << "Illegal move " << move << std::endl;
+  }
 }
 
 }       // namespace
