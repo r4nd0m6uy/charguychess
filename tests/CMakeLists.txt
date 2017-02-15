@@ -17,6 +17,7 @@ set(TEST_SOURCES
     BoardTest.cpp
     SquareTest.cpp
     MoveTest.cpp
+    LegalSquaresTest.cpp
     GameLogicTest.cpp
     main.cpp
 )
