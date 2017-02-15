@@ -19,6 +19,8 @@
 #ifndef _CGC_PLAYER_PIECE_HPP_
 #define _CGC_PLAYER_PIECE_HPP_
 
+#include <ostream>
+
 #include "ChessDefinitions.hpp"
 
 namespace cgc {
@@ -40,6 +42,8 @@ private:
   Color m_color;
   PieceType m_type;
 };
+
+std::ostream& operator<<(std::ostream& os, const PlayerPiece& playerPiece);
 
 }       // namespace
 #endif  // _CGC_PLAYER_PIECE_HPP_

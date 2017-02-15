@@ -40,6 +40,7 @@ private:
   GameLogic& m_gl;
 
   void showBoard(Color playerTurn, const Board& newStatus);
+  void printGreeting();
 };
 
 }       // namespace

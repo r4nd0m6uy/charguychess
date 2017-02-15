@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cctype>
+
 #include "PlayerPiece.hpp"
 
 namespace cgc {
@@ -49,6 +51,37 @@ Color PlayerPiece::getColor() const
 PieceType PlayerPiece::getType() const
 {
   return m_type;
+}
+
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const PlayerPiece& playerPiece)
+{
+  char p;
+  PieceType t = playerPiece.getType();
+
+  if(t != NO_PIECE)
+  {
+    if(t == PAWN)
+      p = 'p';
+    else if(t == ROOK)
+      p = 'r';
+    else if(t == KNIGHT)
+      p = 'n';
+    else if(t == BISHOP)
+      p = 'b';
+    else if(t == QUEEN)
+      p = 'q';
+    else if(t == KING)
+      p = 'k';
+
+    if(playerPiece.getColor() == WHITE)
+      p = std::toupper(p);
+  }
+  else
+    p = ' ';
+
+  os << p;
+  return os;
 }
 
 }       // namespace
