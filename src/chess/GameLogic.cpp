@@ -40,7 +40,6 @@ Color GameLogic::getTurn() const
   return m_turn;
 }
 
-
 //--------------------------------------------------------------------------------------------
 void GameLogic::setTurn(Color color)
 {
@@ -66,9 +65,9 @@ void GameLogic::setBoard(const Board& board)
 //--------------------------------------------------------------------------------------------
 void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves) const
 {
-  PlayerPiece movedPiece = m_board.getPiece(from);
+  PieceType t = m_board.getPieceType(from);
 
-  if(movedPiece.getType() == PAWN)
+  if(t == PAWN)
     this->getPawnLegalMoves(from, legalMoves);
 }
 

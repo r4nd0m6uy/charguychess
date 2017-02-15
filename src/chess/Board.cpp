@@ -90,4 +90,10 @@ Color Board::getPieceColor(const Square& s) const
   return this->getPiece(s).getColor();
 }
 
+//--------------------------------------------------------------------------------------------
+PieceType Board::getPieceType(const Square& s) const
+{
+  return this->getPiece(s).getType();
+}
+
 }       // namespace
