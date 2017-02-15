@@ -23,14 +23,14 @@ namespace cgc {
 //--------------------------------------------------------------------------------------------
 PlayerPiece::PlayerPiece():
     m_color(NO_COLOR),
-    m_piece(NO_PIECE)
+    m_type(NO_PIECE)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 PlayerPiece::PlayerPiece(Color c, PieceType p):
     m_color(c),
-    m_piece(p)
+    m_type(p)
 {
 }
 
@@ -46,9 +46,9 @@ Color PlayerPiece::getColor() const
 }
 
 //--------------------------------------------------------------------------------------------
-PieceType PlayerPiece::getPiece() const
+PieceType PlayerPiece::getType() const
 {
-  return m_piece;
+  return m_type;
 }
 
 }       // namespace

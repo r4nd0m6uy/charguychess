@@ -43,7 +43,7 @@ TEST(PlayerPieceTest, ConstructorWithArgs)
   PlayerPiece pp(c, p);
 
   CHECK_EQUAL(c, pp.getColor());
-  CHECK_EQUAL(p, pp.getPiece());
+  CHECK_EQUAL(p, pp.getType());
 }
 
 //--------------------------------------------------------------------------------------------
@@ -52,5 +52,5 @@ TEST(PlayerPieceTest, DefaultConstructor)
   PlayerPiece pp;
 
   CHECK_EQUAL(NO_COLOR, pp.getColor());
-  CHECK_EQUAL(NO_PIECE, pp.getPiece());
+  CHECK_EQUAL(NO_PIECE, pp.getType());
 }

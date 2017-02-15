@@ -68,7 +68,7 @@ void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves)
 {
   PlayerPiece movedPiece = m_board.getPiece(from);
 
-  if(movedPiece.getPiece() == PAWN)
+  if(movedPiece.getType() == PAWN)
     this->getPawnLegalMoves(from, legalMoves);
 }
 

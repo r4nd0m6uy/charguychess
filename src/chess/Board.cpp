@@ -88,7 +88,6 @@ bool Board::isEmpty(const Square& s) const
 Color Board::getPieceColor(const Square& s) const
 {
   return this->getPiece(s).getColor();
-
 }
 
 }       // namespace

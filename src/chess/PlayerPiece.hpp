@@ -34,11 +34,11 @@ public:
   ~PlayerPiece();
 
   Color getColor() const;
-  PieceType getPiece() const;
+  PieceType getType() const;
 
 private:
   Color m_color;
-  PieceType m_piece;
+  PieceType m_type;
 };
 
 }       // namespace

@@ -50,11 +50,11 @@ TEST(GameLogicTest, legalMoveApplied)
   // Board is updated on legal move
   const PlayerPiece& pieceFrom = gl.getBoard().getPiece(from);
   CHECK_EQUAL(NO_COLOR, pieceFrom.getColor());
-  CHECK_EQUAL(NO_PIECE, pieceFrom.getPiece());
+  CHECK_EQUAL(NO_PIECE, pieceFrom.getType());
 
   const PlayerPiece& pieceTo = gl.getBoard().getPiece(to);
   CHECK_EQUAL(WHITE, pieceTo.getColor());
-  CHECK_EQUAL(PAWN, pieceTo.getPiece());
+  CHECK_EQUAL(PAWN, pieceTo.getType());
 
   CHECK_EQUAL(BLACK, gl.getTurn());
 }
@@ -72,11 +72,11 @@ TEST(GameLogicTest, illegalMoveNotApplied)
   // Board doesn't change on illegal move
   const PlayerPiece& pieceFrom = gl.getBoard().getPiece(from);
   CHECK_EQUAL(BLACK, pieceFrom.getColor());
-  CHECK_EQUAL(PAWN, pieceFrom.getPiece());
+  CHECK_EQUAL(PAWN, pieceFrom.getType());
 
   const PlayerPiece& pieceTo = gl.getBoard().getPiece(to);
   CHECK_EQUAL(NO_COLOR, pieceTo.getColor());
-  CHECK_EQUAL(NO_PIECE, pieceTo.getPiece());
+  CHECK_EQUAL(NO_PIECE, pieceTo.getType());
 
   CHECK_EQUAL(WHITE, gl.getTurn());
 }
