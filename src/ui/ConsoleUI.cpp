@@ -126,7 +126,7 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
   else
     std::cout << "     ";
 
-  std::cout << "white" << std::endl;
+  std::cout << "WHITE" << std::endl;
 
   for(Rank r = EIGHT ; r >= ONE ; )
   {
@@ -182,7 +182,7 @@ void ConsoleUI::readMove(const std::string& move)
 
   if(!m.isValid())
   {
-    std::cout << "Cannot parse " << move << std::endl;
+    std::cout << "Invalid move " << move << std::endl;
     return;
   }
 
