@@ -31,7 +31,7 @@ HandledIoLibevent::HandledIoLibevent(IHandledIo& handledIo):
 HandledIoLibevent::~HandledIoLibevent()
 {
   if(m_event != nullptr)
-    event_del(m_event);
+    event_free(m_event);
 }
 
 //--------------------------------------------------------------------------------------------

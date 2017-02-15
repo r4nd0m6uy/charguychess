@@ -34,13 +34,14 @@ void libeventIoCallback(evutil_socket_t fd, short what, void* data)
 EventLoop::EventLoop():
     m_eventBase(nullptr)
 {
-  for(auto& handledIo : m_handledIos)
-    delete handledIo;
 }
 
 //--------------------------------------------------------------------------------------------
 EventLoop::~EventLoop()
 {
+  for(auto& handledIo : m_handledIos)
+    delete handledIo;
+
   if(m_eventBase != nullptr)
     event_base_free(m_eventBase);
 }
