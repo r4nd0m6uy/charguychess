@@ -1,4 +1,13 @@
-A DIY chess hardware
+A DIY chess hardware and software
+
+# Prerequists
+This software depends on the following libraries:
+
+* libevent >= 2.0
+
+The test application depends on the following library:
+
+* cpputest >= 3.8
 
 # Compilation
 > mkdir build ; cd build
@@ -8,7 +17,7 @@ A DIY chess hardware
 > make
 
 ## Compiling the tests
-Install Cpputest>=3.8 or set the CPPUTEST_HOME environment variable:
+Install Cpputest >= 3.8 or set the CPPUTEST_HOME environment variable manually:
 
 > export CPPUTEST_HOME /opt/cpputest
 
