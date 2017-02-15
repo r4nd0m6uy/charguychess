@@ -98,6 +98,8 @@ void ConsoleUI::readReady()
     showBoard(m_gl.getTurn(), m_gl.getBoard());
   else if(cmd.find("move") == 0)
     readMove(cmd.substr(5, 4));
+  else if(cmd.find("new") == 0)
+    m_gl.newGame();
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else
@@ -165,7 +167,8 @@ void ConsoleUI::printHelp()
 {
   std::cout << "help          Print this help" << std::endl;
   std::cout << "show          Show the board" << std::endl;
-  std::cout << "move <move>   Do a move (e2e4)" << std::endl;
+  std::cout << "move <move>   Make a move (e2e4)" << std::endl;
+  std::cout << "new           Start a new game" << std::endl;
   std::cout << "quit          Quit the application" << std::endl;
 }
 
