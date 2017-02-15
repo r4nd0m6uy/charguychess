@@ -45,7 +45,27 @@ TEST(SquareTest, sameRankAndFileEqual)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, DefaultConstructor)
+TEST(SquareTest, constructorWithValidString)
+{
+  Square s("b4");
+
+  CHECK(s.isValid());
+  CHECK_EQUAL(B, s.getFile());
+  CHECK_EQUAL(FOUR, s.getRank());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(SquareTest, constructorWithValidParameters)
 {
   Square s(A, ONE);
+
+  CHECK(s.isValid());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(SquareTest, defaultConstructor)
+{
+  Square s;
+
+  CHECK_FALSE(s.isValid());
 }

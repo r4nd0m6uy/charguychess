@@ -19,6 +19,8 @@
 #ifndef _CGC_SQUARE_HPP_
 #define _CGC_SQUARE_HPP_
 
+#include <string>
+
 #include "ChessDefinitions.hpp"
 
 namespace cgc {
@@ -29,6 +31,8 @@ namespace cgc {
 class Square
 {
 public:
+  Square();
+  Square(const std::string& str);
   Square(File f, Rank r);
   ~Square();
 
@@ -36,6 +40,7 @@ public:
   void setFile(File f);
   Rank getRank() const;
   void setRank(Rank r);
+  bool isValid();
 
   bool operator==(const Square& rhs) const;
 

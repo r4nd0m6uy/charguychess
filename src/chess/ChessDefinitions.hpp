@@ -16,10 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_BITBOARD_HPP_
-#define _CGC_BITBOARD_HPP_
-
-#include <cstdint>
+#ifndef _CGC_CHESS_DEFINITION_HPP_
+#define _CGC_CHESS_DEFINITION_HPP_
 
 namespace cgc {
 
@@ -32,7 +30,8 @@ enum Rank{
   SIX,
   SEVEN,
   EIGHT,
-  LAST_RANK = EIGHT
+  LAST_RANK = EIGHT,
+  INVALID_RANK
 };
 
 enum File{
@@ -44,7 +43,8 @@ enum File{
   F,
   G,
   H,
-  LAST_FILE = H
+  LAST_FILE = H,
+  INVALID_FILE
 };
 
 enum Color
@@ -66,4 +66,4 @@ enum PieceType
 };
 
 }       // namespace
-#endif  // _CGC_BITBOARD_HPP_
+#endif  // _CGC_CHESS_DEFINITION_HPP_

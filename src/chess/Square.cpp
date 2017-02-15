@@ -21,6 +21,27 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
+Square::Square():
+    m_file(INVALID_FILE),
+    m_rank(INVALID_RANK)
+{
+}
+
+//--------------------------------------------------------------------------------------------
+Square::Square(const std::string& str):
+    m_file(INVALID_FILE),
+    m_rank(INVALID_RANK)
+{
+  if(str.size() >= 2 &&
+      str[0] >= 'a' && str[0] <= 'h' &&
+      str[1] >= '1' && str[1] <= '8')
+  {
+    m_file = static_cast<File>(str[0] - 'a');
+    m_rank = static_cast<Rank>(str[1] - '1');
+  }
+}
+
+//--------------------------------------------------------------------------------------------
 Square::Square(File f, Rank r):
     m_file(f),
     m_rank(r)
@@ -54,6 +75,13 @@ Rank Square::getRank() const
 void Square::setRank(Rank r)
 {
   m_rank = r;
+}
+
+//--------------------------------------------------------------------------------------------
+bool Square::isValid()
+{
+  return m_file != INVALID_FILE &&
+      m_rank != INVALID_RANK ;
 }
 
 //--------------------------------------------------------------------------------------------

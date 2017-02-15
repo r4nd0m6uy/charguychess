@@ -29,6 +29,7 @@ namespace cgc {
 class Move
 {
 public:
+  Move(const std::string& str);
   Move(const Square& from, const Square& to);
   ~Move();
 
