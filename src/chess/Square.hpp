@@ -35,6 +35,8 @@ public:
   File getFile() const;
   Rank getRank() const;
 
+  bool operator==(const Square& rhs) const;
+
 private:
   File m_file;
   Rank m_rank;

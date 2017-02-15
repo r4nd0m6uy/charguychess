@@ -16,39 +16,36 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "Square.hpp"
 
-namespace cgc {
+#include <CppUTest/TestHarness.h>
+
+#include "chess/Square.hpp"
+
+using namespace cgc;
 
 //--------------------------------------------------------------------------------------------
-Square::Square(File f, Rank r):
-    m_file(f),
-    m_rank(r)
+TEST_GROUP(SquareTest)
 {
+  TEST_SETUP()
+  {
+  }
+
+  TEST_TEARDOWN()
+  {
+  }
+};
+
+//--------------------------------------------------------------------------------------------
+TEST(SquareTest, sameRankAndFileEqual)
+{
+  Square s1(A, ONE);
+  Square s2(A, ONE);
+
+  CHECK(s1 == s2);
 }
 
 //--------------------------------------------------------------------------------------------
-Square::~Square()
+TEST(SquareTest, DefaultConstructor)
 {
+  Square s(A, ONE);
 }
-
-//--------------------------------------------------------------------------------------------
-File Square::getFile() const
-{
-  return m_file;
-}
-
-//--------------------------------------------------------------------------------------------
-Rank Square::getRank() const
-{
-  return m_rank;
-}
-
-//--------------------------------------------------------------------------------------------
-bool Square::operator==(const Square& rhs) const
-{
-  return rhs.getFile() == this->getFile() &&
-      rhs.getRank() == this->getRank();
-}
-
-}       // namespace

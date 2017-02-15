@@ -13,6 +13,7 @@ set(TEST_APP_NAME ${APP_NAME}_tests)
 set(TEST_SOURCES
     PlayerPieceTest.cpp
     BoardTest.cpp
+    SquareTest.cpp
     GameLogicTest.cpp
     main.cpp
 )
