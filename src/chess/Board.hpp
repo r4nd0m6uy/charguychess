@@ -38,8 +38,8 @@ public:
 
   const PlayerPiece& getPiece(const Square& s) const;
   void setPiece(const PlayerPiece& p, const Square& s);
-  bool isEmpty(const Square& s);
-  Color getPieceColor(const Square& s);
+  bool isEmpty(const Square& s) const;
+  Color getPieceColor(const Square& s) const;
 
 private:
   typedef std::vector< std::vector<PlayerPiece> > BoardPieces;

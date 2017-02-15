@@ -79,13 +79,13 @@ void Board::setPiece(const PlayerPiece& p, const Square& s)
 }
 
 //--------------------------------------------------------------------------------------------
-bool Board::isEmpty(const Square& s)
+bool Board::isEmpty(const Square& s) const
 {
   return this->getPieceColor(s) == NO_COLOR;
 }
 
 //--------------------------------------------------------------------------------------------
-Color Board::getPieceColor(const Square& s)
+Color Board::getPieceColor(const Square& s) const
 {
   return this->getPiece(s).getColor();
 
