@@ -19,6 +19,8 @@
 #ifndef _CGC_EVENT_LOOP_HPP_
 #define _CGC_EVENT_LOOP_HPP_
 
+#include <event2/event.h>
+
 #include "IHandledIo.hpp"
 
 namespace cgc {
@@ -41,6 +43,9 @@ public:
   int init();
   void registerHandledIo(IHandledIo& handler, int what);
   int run();
+
+private:
+  struct event_base* m_eventBase;
 };
 
 }       // namespace

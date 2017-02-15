@@ -22,18 +22,34 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-EventLoop::EventLoop()
+EventLoop::EventLoop():
+    m_eventBase(nullptr)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 EventLoop::~EventLoop()
 {
+  if(m_eventBase != nullptr)
+    event_base_free(m_eventBase);
 }
 
 //--------------------------------------------------------------------------------------------
 int EventLoop::init()
 {
+  if(m_eventBase != nullptr)
+  {
+    LOGWA() << "Event loop already initialized!";
+    return 0;
+  }
+
+  m_eventBase = event_base_new();
+  if(m_eventBase == nullptr)
+  {
+    LOGER() << "Cannot initialize libevent";
+    return -1;
+  }
+
   return 0;
 }
 
@@ -49,7 +65,7 @@ int EventLoop::run()
 
   LOGDB() << "Starting event loop ...";
 
-  // TODO
+  ret = event_base_loop(m_eventBase, 0);
 
   LOGDB() << "Event loop broke with code " << ret;
 
