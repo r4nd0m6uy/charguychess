@@ -40,9 +40,10 @@ public:
   void setFile(File f);
   Rank getRank() const;
   void setRank(Rank r);
-  bool isValid();
+  bool isValid() const;
 
   bool operator==(const Square& rhs) const;
+  bool operator!=(const Square& rhs) const;
 
 private:
   File m_file;

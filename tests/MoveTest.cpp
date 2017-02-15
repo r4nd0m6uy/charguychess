@@ -19,12 +19,12 @@
 
 #include <CppUTest/TestHarness.h>
 
-#include "chess/Square.hpp"
+#include "chess/Move.hpp"
 
 using namespace cgc;
 
 //--------------------------------------------------------------------------------------------
-TEST_GROUP(SquareTest)
+TEST_GROUP(MoveTest)
 {
   TEST_SETUP()
   {
@@ -36,45 +36,45 @@ TEST_GROUP(SquareTest)
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, notEqual)
+TEST(MoveTest, fromValidString)
 {
-  Square s1(A, ONE);
-  Square s2(A, TWO);
+  Move m("a1a2");
 
-  CHECK(s1 != s2);
+  CHECK(m.isValid());
+  CHECK_EQUAL(A, m.getFrom().getFile());
+  CHECK_EQUAL(ONE, m.getFrom().getRank());
+  CHECK_EQUAL(A, m.getTo().getFile());
+  CHECK_EQUAL(TWO, m.getTo().getRank());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, sameRankAndFileEqual)
+TEST(MoveTest, fromInvalidString)
 {
-  Square s1(A, ONE);
-  Square s2(A, ONE);
+  Move m("abcde");
 
-  CHECK(s1 == s2);
+  CHECK_FALSE(m.isValid());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, constructorWithValidString)
+TEST(MoveTest, invalidMoveToSameSquareSquare)
 {
-  Square s("b4");
+  Move m(Square(A, ONE), Square(A, ONE));
 
-  CHECK(s.isValid());
-  CHECK_EQUAL(B, s.getFile());
-  CHECK_EQUAL(FOUR, s.getRank());
+  CHECK_FALSE(m.isValid());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, constructorWithValidParameters)
+TEST(MoveTest, fromValidSquare)
 {
-  Square s(A, ONE);
+  Move m(Square(A, ONE), Square(B, TWO));
 
-  CHECK(s.isValid());
+  CHECK(m.isValid());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(SquareTest, defaultConstructor)
+TEST(MoveTest, defaultConstructor)
 {
-  Square s;
+  Move m;
 
-  CHECK_FALSE(s.isValid());
+  CHECK_FALSE(m.isValid());
 }

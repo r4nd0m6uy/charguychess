@@ -29,12 +29,14 @@ namespace cgc {
 class Move
 {
 public:
+  Move();
   Move(const std::string& str);
   Move(const Square& from, const Square& to);
   ~Move();
 
   const Square& getFrom() const;
   const Square& getTo() const;
+  bool isValid() const;
 
 private:
   Square m_from;

@@ -78,7 +78,7 @@ void Square::setRank(Rank r)
 }
 
 //--------------------------------------------------------------------------------------------
-bool Square::isValid()
+bool Square::isValid() const
 {
   return m_file != INVALID_FILE &&
       m_rank != INVALID_RANK ;
@@ -89,6 +89,12 @@ bool Square::operator==(const Square& rhs) const
 {
   return rhs.getFile() == this->getFile() &&
       rhs.getRank() == this->getRank();
+}
+
+//--------------------------------------------------------------------------------------------
+bool Square::operator!=(const Square& rhs) const
+{
+  return !(*this == rhs);
 }
 
 }       // namespace
