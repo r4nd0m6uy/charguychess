@@ -18,8 +18,14 @@
  */
 #include <CppUTest/CommandLineTestRunner.h>
 
+#include "logging/LoggerInstance.hpp"
+#include "utils/LoggerNull.hpp"
+
 //--------------------------------------------------------------------------------------------
 int main(int ac, char** av)
 {
-    return CommandLineTestRunner::RunAllTests(ac, av);
+  // Don't log messages
+  cgc::LoggerInstance::getInstance().setLogger(new cgc::tests::LoggerNull());
+
+  return CommandLineTestRunner::RunAllTests(ac, av);
 }

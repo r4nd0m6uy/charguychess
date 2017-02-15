@@ -16,18 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "ILogger.hpp"
+
+namespace cgc{
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+ILogger::ILogger()
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+ILogger::~ILogger()
+{
+}
+
+}       // namespace

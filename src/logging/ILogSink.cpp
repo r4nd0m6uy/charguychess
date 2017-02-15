@@ -16,18 +16,45 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "ILogSink.hpp"
+
+namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+ILogSink::ILogSink()
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+ILogSink::~ILogSink()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const ILogSink::LogLevel& loglevel)
+{
+    if(loglevel == ILogSink::DEBUG)
+    {
+        os << "DEBUG";
+    }
+    else if(loglevel == ILogSink::INFO)
+    {
+        os << "INFO";
+    }
+    else if(loglevel == ILogSink::WARNING)
+    {
+        os << "WARNING";
+    }
+    else if(loglevel == ILogSink::ERROR)
+    {
+        os << "ERROR";
+    }
+    else
+    {
+        os << "UNKOWN_LOG_LEVEL";
+    }
+
+    return os;
+}
+
+}       // namespace

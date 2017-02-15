@@ -1,7 +1,7 @@
 /**
- * Charguy chess: A DIY chess hardware
+ * RGRogue a rogue like adventure game
  *
- * Copyright (C) 2017 R4nd0m6uy <r4nd0m6uy@r4nd0m6uy.ch>
+ * Copyright (C) <2016>  R4nd0m 6uy
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,22 +12,28 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "LoggerNull.hpp"
+
+namespace cgc{
+namespace tests{
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+LoggerNull::LoggerNull()
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+LoggerNull::~LoggerNull()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+void LoggerNull::sinkLogLine(LogLevel level, const std::string& line)
+{
+    /* NULL logger ... */
+}
+
+}}      // namespace

@@ -16,18 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#ifndef _CGC_I_LOG_SINK_HPP_
+#define _CGC_I_LOG_SINK_HPP_
 
-//--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+#include <iostream>
+#include <string>
+
+namespace cgc {
+
+class ILogSink
 {
-  int ret = 0;
+public:
+    enum LogLevel
+    {
+        DEBUG       = 0,
+        INFO        = 1,
+        WARNING     = 2,
+        ERROR       = 3
+    };
 
-  LOGIN() << "Starting application ...";
+    ILogSink();
+    virtual ~ILogSink();
 
-  // TODO
+    virtual void sinkLogLine(LogLevel level, const std::string& line) = 0;
+};
 
-  LOGIN() << "Exiting with code " << ret;
+std::ostream& operator<<(std::ostream& os, const ILogSink::LogLevel& loglevel);
 
-  return ret;
-}
+}       // namespace
+#endif  // _CGC_I_LOG_SINK_HPP_

@@ -4,6 +4,12 @@ set(APP_SOURCES
   chess/Square.cpp
   chess/Move.cpp
   chess/GameLogic.cpp
+  logging/ILogger.cpp
+  logging/ILogSink.cpp
+  logging/Logger.cpp
+  logging/LoggerConsole.cpp
+  logging/LoggerInstance.cpp
+  logging/LogStream.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})

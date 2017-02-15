@@ -16,18 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#ifndef _CGC_LOGGER_HPP_
+#define _CGC_LOGGER_HPP_
 
-//--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+#include "ILogger.hpp"
+
+namespace cgc {
+
+class Logger:
+        public ILogger
 {
-  int ret = 0;
+public:
+    Logger();
+    virtual ~Logger();
 
-  LOGIN() << "Starting application ...";
+    virtual LogStream getLogStream(ILogSink::LogLevel loglevel) override;
+};
 
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
-}
+}       // namespace
+#endif  // _CGC_LOGGER_HPP_

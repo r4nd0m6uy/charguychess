@@ -16,18 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "LoggerConsole.hpp"
+
+namespace cgc{
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+LoggerConsole::LoggerConsole()
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+LoggerConsole::~LoggerConsole()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+void LoggerConsole::sinkLogLine(LogLevel level, const std::string& line)
+{
+    std::cout << "[" << level << "]" << " " << line << std::endl;
+}
+
+}       // namespace

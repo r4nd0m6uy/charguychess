@@ -11,6 +11,7 @@ endif()
 
 set(TEST_APP_NAME ${APP_NAME}_tests)
 set(TEST_SOURCES
+    utils/LoggerNull.cpp
     PlayerPieceTest.cpp
     BoardTest.cpp
     SquareTest.cpp

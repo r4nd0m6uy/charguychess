@@ -16,18 +16,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "LogStream.hpp"
+
+namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+LogStream::LogStream(ILogSink& logSink, ILogSink::LogLevel loglevel):
+        m_logSink(logSink),
+        m_loglevel(loglevel)
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+LogStream::LogStream(const LogStream& rhs):
+        m_logSink(rhs.m_logSink),
+        m_loglevel(rhs.m_loglevel)
+{
+}
+
+//--------------------------------------------------------------------------------------------
+LogStream::~LogStream()
+{
+    m_logSink.sinkLogLine(m_loglevel, m_ss.str());
+}
+
+//--------------------------------------------------------------------------------------------
+std::ostream& LogStream::get()
+{
+    return m_ss;
+}
+
+}       // namespace

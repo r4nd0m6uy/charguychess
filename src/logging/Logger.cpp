@@ -16,18 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#include "Logger.hpp"
+
+namespace cgc{
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+Logger::Logger()
 {
-  int ret = 0;
-
-  LOGIN() << "Starting application ...";
-
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
 }
+
+//--------------------------------------------------------------------------------------------
+Logger::~Logger()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+LogStream Logger::getLogStream(ILogSink::LogLevel loglevel)
+{
+    return LogStream(*this, loglevel);
+}
+
+}       // namespace

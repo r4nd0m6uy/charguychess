@@ -16,18 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#ifndef _CGC_LOGGER_INSTANCE_HPP_
+#define _CGC_LOGGER_INSTANCE_HPP_
 
-//--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+#include "ILogger.hpp"
+
+namespace cgc {
+
+class LoggerInstance
 {
-  int ret = 0;
+public:
+    ~LoggerInstance();
 
-  LOGIN() << "Starting application ...";
+    static LoggerInstance& getInstance();
 
-  // TODO
+    void setLogger(ILogger* logger);
+    ILogger& operator*();
 
-  LOGIN() << "Exiting with code " << ret;
+private:
+    ILogger* m_pLogger;
 
-  return ret;
-}
+    /* Singletone */
+    LoggerInstance();
+    LoggerInstance& operator=(const LoggerInstance& rhs);
+};
+
+}       // namespace
+#endif  // _CGC_LOGGER_INSTANCE_HPP_

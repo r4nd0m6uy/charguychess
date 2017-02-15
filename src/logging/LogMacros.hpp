@@ -1,7 +1,7 @@
 /**
- * Charguy chess: A DIY chess hardware
+ * RGRogue a rogue like adventure game
  *
- * Copyright (C) 2017 R4nd0m6uy <r4nd0m6uy@r4nd0m6uy.ch>
+ * Copyright (C) <2016>  R4nd0m 6uy
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -12,22 +12,18 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "logging/LogMacros.hpp"
+#ifndef _CGC_LOG_MACROS_HPP_
+#define _CGC_LOG_MACROS_HPP_
 
-//--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
-{
-  int ret = 0;
+#include "LoggerInstance.hpp"
 
-  LOGIN() << "Starting application ...";
+#define LOGDB()     (*cgc::LoggerInstance::getInstance()).getLogStream(cgc::ILogSink::DEBUG).get()
+#define LOGIN()     (*cgc::LoggerInstance::getInstance()).getLogStream(cgc::ILogSink::INFO).get()
+#define LOGWA()     (*cgc::LoggerInstance::getInstance()).getLogStream(cgc::ILogSink::WARNING).get()
+#define LOGER()     (*cgc::LoggerInstance::getInstance()).getLogStream(cgc::ILogSink::ERROR).get()
+#define LOG()       LOGIN()
 
-  // TODO
-
-  LOGIN() << "Exiting with code " << ret;
-
-  return ret;
-}
+#endif  // _CGC_LOG_MACROS_HPP_
