@@ -28,7 +28,7 @@ PlayerPiece::PlayerPiece():
 }
 
 //--------------------------------------------------------------------------------------------
-PlayerPiece::PlayerPiece(Color c, Piece p):
+PlayerPiece::PlayerPiece(Color c, PieceType p):
     m_color(c),
     m_piece(p)
 {
@@ -46,7 +46,7 @@ Color PlayerPiece::getColor() const
 }
 
 //--------------------------------------------------------------------------------------------
-Piece PlayerPiece::getPiece() const
+PieceType PlayerPiece::getPiece() const
 {
   return m_piece;
 }

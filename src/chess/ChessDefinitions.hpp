@@ -61,7 +61,7 @@ enum Color
   NO_COLOR
 };
 
-enum Piece
+enum PieceType
 {
   KING,
   QUEEN,

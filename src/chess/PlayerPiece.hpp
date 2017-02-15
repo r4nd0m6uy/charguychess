@@ -30,15 +30,15 @@ class PlayerPiece
 {
 public:
   PlayerPiece();
-  PlayerPiece(Color c, Piece p);
+  PlayerPiece(Color c, PieceType p);
   ~PlayerPiece();
 
   Color getColor() const;
-  Piece getPiece() const;
+  PieceType getPiece() const;
 
 private:
   Color m_color;
-  Piece m_piece;
+  PieceType m_piece;
 };
 
 }       // namespace

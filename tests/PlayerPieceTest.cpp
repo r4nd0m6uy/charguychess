@@ -39,7 +39,7 @@ TEST_GROUP(PlayerPieceTest)
 TEST(PlayerPieceTest, ConstructorWithArgs)
 {
   Color c = WHITE;
-  Piece p = BISHOP;
+  PieceType p = BISHOP;
   PlayerPiece pp(c, p);
 
   CHECK_EQUAL(c, pp.getColor());
