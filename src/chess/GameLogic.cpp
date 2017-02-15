@@ -63,6 +63,12 @@ void GameLogic::setBoard(const Board& board)
 }
 
 //--------------------------------------------------------------------------------------------
+void GameLogic::registerBoardObserver(IBoardObserver& observer)
+{
+  m_boardObservers.push_back(observer);
+}
+
+//--------------------------------------------------------------------------------------------
 void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves) const
 {
   PieceType t = m_board.getPieceType(from);
@@ -100,6 +106,10 @@ bool GameLogic::applyMove(const Move& m)
     m_turn = WHITE;
   else
     m_turn = BLACK;
+
+  // Raise observers event
+  for(auto& o : m_boardObservers)
+    o.get().boardChanged(m_turn, getBoard());
 
   return true;
 }

@@ -16,44 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_GAME_LOGIC_HPP_
-#define _CGC_GAME_LOGIC_HPP_
-
-#include <list>
-#include <functional>
+#ifndef _CGC_I_BOARD_OBSERVER_HPP_
+#define _CGC_I_BOARD_OBSERVER_HPP_
 
 #include "Board.hpp"
-#include "Move.hpp"
-#include "IBoardObserver.hpp"
 
 namespace cgc {
 
 /**
- * \brief All the chess logic implementation
+ * \brief Observer to get event when the board changes
  */
-class GameLogic
+class IBoardObserver
 {
 public:
-  GameLogic();
-  ~GameLogic();
+  IBoardObserver();
+  virtual ~IBoardObserver();
 
-  Color getTurn() const;
-  void setTurn(Color color);
-  const Board& getBoard() const;
-  void setBoard(const Board& board);
-  void registerBoardObserver(IBoardObserver& observer);
-  void getLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
-  bool isMoveLegal(const Move& m) const;
-  bool applyMove(const Move& m);
-
-private:
-  Board m_board;
-  Color m_turn;
-  std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
-
-  void getPawnLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
-  void raiseBoardChanged();
+  virtual void boardChanged(Color playerTurn, const Board& newStatus) = 0;
 };
 
 }       // namespace
-#endif  // _CGC_GAME_LOGIC_HPP_
+#endif  // _CGC_I_BOARD_OBSERVER_HPP_

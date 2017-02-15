@@ -19,11 +19,14 @@
 #include <algorithm>
 
 #include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
 
+#include "mocks/IBoardObserverMock.hpp"
 #include "chess/GameLogic.hpp"
 #include "chess/Move.hpp"
 
 using namespace cgc;
+using namespace tests;
 
 //--------------------------------------------------------------------------------------------
 TEST_GROUP(GameLogicTest)
@@ -34,8 +37,29 @@ TEST_GROUP(GameLogicTest)
 
   TEST_TEARDOWN()
   {
+    mock().clear();
   }
 };
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalMoveObserverCallback)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, THREE);
+  Move m(from, to);
+  IBoardObserverMock observer;
+
+  gl.registerBoardObserver(observer);
+
+  mock().expectOneCall("boardChanged").onObject(&observer).
+      withParameter("playerTurn", BLACK).
+      withParameter("newStatus", &gl.getBoard());
+
+  CHECK(gl.applyMove(m));
+
+  mock().checkExpectations();
+}
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalMoveApplied)
