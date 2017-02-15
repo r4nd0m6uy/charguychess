@@ -11,6 +11,7 @@ set(APP_SOURCES
   logging/LoggerConsole.cpp
   logging/LoggerInstance.cpp
   logging/LogStream.cpp
+  ui/ConsoleUI.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})

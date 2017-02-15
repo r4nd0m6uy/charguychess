@@ -16,23 +16,31 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ui/ConsoleUI.hpp"
-#include "logging/LogMacros.hpp"
+#ifndef _CGC_CONSOLE_UI_HPP_
+#define _CGC_CONSOLE_UI_HPP_
 
-//--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+#include "../chess/GameLogic.hpp"
+
+namespace cgc {
+
+/**
+ * \brief An user interface done in console
+ */
+class ConsoleUI:
+    public IBoardObserver
 {
-  cgc::GameLogic gl;
-  cgc::ConsoleUI cUi(gl);
+public:
+  ConsoleUI(GameLogic& gl);
+  virtual ~ConsoleUI();
 
-  LOGIN() << "Starting application ...";
+  int init();
+  virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
 
-  if(cUi.init() != 0)
-    return -1;
+private:
+  GameLogic& m_gl;
 
-  // TODO
+  void showBoard(Color playerTurn, const Board& newStatus);
+};
 
-  LOGIN() << "Exiting application";
-
-  return 0;
-}
+}       // namespace
+#endif  // _CGC_CONSOLE_UI_HPP_
