@@ -23,13 +23,6 @@
 
 namespace cgc {
 
-/**
- * Occupied squares on the board as bitset:
- * MSB    ... LSB
- * A1,A2, ... H7,H8
- */
-typedef uint64_t BitBoard;
-
 enum Rank{
   ONE = 0,
   TWO,
