@@ -81,7 +81,14 @@ void Board::setPiece(const PlayerPiece& p, const Square& s)
 //--------------------------------------------------------------------------------------------
 bool Board::isEmpty(const Square& s)
 {
-  return getPiece(s).getColor() == NO_COLOR;
+  return this->getPieceColor(s) == NO_COLOR;
+}
+
+//--------------------------------------------------------------------------------------------
+Color Board::getPieceColor(const Square& s)
+{
+  return this->getPiece(s).getColor();
+
 }
 
 }       // namespace
