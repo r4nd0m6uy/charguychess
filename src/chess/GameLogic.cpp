@@ -69,49 +69,7 @@ void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves)
   PlayerPiece movedPiece = m_board.getPiece(from);
 
   if(movedPiece.getPiece() == PAWN)
-  {
-    int forwardDirection;
-
-    if(movedPiece.getColor() == WHITE)
-      forwardDirection = 1;
-    else
-      forwardDirection = -1;
-
-    // Move forward
-    Square s(from.getFile(), static_cast<Rank>(from.getRank() + forwardDirection));
-    if(m_board.isEmpty(s))
-    {
-      legalMoves.push_back(s);
-
-      if( (movedPiece.getColor() == WHITE && from.getRank() == TWO) ||
-          (movedPiece.getColor() == BLACK && from.getRank() == SEVEN) )
-      {
-        s = Square(from.getFile(), static_cast<Rank>(s.getRank() + forwardDirection));
-        if(m_board.isEmpty(s))
-          legalMoves.push_back(s);
-      }
-    }
-
-    // Capture right
-    if(from.getFile() != H)
-    {
-      s = Square(
-          static_cast<File>(from.getFile() + 1),
-          static_cast<Rank>(from.getRank() + forwardDirection));
-      if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-        legalMoves.push_back(s);
-    }
-
-    // Capture left
-    if(from.getFile() != A)
-    {
-      s = Square(
-          static_cast<File>(from.getFile() - 1),
-          static_cast<Rank>(from.getRank() + forwardDirection));
-      if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-        legalMoves.push_back(s);
-    }
-  }
+    this->getPawnLegalMoves(from, legalMoves);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -145,6 +103,53 @@ bool GameLogic::applyMove(const Move& m)
     m_turn = BLACK;
 
   return true;
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMoves) const
+{
+  PlayerPiece movedPawn = m_board.getPiece(from);
+  int forwardDirection;
+
+  if(movedPawn.getColor() == WHITE)
+    forwardDirection = 1;
+  else
+    forwardDirection = -1;
+
+  // Move forward
+  Square s(from.getFile(), static_cast<Rank>(from.getRank() + forwardDirection));
+  if(m_board.isEmpty(s))
+  {
+    legalMoves.push_back(s);
+
+    if( (movedPawn.getColor() == WHITE && from.getRank() == TWO) ||
+        (movedPawn.getColor() == BLACK && from.getRank() == SEVEN) )
+    {
+      s = Square(from.getFile(), static_cast<Rank>(s.getRank() + forwardDirection));
+      if(m_board.isEmpty(s))
+        legalMoves.push_back(s);
+    }
+  }
+
+  // Capture right
+  if(from.getFile() != H)
+  {
+    s = Square(
+        static_cast<File>(from.getFile() + 1),
+        static_cast<Rank>(from.getRank() + forwardDirection));
+    if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
+      legalMoves.push_back(s);
+  }
+
+  // Capture left
+  if(from.getFile() != A)
+  {
+    s = Square(
+        static_cast<File>(from.getFile() - 1),
+        static_cast<Rank>(from.getRank() + forwardDirection));
+    if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
+      legalMoves.push_back(s);
+  }
 }
 
 }       // namespace

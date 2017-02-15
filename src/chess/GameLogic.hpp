@@ -47,6 +47,7 @@ private:
   Board m_board;
   Color m_turn;
 
+  void getPawnLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
 };
 
 }       // namespace
