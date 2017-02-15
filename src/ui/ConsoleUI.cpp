@@ -210,7 +210,11 @@ void ConsoleUI::showLegalSquare(const std::string& square)
 
     for(File f = A ; f <= H ; )
     {
-      if(ls.contains(Square(f, r)))
+      Square s(f, r);
+
+      if(ls.getFrom() == s)
+        std::cout << " " << m_gl.getBoard().getPiece(s) << " ";
+      else if(ls.contains(s))
         std::cout << " x ";
       else
         std::cout << "   ";

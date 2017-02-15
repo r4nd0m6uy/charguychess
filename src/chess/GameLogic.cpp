@@ -83,7 +83,9 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
 
   legalSquares.clear();
 
-  if(t == PAWN)
+  if(m_board.getPieceColor(legalSquares.getFrom()) != m_turn)
+    return;
+  else if(t == PAWN)
     this->getPawnLegalSquares(legalSquares);
 }
 

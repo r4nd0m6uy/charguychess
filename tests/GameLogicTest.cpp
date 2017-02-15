@@ -145,7 +145,9 @@ TEST(GameLogicTest, legalMovesCleared)
   LegalSquares ls(Square(E, SEVEN));
   GameLogic gl;
 
+  gl.setTurn(BLACK);
   ls.addLegalSquare(Square(G, TWO));
+
   gl.getLegalSquares(ls);
 
   CHECK_EQUAL(2, ls.getLegalSquaresCount());
@@ -159,11 +161,24 @@ TEST(GameLogicTest, blackPawnStartLegalMoves)
   LegalSquares ls(Square(E, SEVEN));
   GameLogic gl;
 
+  gl.setTurn(BLACK);
+
   gl.getLegalSquares(ls);
 
   CHECK_EQUAL(2, ls.getLegalSquaresCount());
   CHECK(ls.contains(Square(E, SIX)));
   CHECK(ls.contains(Square(E, FIVE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, noLegalMoveOnWrongPlayer)
+{
+  LegalSquares ls(Square(E, SEVEN));
+  GameLogic gl;
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(0, ls.getLegalSquaresCount());
 }
 
 //--------------------------------------------------------------------------------------------
