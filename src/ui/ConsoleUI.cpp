@@ -175,22 +175,16 @@ void ConsoleUI::printHelp()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::readMove(const std::string& move)
 {
-  if(move.length() != 4 ||
-      move[0] < 'a' || move[0] > 'h' ||
-      move[1] < '1' || move[1] > '8' ||
-      move[2] < 'a' || move[2] > 'h' ||
-      move[3] < '1' || move[3] > '8')
+  Move m(move);
+
+  if(!m.isValid())
   {
-    std::cout << "Error parsing move " << move << std::endl;
+    std::cout << "Cannot parse " << move << std::endl;
     return;
   }
 
-  Square from(static_cast<File>((int)(move[0] - 'a')), static_cast<Rank>(move[1] - '0' - 1));
-  Square to(static_cast<File>(move[2] - 'a'), static_cast<Rank>(move[3] - '0' - 1));
-  if(!m_gl.applyMove(Move(from, to)))
-  {
+  if(!m_gl.applyMove(m))
     std::cout << "Illegal move " << move << std::endl;
-  }
 }
 
 }       // namespace
