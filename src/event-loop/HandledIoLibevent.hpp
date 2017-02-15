@@ -16,42 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_CONSOLE_UI_HPP_
-#define _CGC_CONSOLE_UI_HPP_
+#ifndef _CGC_HANDLED_IO_LIBEVENT_HPP_
+#define _CGC_HANDLED_IO_LIBEVENT_HPP_
 
-#include "../event-loop/EventLoop.hpp"
-#include "../chess/GameLogic.hpp"
+#include <event2/event.h>
+
+#include "IHandledIo.hpp"
 
 namespace cgc {
 
 /**
- * \brief An user interface done in console
+ * \brief Wraps an IHandledIo in libevent
  */
-class ConsoleUI:
-    public IBoardObserver,
-    public IHandledIo
+class HandledIoLibevent
 {
 public:
-  ConsoleUI(GameLogic& gl);
-  virtual ~ConsoleUI();
+  HandledIoLibevent(IHandledIo& handledIo);
+  virtual ~HandledIoLibevent();
 
-  int init(EventLoop& eventLoop);
-
-  // IBoardObserver
-  virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
-
-  // IHandledIo
-  virtual IoHandle getHandle();
-  virtual void readReady();
+  struct event* getEvent();
+  void setEvent(struct event* ev);
+  IHandledIo& getHandledIo();
 
 private:
-  GameLogic& m_gl;
-
-  void showBoard(Color playerTurn, const Board& newStatus);
-  void printPrompt();
-  void printGreeting();
-  void printHelp();
+  IHandledIo& m_handledIo;
+  struct event* m_event;
 };
 
 }       // namespace
-#endif  // _CGC_CONSOLE_UI_HPP_
+#endif  // _CGC_HANDLED_IO_LIBEVENT_HPP_

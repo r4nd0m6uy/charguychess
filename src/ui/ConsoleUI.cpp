@@ -16,12 +16,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+
 #include <iostream>
 
+#include "../logging/LogMacros.hpp"
 #include "ConsoleUI.hpp"
 
 namespace cgc {
 
+static const int BUFFER_SIZE = 128;
 static const std::string RANK_SEPARATOR = " +---+---+---+---+---+---+---+---+";
 static const std::string PROMPT = "charguychess> ";
 
@@ -37,12 +43,13 @@ ConsoleUI::~ConsoleUI()
 }
 
 //--------------------------------------------------------------------------------------------
-int ConsoleUI::init()
+int ConsoleUI::init(EventLoop& eventLoop)
 {
   m_gl.registerBoardObserver(*this);
+  eventLoop.registerHandledIo(*this, EventLoop::READ | EventLoop::PERSIST);
+
   printGreeting();
-  showBoard(m_gl.getTurn(), m_gl.getBoard());
-  std::cout << PROMPT;
+  printPrompt();
 
   return 0;
 }
@@ -51,6 +58,47 @@ int ConsoleUI::init()
 void ConsoleUI::boardChanged(Color playerTurn, const Board& newStatus)
 {
   showBoard(playerTurn, newStatus);
+}
+
+//--------------------------------------------------------------------------------------------
+IoHandle ConsoleUI::getHandle()
+{
+  // XXX: This might not be always true (socket)
+  return 1;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::readReady()
+{
+  char buffer[BUFFER_SIZE];
+  ssize_t readCount = BUFFER_SIZE;
+  std::string cmd;
+
+  while(readCount == BUFFER_SIZE)
+  {
+    readCount = read(1, buffer, BUFFER_SIZE);
+    if(readCount < 0)
+    {
+      LOGER() << "Error reading from console " << strerror(errno);
+      return;
+    }
+    cmd += std::string(buffer, readCount);
+  }
+
+  if(cmd.find("help") == 0)
+    printHelp();
+  else if(cmd.find("show") == 0)
+    showBoard(m_gl.getTurn(), m_gl.getBoard());
+  else
+    std::cout << "Unknown command, type 'help' for more information" << std::endl;
+
+  printPrompt();
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::printPrompt()
+{
+  std::cout << PROMPT << std::flush;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -100,6 +148,13 @@ void ConsoleUI::printGreeting()
 {
   std::cout << "Welcome to charguy chess!" << std::endl;
   std::cout << "Type 'help' for the list of available commands" << std::endl << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::printHelp()
+{
+  std::cout << "help      Print this help" << std::endl;
+  std::cout << "show      Show the current board status" << std::endl;
 }
 
 }       // namespace

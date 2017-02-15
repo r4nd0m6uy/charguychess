@@ -22,9 +22,20 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
+void libeventIoCallback(evutil_socket_t fd, short what, void* data)
+{
+  HandledIoLibevent* handle = static_cast<HandledIoLibevent*>(data);
+
+  if((what & EV_READ) != 0)
+    handle->getHandledIo().readReady();
+}
+
+//--------------------------------------------------------------------------------------------
 EventLoop::EventLoop():
     m_eventBase(nullptr)
 {
+  for(auto& handledIo : m_handledIos)
+    delete handledIo;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -56,12 +67,43 @@ int EventLoop::init()
 //--------------------------------------------------------------------------------------------
 void EventLoop::registerHandledIo(IHandledIo& handler, int what)
 {
+  struct event* ev;
+  int libeventWhat = 0;
+  HandledIoLibevent* wrappedEvent = new HandledIoLibevent(handler);
+
+  if((what & READ) != 0)
+    libeventWhat |= EV_READ;
+  if((what & PERSIST) != 0)
+    libeventWhat |= EV_PERSIST;
+
+  ev = event_new(
+      m_eventBase,
+      handler.getHandle(),
+      libeventWhat,
+      libeventIoCallback,
+      wrappedEvent);
+  if(ev == nullptr)
+  {
+    LOGER() << "Error creating libevent event!";
+    delete wrappedEvent;
+    return;
+  }
+
+  event_add(ev, NULL);
+  wrappedEvent->setEvent(ev);
+  m_handledIos.push_back(wrappedEvent);
 }
 
 //--------------------------------------------------------------------------------------------
 int EventLoop::run()
 {
   int ret = 0;
+
+  if(m_eventBase == nullptr)
+  {
+    LOGER() << "Cannot run an non initialized event loop";
+    return -1;
+  }
 
   LOGDB() << "Starting event loop ...";
 

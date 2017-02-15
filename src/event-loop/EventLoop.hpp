@@ -19,9 +19,13 @@
 #ifndef _CGC_EVENT_LOOP_HPP_
 #define _CGC_EVENT_LOOP_HPP_
 
+#include <list>
+#include <functional>
+
 #include <event2/event.h>
 
 #include "IHandledIo.hpp"
+#include "HandledIoLibevent.hpp"
 
 namespace cgc {
 
@@ -33,8 +37,8 @@ class EventLoop
 public:
   enum EventType
   {
-    READ_EVENT,
-    PERSIST
+    READ    = 0x01,
+    PERSIST = 0x02
   };
 
   EventLoop();
@@ -46,6 +50,7 @@ public:
 
 private:
   struct event_base* m_eventBase;
+  std::list<HandledIoLibevent*> m_handledIos;
 };
 
 }       // namespace

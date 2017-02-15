@@ -17,6 +17,7 @@ set(APP_SOURCES
   logging/LogStream.cpp
   ui/ConsoleUI.cpp
   event-loop/IHandledIo.cpp
+  event-loop/HandledIoLibevent.cpp
   event-loop/EventLoop.cpp
 )
 
