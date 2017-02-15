@@ -33,7 +33,9 @@ public:
   ~Square();
 
   File getFile() const;
+  void setFile(File f);
   Rank getRank() const;
+  void setRank(Rank r);
 
   bool operator==(const Square& rhs) const;
 
