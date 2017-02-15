@@ -109,6 +109,15 @@ bool GameLogic::applyMove(const Move& m)
   if(!isMoveLegal(m))
     return false;
 
+  // Remember captured piece
+  if(!m_board.isEmpty(m.getTo()))
+  {
+    if(m_turn == WHITE)
+      m_capPiecesBlack.push_back(m_board.getPiece(m.getTo()));
+    else
+      m_capPiecesWhite.push_back(m_board.getPiece(m.getTo()));
+  }
+
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
   m_board.setPiece(PlayerPiece(), m.getFrom());
@@ -122,6 +131,18 @@ bool GameLogic::applyMove(const Move& m)
   raiseBoardChanged();
 
   return true;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::list<PlayerPiece>& GameLogic::getCapturedWhitePieces()
+{
+  return m_capPiecesWhite;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::list<PlayerPiece>& GameLogic::getCapturedBlackPieces()
+{
+  return m_capPiecesBlack;
 }
 
 //--------------------------------------------------------------------------------------------

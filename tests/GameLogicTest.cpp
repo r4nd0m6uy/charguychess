@@ -42,6 +42,50 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getCaputredBlackPawnTakesQueen)
+{
+  Square to(D, SIX);
+  Move m(Square(C, SEVEN), to);
+  Board b;
+  GameLogic gl;
+
+  b.setPiece(PlayerPiece(WHITE, KNIGHT), to);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(1, gl.getCapturedWhitePieces().size());
+  CHECK_EQUAL(KNIGHT,  gl.getCapturedWhitePieces().front().getType());
+  CHECK_EQUAL(0, gl.getCapturedBlackPieces().size());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getCaputredWhitePawnTakesQueen)
+{
+  Square to(D, THREE);
+  Move m(Square(E, TWO), to);
+  Board b;
+  GameLogic gl;
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), to);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(0, gl.getCapturedWhitePieces().size());
+  CHECK_EQUAL(1, gl.getCapturedBlackPieces().size());
+  CHECK_EQUAL(QUEEN,  gl.getCapturedBlackPieces().front().getType());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getCaputredPiecesNoPiecesTaken)
+{
+  GameLogic gl;
+
+  CHECK_EQUAL(0, gl.getCapturedWhitePieces().size());
+  CHECK_EQUAL(0, gl.getCapturedBlackPieces().size());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, newGameRaiseObserverEvent)
 {
   GameLogic gl;

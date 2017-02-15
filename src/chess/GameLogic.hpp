@@ -47,11 +47,15 @@ public:
   void getLegalSquares(LegalSquares& legalSquares) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
+  const std::list<PlayerPiece>& getCapturedWhitePieces();
+  const std::list<PlayerPiece>& getCapturedBlackPieces();
 
 private:
   Board m_board;
   Color m_turn;
   std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
+  std::list<PlayerPiece> m_capPiecesBlack;
+  std::list<PlayerPiece> m_capPiecesWhite;
 
   void getPawnLegalSquares(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
