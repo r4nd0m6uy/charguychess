@@ -121,24 +121,25 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
 {
   std::cout << RANK_SEPARATOR;
 
+  // Show white turn
   if(playerTurn == WHITE)
     std::cout << "   * ";
   else
     std::cout << "     ";
-
   std::cout << "WHITE" << std::endl;
 
+  // Show each rank
   for(Rank r = EIGHT ; r >= ONE ; )
   {
-    std::cout << r + 1 << "|";
+    std::cout << r + 1 << "|";  // Label
 
     for(File f = A ; f <= H ; )
     {
       std::cout << " " <<  m_gl.getBoard().getPiece(Square(f, r)) << " |";
-
       f = static_cast<File>(f + 1);
     }
 
+    // Show black turn
     if(r == EIGHT)
     {
       if(playerTurn == BLACK)
@@ -150,11 +151,24 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
     }
 
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
-
     r = static_cast<Rank>(r - 1);
   }
 
+  // Label
   std::cout <<"   A   B   C   D   E   F   G   H" << std::endl;
+
+  // Captured black pieces
+  std::cout << "WHITE: ";
+  for(auto& cp: m_gl.getCapturedBlackPieces())
+    std::cout << cp;
+  std::cout << std::endl;
+
+  // Captured white pieces
+  std::cout << "black: ";
+  for(auto& cp : m_gl.getCapturedWhitePieces())
+    std::cout << cp;
+  std::cout << std::endl;
+
 }
 
 //--------------------------------------------------------------------------------------------
