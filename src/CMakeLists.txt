@@ -12,6 +12,8 @@ set(APP_SOURCES
   logging/LoggerInstance.cpp
   logging/LogStream.cpp
   ui/ConsoleUI.cpp
+  event-loop/IHandledIo.cpp
+  event-loop/EventLoop.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})

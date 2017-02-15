@@ -16,28 +16,44 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "event-loop/EventLoop.hpp"
-#include "ui/ConsoleUI.hpp"
-#include "logging/LogMacros.hpp"
+#include "../logging/LogMacros.hpp"
+#include "EventLoop.hpp"
+
+namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-int main(int argc, char* argv[])
+EventLoop::EventLoop()
 {
-  cgc::EventLoop el;
-  cgc::GameLogic gl;
-  cgc::ConsoleUI cUi(gl);
-  int ret;
+}
 
-  LOGIN() << "Starting application ...";
+//--------------------------------------------------------------------------------------------
+EventLoop::~EventLoop()
+{
+}
 
-  if(el.init() != 0)
-    return -1;
-  if(cUi.init() != 0)
-    return -1;
+//--------------------------------------------------------------------------------------------
+int EventLoop::init()
+{
+  return 0;
+}
 
-  ret = el.run();
+//--------------------------------------------------------------------------------------------
+void EventLoop::registerHandledIo(IHandledIo& handler, int what)
+{
+}
 
-  LOGIN() << "Exiting application with code " << ret;
+//--------------------------------------------------------------------------------------------
+int EventLoop::run()
+{
+  int ret = 0;
+
+  LOGDB() << "Starting event loop ...";
+
+  // TODO
+
+  LOGDB() << "Event loop broke with code " << ret;
 
   return ret;
 }
+
+}       // namespace

@@ -16,34 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_CONSOLE_UI_HPP_
-#define _CGC_CONSOLE_UI_HPP_
+#ifndef _CGC_EVENT_LOOP_HPP_
+#define _CGC_EVENT_LOOP_HPP_
 
-#include "../chess/GameLogic.hpp"
+#include "IHandledIo.hpp"
 
 namespace cgc {
 
 /**
- * \brief An user interface done in console
+ * \brief An event loop
  */
-class ConsoleUI:
-    public IBoardObserver
+class EventLoop
 {
 public:
-  ConsoleUI(GameLogic& gl);
-  virtual ~ConsoleUI();
+  enum EventType
+  {
+    READ_EVENT,
+    PERSIST
+  };
+
+  EventLoop();
+  virtual ~EventLoop();
 
   int init();
-
-  // IBoardObserver
-  virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
-
-private:
-  GameLogic& m_gl;
-
-  void showBoard(Color playerTurn, const Board& newStatus);
-  void printGreeting();
+  void registerHandledIo(IHandledIo& handler, int what);
+  int run();
 };
 
 }       // namespace
-#endif  // _CGC_CONSOLE_UI_HPP_
+#endif  // _CGC_EVENT_LOOP_HPP_

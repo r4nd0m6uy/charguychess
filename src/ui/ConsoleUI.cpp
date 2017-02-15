@@ -100,7 +100,6 @@ void ConsoleUI::printGreeting()
 {
   std::cout << "Welcome to charguy chess!" << std::endl;
   std::cout << "Type 'help' for the list of available commands" << std::endl << std::endl;
-
 }
 
 }       // namespace
