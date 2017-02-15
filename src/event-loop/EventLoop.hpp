@@ -47,6 +47,7 @@ public:
   int init();
   int registerHandledIo(IHandledIo& handler, int what);
   int run();
+  int breakLoop();
 
 private:
   struct event_base* m_eventBase;

@@ -122,4 +122,11 @@ int EventLoop::run()
   return ret;
 }
 
+//--------------------------------------------------------------------------------------------
+int EventLoop::breakLoop()
+{
+  LOGDB() << "Breaking event loop ...";
+
+  return event_base_loopbreak(m_eventBase);
+}
 }       // namespace

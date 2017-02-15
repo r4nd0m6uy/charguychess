@@ -96,6 +96,8 @@ void ConsoleUI::readReady()
     printHelp();
   else if(cmd.find("show") == 0)
     showBoard(m_gl.getTurn(), m_gl.getBoard());
+  else if(cmd.find("quit") == 0)
+    m_eventLoop.breakLoop();
   else
     std::cout << "Unknown command, type 'help' for more information" << std::endl;
 
@@ -161,6 +163,7 @@ void ConsoleUI::printHelp()
 {
   std::cout << "help      Print this help" << std::endl;
   std::cout << "show      Show the board" << std::endl;
+  std::cout << "quit      Quit the application" << std::endl;
 }
 
 }       // namespace
