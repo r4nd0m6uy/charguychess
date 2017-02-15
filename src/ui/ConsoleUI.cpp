@@ -213,11 +213,11 @@ void ConsoleUI::showLegalSquare(const std::string& square)
       Square s(f, r);
 
       if(ls.getFrom() == s)
-        std::cout << " " << m_gl.getBoard().getPiece(s) << " ";
+        std::cout << "*" << m_gl.getBoard().getPiece(s) << "*";
       else if(ls.contains(s))
-        std::cout << " x ";
+        std::cout << "x" << m_gl.getBoard().getPiece(s) << "x";
       else
-        std::cout << "   ";
+        std::cout << " " << m_gl.getBoard().getPiece(s) << " ";
       std::cout << "|";
 
       f = static_cast<File>(f + 1);
