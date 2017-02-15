@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <algorithm>
 
 #include <CppUTest/TestHarness.h>
 
@@ -81,193 +82,138 @@ TEST(GameLogicTest, illegalMoveNotApplied)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesBackward)
+TEST(GameLogicTest, blackPawnStartLegalMoves)
 {
+  std::list<Square> lm;
   GameLogic gl;
-  Square from(A, FIVE);
-  Square to(A, SIX);
-  Board b;
-  Move m(from, to);
 
-  b.setPiece(PlayerPiece(BLACK, PAWN), from);
+  gl.getLegalMoves(Square(E, SEVEN), lm);
+
+  CHECK_EQUAL(2, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, SIX)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, FIVE)) != lm.end());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, whitePawnLegalMovesAFile)
+{
+  std::list<Square> lm;
+  GameLogic gl;
+
+  gl.getLegalMoves(Square(A, TWO), lm);
+
+  CHECK_EQUAL(2, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(A, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(A, FOUR)) != lm.end());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, whitePawnLegalMovesHFile)
+{
+  std::list<Square> lm;
+  GameLogic gl;
+
+  gl.getLegalMoves(Square(H, TWO), lm);
+
+  CHECK_EQUAL(2, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(H, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(H, FOUR)) != lm.end());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, whitePawnLegalMovesRightLeftCapture)
+{
+  std::list<Square> lm;
+  Board b;
+  GameLogic gl;
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(F, THREE));
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(D, THREE));
   gl.setBoard(b);
-  gl.setTurn(BLACK);
+  gl.getLegalMoves(Square(E, TWO), lm);
 
-  CHECK_FALSE(gl.isMoveLegal(m));
+  CHECK_EQUAL(4, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(F, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(D, THREE)) != lm.end());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, whitePawnMovesBackward)
+TEST(GameLogicTest, whitePawnLegalMovesRightCapture)
 {
-  GameLogic gl;
-  Square from(A, FOUR);
-  Square to(A, THREE);
+  std::list<Square> lm;
   Board b;
-  Move m(from, to);
+  GameLogic gl;
 
-  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(F, THREE));
   gl.setBoard(b);
+  gl.getLegalMoves(Square(E, TWO), lm);
 
-  CHECK_FALSE(gl.isMoveLegal(m));
+  CHECK_EQUAL(3, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(F, THREE)) != lm.end());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesEmptySquare)
+TEST(GameLogicTest, whitePawnLegalMoves)
 {
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, THREE);
-  Move m(from, to);
-
-  CHECK_FALSE(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeftTooFarLeft)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(G, THREE);
+  std::list<Square> lm;
   Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeftTooFarForward)
-{
   GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, FOUR);
-  Board b;
-  Move m(from, to);
 
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK_FALSE(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnCapturesLeft)
-{
-  GameLogic gl;
-  Square from(E, TWO);
-  Square to(F, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), to);
-  gl.setBoard(b);
-
-  CHECK(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesTwoForward)
-{
-  GameLogic gl;
-  Square from(A, SEVEN);
-  Square to(A, FIVE);
-  Board b;
-  Move m(from, to);
-
-  gl.setTurn(BLACK);
-
-  CHECK(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnMovesForward)
-{
-  GameLogic gl;
-  Square from(A, SEVEN);
-  Square to(A, SIX);
-  Board b;
-  Move m(from, to);
-
-  gl.setTurn(BLACK);
-
-  CHECK(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesForwardButPiecePresent)
-{
-  GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, THREE);
-  Board b;
-  Move m(from, to);
-
-  b.setPiece(PlayerPiece(WHITE, PAWN), to);
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FOUR));
   gl.setBoard(b);
 
-  CHECK_FALSE(gl.isMoveLegal(m));
+  gl.getLegalMoves(Square(E, FOUR), lm);
+
+  CHECK_EQUAL(1, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, FIVE)) != lm.end());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesTwoForwardButAlreadyMoved)
+TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInTwoFront)
 {
-  GameLogic gl;
-  Square from(A, THREE);
-  Square to(A, FIVE);
+  std::list<Square> lm;
   Board b;
-  Move m(from, to);
+  GameLogic gl;
 
-  b.setPiece(PlayerPiece(), Square(A, TWO));
-  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FOUR));
   gl.setBoard(b);
 
-  CHECK_FALSE(gl.isMoveLegal(m));
+  gl.getLegalMoves(Square(E, TWO), lm);
+
+  CHECK_EQUAL(1, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesThreeForward)
+TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInFront)
 {
+  std::list<Square> lm;
+  Board b;
   GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, FIVE);
-  Move m(from, to);
 
-  CHECK_FALSE(gl.isMoveLegal(m));
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, THREE));
+  gl.setBoard(b);
+
+  gl.getLegalMoves(Square(E, TWO), lm);
+
+  CHECK_EQUAL(0, lm.size());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesTwoForward)
+TEST(GameLogicTest, whitePawnStartLegalMoves)
 {
+  std::list<Square> lm;
   GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, FOUR);
-  Move m(from, to);
 
-  CHECK(gl.isMoveLegal(m));
-}
+  gl.getLegalMoves(Square(E, TWO), lm);
 
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, illegalMoveWrongFromColor)
-{
-  GameLogic gl;
-  Square from(A, SEVEN);
-  Square to(A, SIX);
-  Move m(from, to);
-
-  CHECK_FALSE(gl.isMoveLegal(m));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, pawnMovesOneForward)
-{
-  GameLogic gl;
-  Square from(A, TWO);
-  Square to(A, THREE);
-  Move m(from, to);
-
-  CHECK(gl.isMoveLegal(m));
+  CHECK_EQUAL(2, lm.size());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
+  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
 }
 
 //--------------------------------------------------------------------------------------------

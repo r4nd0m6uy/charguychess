@@ -19,6 +19,8 @@
 #ifndef _CGC_GAME_LOGIC_HPP_
 #define _CGC_GAME_LOGIC_HPP_
 
+#include <list>
+
 #include "Board.hpp"
 #include "Move.hpp"
 
@@ -37,6 +39,7 @@ public:
   void setTurn(Color color);
   const Board& getBoard() const;
   void setBoard(const Board& board);
+  void getLegalMoves(const Square& from, std::list<Square>& legalMoves);
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
 
