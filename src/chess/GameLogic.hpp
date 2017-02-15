@@ -53,7 +53,7 @@ private:
   Color m_turn;
   std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
 
-  void getPawnLegalSquare(LegalSquares& legalSquares) const;
+  void getPawnLegalSquares(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
 };
 

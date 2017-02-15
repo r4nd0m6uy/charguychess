@@ -53,6 +53,7 @@ private:
   void printGreeting();
   void printHelp();
   void readMove(const std::string& move);
+  void showLegalSquare(const std::string& square);
 };
 
 }       // namespace

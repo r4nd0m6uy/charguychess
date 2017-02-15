@@ -84,7 +84,7 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
   legalSquares.clear();
 
   if(t == PAWN)
-    this->getPawnLegalSquare(legalSquares);
+    this->getPawnLegalSquares(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ bool GameLogic::applyMove(const Move& m)
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getPawnLegalSquare(LegalSquares& legalSquares) const
+void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
 {
   const Square& from = legalSquares.getFrom();
   PlayerPiece movedPawn = m_board.getPiece(from);

@@ -96,6 +96,8 @@ void ConsoleUI::readReady()
     printHelp();
   else if(cmd.find("show") == 0)
     showBoard(m_gl.getTurn(), m_gl.getBoard());
+  else if(cmd.find("legal") == 0)
+    showLegalSquare(cmd.substr(6, 2));
   else if(cmd.find("move") == 0)
     readMove(cmd.substr(5, 4));
   else if(cmd.find("new") == 0)
@@ -165,11 +167,12 @@ void ConsoleUI::printGreeting()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::printHelp()
 {
-  std::cout << "help          Print this help" << std::endl;
-  std::cout << "show          Show the board" << std::endl;
-  std::cout << "move <move>   Make a move (e2e4)" << std::endl;
-  std::cout << "new           Start a new game" << std::endl;
-  std::cout << "quit          Quit the application" << std::endl;
+  std::cout << "help            Print this help" << std::endl;
+  std::cout << "show            Show the board" << std::endl;
+  std::cout << "legal <square>  Show legal moves from <square> (e2)" << std::endl;
+  std::cout << "move <move>     Make a move (e2e4)" << std::endl;
+  std::cout << "new             Start a new game" << std::endl;
+  std::cout << "quit            Quit the application" << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -185,6 +188,43 @@ void ConsoleUI::readMove(const std::string& move)
 
   if(!m_gl.applyMove(m))
     std::cout << "Illegal move " << move << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::showLegalSquare(const std::string& square)
+{
+  Square s(square);
+  LegalSquares ls(s);
+
+  if(!s.isValid())
+  {
+    std::cout << "Cannot parse " << square << std::endl;
+    return;
+  }
+
+  m_gl.getLegalSquares(ls);
+  std::cout << RANK_SEPARATOR << std::endl;
+  for(Rank r = EIGHT ; r >= ONE ; )
+  {
+    std::cout << r + 1 << "|";
+
+    for(File f = A ; f <= H ; )
+    {
+      if(ls.contains(Square(f, r)))
+        std::cout << " x ";
+      else
+        std::cout << "   ";
+      std::cout << "|";
+
+      f = static_cast<File>(f + 1);
+    }
+    std::cout << std::endl << RANK_SEPARATOR << std::endl;
+
+    r = static_cast<Rank>(r - 1);
+  }
+
+  std::cout <<"   A   B   C   D   E   F   G   H" << std::endl;
+
 }
 
 }       // namespace
