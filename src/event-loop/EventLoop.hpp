@@ -45,7 +45,7 @@ public:
   virtual ~EventLoop();
 
   int init();
-  void registerHandledIo(IHandledIo& handler, int what);
+  int registerHandledIo(IHandledIo& handler, int what);
   int run();
 
 private:

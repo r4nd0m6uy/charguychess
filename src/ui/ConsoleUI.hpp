@@ -32,10 +32,10 @@ class ConsoleUI:
     public IHandledIo
 {
 public:
-  ConsoleUI(GameLogic& gl);
+  ConsoleUI(GameLogic& gl, EventLoop& eventLoop);
   virtual ~ConsoleUI();
 
-  int init(EventLoop& eventLoop);
+  int init();
 
   // IBoardObserver
   virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
@@ -46,6 +46,7 @@ public:
 
 private:
   GameLogic& m_gl;
+  EventLoop& m_eventLoop;
 
   void showBoard(Color playerTurn, const Board& newStatus);
   void printPrompt();

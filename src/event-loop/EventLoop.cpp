@@ -65,12 +65,19 @@ int EventLoop::init()
 }
 
 //--------------------------------------------------------------------------------------------
-void EventLoop::registerHandledIo(IHandledIo& handler, int what)
+int EventLoop::registerHandledIo(IHandledIo& handler, int what)
 {
   struct event* ev;
   int libeventWhat = 0;
-  HandledIoLibevent* wrappedEvent = new HandledIoLibevent(handler);
+  HandledIoLibevent* wrappedEvent = nullptr;
 
+  if(m_eventBase == nullptr)
+  {
+    LOGER() << "Cannot register handled IO on a non initialized event loop";
+    return -1;
+  }
+
+  wrappedEvent = new HandledIoLibevent(handler);
   if((what & READ) != 0)
     libeventWhat |= EV_READ;
   if((what & PERSIST) != 0)
@@ -86,12 +93,13 @@ void EventLoop::registerHandledIo(IHandledIo& handler, int what)
   {
     LOGER() << "Error creating libevent event!";
     delete wrappedEvent;
-    return;
+    return -1;
   }
 
   event_add(ev, NULL);
   wrappedEvent->setEvent(ev);
   m_handledIos.push_back(wrappedEvent);
+  return 0;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -101,7 +109,7 @@ int EventLoop::run()
 
   if(m_eventBase == nullptr)
   {
-    LOGER() << "Cannot run an non initialized event loop";
+    LOGER() << "Cannot run a non initialized event loop";
     return -1;
   }
 

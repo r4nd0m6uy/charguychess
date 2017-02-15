@@ -32,8 +32,9 @@ static const std::string RANK_SEPARATOR = " +---+---+---+---+---+---+---+---+";
 static const std::string PROMPT = "charguychess> ";
 
 //--------------------------------------------------------------------------------------------
-ConsoleUI::ConsoleUI(GameLogic& gl):
-    m_gl(gl)
+ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop):
+    m_gl(gl),
+    m_eventLoop(eventLoop)
 {
 }
 
@@ -43,13 +44,19 @@ ConsoleUI::~ConsoleUI()
 }
 
 //--------------------------------------------------------------------------------------------
-int ConsoleUI::init(EventLoop& eventLoop)
+int ConsoleUI::init()
 {
+  LOGDB() << "Initializing console UI ...";
+
+  if(m_eventLoop.registerHandledIo(*this, EventLoop::READ | EventLoop::PERSIST))
+    return -1;
+
   m_gl.registerBoardObserver(*this);
-  eventLoop.registerHandledIo(*this, EventLoop::READ | EventLoop::PERSIST);
 
   printGreeting();
   printPrompt();
+
+  LOGDB() << "Console UI ready!";
 
   return 0;
 }
@@ -104,7 +111,6 @@ void ConsoleUI::printPrompt()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
 {
-  std::cout << "Current position: " << std::endl;
   std::cout << RANK_SEPARATOR;
 
   if(playerTurn == WHITE)
@@ -154,7 +160,7 @@ void ConsoleUI::printGreeting()
 void ConsoleUI::printHelp()
 {
   std::cout << "help      Print this help" << std::endl;
-  std::cout << "show      Show the current board status" << std::endl;
+  std::cout << "show      Show the board" << std::endl;
 }
 
 }       // namespace

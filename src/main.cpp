@@ -25,14 +25,14 @@ int main(int argc, char* argv[])
 {
   cgc::EventLoop el;
   cgc::GameLogic gl;
-  cgc::ConsoleUI cUi(gl);
+  cgc::ConsoleUI cUi(gl, el);
   int ret;
 
   LOGIN() << "Starting application ...";
 
   if(el.init() != 0)
     return -1;
-  if(cUi.init(el) != 0)
+  if(cUi.init() != 0)
     return -1;
 
   ret = el.run();
