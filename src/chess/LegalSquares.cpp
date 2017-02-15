@@ -58,4 +58,10 @@ const Square& LegalSquares::getFrom() const
   return m_from;
 }
 
+//--------------------------------------------------------------------------------------------
+int LegalSquares::getLegalSquaresCount() const
+{
+  return m_legalSquares.size();
+}
+
 }       // namespace

@@ -24,6 +24,7 @@
 
 #include "Board.hpp"
 #include "Move.hpp"
+#include "LegalSquares.hpp"
 #include "IBoardObserver.hpp"
 
 namespace cgc {
@@ -43,7 +44,7 @@ public:
   void setBoard(const Board& board);
   void registerBoardObserver(IBoardObserver& observer);
   void newGame();
-  void getLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
+  void getLegalSquares(LegalSquares& legalSquares) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
 
@@ -52,7 +53,7 @@ private:
   Color m_turn;
   std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
 
-  void getPawnLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
+  void getPawnLegalSquare(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
 };
 

@@ -38,6 +38,7 @@ public:
   void addLegalSquare(const Square& square);
   bool contains(const Square& square);
   const Square& getFrom() const;
+  int getLegalSquaresCount() const;
 
 private:
   Square m_from;

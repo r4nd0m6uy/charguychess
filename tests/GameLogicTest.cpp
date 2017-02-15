@@ -140,138 +140,136 @@ TEST(GameLogicTest, illegalMoveNotApplied)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, blackPawnStartLegalMoves)
+TEST(GameLogicTest, legalMovesCleared)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, SEVEN));
   GameLogic gl;
 
-  gl.getLegalMoves(Square(E, SEVEN), lm);
+  ls.addLegalSquare(Square(G, TWO));
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, SIX)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, FIVE)) != lm.end());
+  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, SIX)));
+  CHECK(ls.contains(Square(E, FIVE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, blackPawnStartLegalMoves)
+{
+  LegalSquares ls(Square(E, SEVEN));
+  GameLogic gl;
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, SIX)));
+  CHECK(ls.contains(Square(E, FIVE)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnLegalMovesAFile)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(A, TWO));
   GameLogic gl;
 
-  gl.getLegalMoves(Square(A, TWO), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(A, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(A, FOUR)) != lm.end());
+  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(A, THREE)));
+  CHECK(ls.contains(Square(A, FOUR)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnLegalMovesHFile)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(H, TWO));
   GameLogic gl;
 
-  gl.getLegalMoves(Square(H, TWO), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(H, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(H, FOUR)) != lm.end());
+  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(H, THREE)));
+  CHECK(ls.contains(Square(H, FOUR)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnLegalMovesRightLeftCapture)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, TWO));
   Board b;
   GameLogic gl;
 
   b.setPiece(PlayerPiece(BLACK, PAWN), Square(F, THREE));
   b.setPiece(PlayerPiece(BLACK, PAWN), Square(D, THREE));
   gl.setBoard(b);
-  gl.getLegalMoves(Square(E, TWO), lm);
 
-  CHECK_EQUAL(4, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(F, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(D, THREE)) != lm.end());
-}
+  gl.getLegalSquares(ls);
 
-//--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, whitePawnLegalMovesRightCapture)
-{
-  std::list<Square> lm;
-  Board b;
-  GameLogic gl;
-
-  b.setPiece(PlayerPiece(BLACK, PAWN), Square(F, THREE));
-  gl.setBoard(b);
-  gl.getLegalMoves(Square(E, TWO), lm);
-
-  CHECK_EQUAL(3, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(F, THREE)) != lm.end());
+  CHECK_EQUAL(4, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(E, FOUR)));
+  CHECK(ls.contains(Square(F, THREE)));
+  CHECK(ls.contains(Square(D, THREE)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnLegalMoves)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, FOUR));
   Board b;
   GameLogic gl;
 
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FOUR));
   gl.setBoard(b);
 
-  gl.getLegalMoves(Square(E, FOUR), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(1, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, FIVE)) != lm.end());
+  CHECK_EQUAL(1, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, FIVE)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInTwoFront)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, FOUR));
   Board b;
   GameLogic gl;
 
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FOUR));
   gl.setBoard(b);
 
-  gl.getLegalMoves(Square(E, TWO), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(1, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
+  CHECK_EQUAL(1, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, FIVE)));
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInFront)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, TWO));
   Board b;
   GameLogic gl;
 
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, THREE));
   gl.setBoard(b);
 
-  gl.getLegalMoves(Square(E, TWO), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(0, lm.size());
+  CHECK_EQUAL(0, ls.getLegalSquaresCount());
 }
 
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, whitePawnStartLegalMoves)
 {
-  std::list<Square> lm;
+  LegalSquares ls(Square(E, TWO));
   GameLogic gl;
 
-  gl.getLegalMoves(Square(E, TWO), lm);
+  gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, lm.size());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, THREE)) != lm.end());
-  CHECK(std::find(lm.begin(), lm.end(), Square(E, FOUR)) != lm.end());
+  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(E, FOUR)));
 }
 
 //--------------------------------------------------------------------------------------------

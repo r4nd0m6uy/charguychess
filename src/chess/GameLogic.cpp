@@ -77,25 +77,27 @@ void GameLogic::newGame()
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves) const
+void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
 {
-  PieceType t = m_board.getPieceType(from);
+  PieceType t = m_board.getPieceType(legalSquares.getFrom());
+
+  legalSquares.clear();
 
   if(t == PAWN)
-    this->getPawnLegalMoves(from, legalMoves);
+    this->getPawnLegalSquare(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------
 bool GameLogic::isMoveLegal(const Move& m) const
 {
-  std::list<Square> lm;
+  LegalSquares ls(m.getFrom());
 
   if(m_board.getPieceColor(m.getFrom()) != m_turn)
     return false;
 
-  this->getLegalMoves(m.getFrom(), lm);
+  this->getLegalSquares(ls);
 
-  return std::find(lm.begin(), lm.end(), m.getTo()) != lm.end();
+  return ls.contains(m.getTo());
 }
 
 //--------------------------------------------------------------------------------------------
@@ -121,8 +123,9 @@ bool GameLogic::applyMove(const Move& m)
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMoves) const
+void GameLogic::getPawnLegalSquare(LegalSquares& legalSquares) const
 {
+  const Square& from = legalSquares.getFrom();
   PlayerPiece movedPawn = m_board.getPiece(from);
   int forwardDirection;
 
@@ -135,14 +138,14 @@ void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMo
   Square s(from.getFile(), static_cast<Rank>(from.getRank() + forwardDirection));
   if(m_board.isEmpty(s))
   {
-    legalMoves.push_back(s);
+    legalSquares.addLegalSquare(s);
 
     if( (movedPawn.getColor() == WHITE && from.getRank() == TWO) ||
         (movedPawn.getColor() == BLACK && from.getRank() == SEVEN) )
     {
       s = Square(from.getFile(), static_cast<Rank>(s.getRank() + forwardDirection));
       if(m_board.isEmpty(s))
-        legalMoves.push_back(s);
+        legalSquares.addLegalSquare(s);
     }
   }
 
@@ -153,7 +156,7 @@ void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMo
         static_cast<File>(from.getFile() + 1),
         static_cast<Rank>(from.getRank() + forwardDirection));
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalMoves.push_back(s);
+      legalSquares.addLegalSquare(s);
   }
 
   // Capture left
@@ -163,7 +166,7 @@ void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMo
         static_cast<File>(from.getFile() - 1),
         static_cast<Rank>(from.getRank() + forwardDirection));
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalMoves.push_back(s);
+      legalSquares.addLegalSquare(s);
   }
 }
 
