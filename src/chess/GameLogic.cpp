@@ -69,6 +69,14 @@ void GameLogic::registerBoardObserver(IBoardObserver& observer)
 }
 
 //--------------------------------------------------------------------------------------------
+void GameLogic::newGame()
+{
+  m_turn = WHITE;
+  m_board = Board();
+  raiseBoardChanged();
+}
+
+//--------------------------------------------------------------------------------------------
 void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves) const
 {
   PieceType t = m_board.getPieceType(from);
@@ -107,9 +115,7 @@ bool GameLogic::applyMove(const Move& m)
   else
     m_turn = BLACK;
 
-  // Raise observers event
-  for(auto& o : m_boardObservers)
-    o.get().boardChanged(m_turn, getBoard());
+  raiseBoardChanged();
 
   return true;
 }
@@ -161,4 +167,10 @@ void GameLogic::getPawnLegalMoves(const Square& from, std::list<Square>& legalMo
   }
 }
 
+//--------------------------------------------------------------------------------------------
+void GameLogic::raiseBoardChanged()
+{
+  for(auto& o : m_boardObservers)
+    o.get().boardChanged(m_turn, getBoard());
+}
 }       // namespace

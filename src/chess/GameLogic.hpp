@@ -42,6 +42,7 @@ public:
   const Board& getBoard() const;
   void setBoard(const Board& board);
   void registerBoardObserver(IBoardObserver& observer);
+  void newGame();
   void getLegalMoves(const Square& from, std::list<Square>& legalMoves) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);

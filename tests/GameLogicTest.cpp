@@ -42,6 +42,40 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, newGameRaiseObserverEvent)
+{
+  GameLogic gl;
+  IBoardObserverMock observer;
+
+  gl.registerBoardObserver(observer);
+
+  mock().expectOneCall("boardChanged").onObject(&observer).
+      withParameter("playerTurn", WHITE).
+      withParameter("newStatus", &gl.getBoard());
+
+  gl.newGame();
+
+  mock().checkExpectations();
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, newGame)
+{
+  std::list<Square> lm;
+  Square from(E, TWO);
+  Square to(E, FOUR);
+  Move m(from, to);
+  GameLogic gl;
+
+  gl.applyMove(m);
+  gl.newGame();
+
+  CHECK_EQUAL(WHITE, gl.getTurn());
+  CHECK(gl.getBoard().isEmpty(to));
+  CHECK(!gl.getBoard().isEmpty(from));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalMoveObserverCallback)
 {
   GameLogic gl;
