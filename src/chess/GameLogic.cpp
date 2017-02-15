@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <cmath>
+#include <algorithm>
 
 #include "GameLogic.hpp"
 
@@ -63,7 +64,7 @@ void GameLogic::setBoard(const Board& board)
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves)
+void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves) const
 {
   PlayerPiece movedPiece = m_board.getPiece(from);
 
@@ -116,66 +117,14 @@ void GameLogic::getLegalMoves(const Square& from, std::list<Square>& legalMoves)
 //--------------------------------------------------------------------------------------------
 bool GameLogic::isMoveLegal(const Move& m) const
 {
-  PlayerPiece movedPiece = m_board.getPiece(m.getFrom());
+  std::list<Square> lm;
 
-  // The source piece must be player's color
-  if(movedPiece.getColor() != m_turn)
+  if(m_board.getPieceColor(m.getFrom()) != m_turn)
     return false;
 
-  // Pawn move
-  if(movedPiece.getPiece() == PAWN)
-  {
-    unsigned int sideCount = std::abs(m.getFrom().getFile() - m.getTo().getFile());
-    int fwCnt = m.getTo().getRank() - m.getFrom().getRank();
-    int fwCntAbs = std::abs(fwCnt);
-    const PlayerPiece& capturedPiece = m_board.getPiece(m.getTo());
+  this->getLegalMoves(m.getFrom(), lm);
 
-    // Pawn moves forward
-    if(sideCount == 0)
-    {
-      // Can only move forward
-      if( (fwCnt < 0 && m_turn == WHITE) ||
-          (fwCnt > 0 && m_turn == BLACK) )
-        return false;
-
-      // Can move two foward only from start position
-      if(fwCntAbs == 2)
-      {
-        if( (m_turn == WHITE && m.getFrom().getRank() != TWO) ||
-            (m_turn == BLACK && m.getFrom().getRank() != SEVEN) )
-          return false;
-      }
-
-      // Can move only one forward the rest of the time
-      else if(fwCntAbs != 1)
-        return false;
-
-      // Can move forward only if square is free
-      if(capturedPiece.getColor() != NO_COLOR)
-        return false;
-    }
-    else
-    {
-      // Only one rank forward
-      if(fwCntAbs != 1)
-        return false;
-
-      // Only one file beside
-      if(sideCount != 1)
-        return false;
-
-      // Only if there is a piece of the opposite color
-      if(capturedPiece.getColor() == NO_COLOR || capturedPiece.getColor() == m_turn)
-        return false;
-    }
-  }
-  else
-  {
-    // Not implemented
-    return false;
-  }
-
-  return true;
+  return std::find(lm.begin(), lm.end(), m.getTo()) != lm.end();
 }
 
 //--------------------------------------------------------------------------------------------
