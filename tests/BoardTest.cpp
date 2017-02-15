@@ -36,6 +36,14 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, isEmptySquare)
+{
+  Board b;
+
+  CHECK(b.isEmpty(Square(A, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, setPiece)
 {
   Board b;

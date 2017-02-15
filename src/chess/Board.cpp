@@ -78,4 +78,10 @@ void Board::setPiece(const PlayerPiece& p, const Square& s)
   m_boardPieces[s.getRank()][s.getFile()] = p;
 }
 
+//--------------------------------------------------------------------------------------------
+bool Board::isEmpty(const Square& s)
+{
+  return getPiece(s).getColor() == NO_COLOR;
+}
+
 }       // namespace
