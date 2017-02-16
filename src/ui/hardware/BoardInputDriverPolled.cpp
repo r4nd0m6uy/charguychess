@@ -16,25 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ChessHardware.hpp"
+#include "BoardInputDriverPolled.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver):
+BoardInputDriverPolled::BoardInputDriverPolled(
+    std::unique_ptr<IBoardInputDriver> inputDriver):
   m_inputDriver(std::move(inputDriver))
 {
 }
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::~ChessHardware()
+BoardInputDriverPolled::~BoardInputDriverPolled()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int ChessHardware::init()
+int BoardInputDriverPolled::init()
 {
+  // TODO: Create a polling timer
+
   return m_inputDriver->init();
+}
+
+//--------------------------------------------------------------------------------------------
+int BoardInputDriverPolled::read(BoardValue& bv)
+{
+  return m_inputDriver->read(bv);
+}
+
+//--------------------------------------------------------------------------------------------
+void BoardInputDriverPolled::registerObserver(IBoardInputObserver& o)
+{
+  // TODO
 }
 
 }       // namespace

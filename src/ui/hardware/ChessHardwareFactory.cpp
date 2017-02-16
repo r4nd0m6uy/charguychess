@@ -16,26 +16,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
-#define _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
+#ifndef _CGC_CHESS_HARDWARE_FACTORY_HPP_
+#define _CGC_CHESS_HARDWARE_FACTORY_HPP_
 
-#include "IBoardInputDriver.hpp"
-#include "IBoardInputObserver.hpp"
+#include "ChessHardware.hpp"
 
 namespace cgc {
 
 /**
- * \brief An extension of the IBoardInputDriver which can raise events on change
+ * \brief Build different chess hardware types
  */
-class IBoardInputDriverObservable:
-    public IBoardInputDriver
+class ChessHardwareFactory
 {
 public:
-  IBoardInputDriverObservable();
-  virtual ~IBoardInputDriverObservable();
+  ChessHardwareFactory();
+  ~ChessHardwareFactory();
 
-  virtual void registerObserver(IBoardInputObserver& o) = 0;
+  std::unique_ptr<ChessHardware> buildCgc();
+  std::unique_ptr<ChessHardware> buildSimulated();
 };
 
 }       // namespace
-#endif  // _CGC_I_BOARD_INPUT_DRIVER_HPP_
+#endif  // _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_

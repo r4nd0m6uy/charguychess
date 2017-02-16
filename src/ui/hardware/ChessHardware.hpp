@@ -19,7 +19,9 @@
 #ifndef _CGC_CHESS_HARDWARE_HPP_
 #define _CGC_CHESS_HARDWARE_HPP_
 
-#include "IBoardInputObserver.hpp"
+#include <memory>
+
+#include "IBoardInputDriverObservable.hpp"
 
 namespace cgc {
 
@@ -29,10 +31,13 @@ namespace cgc {
 class ChessHardware
 {
 public:
-  ChessHardware();
+  ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver);
   virtual ~ChessHardware();
 
   int init();
+
+private:
+  std::unique_ptr<IBoardInputDriverObservable> m_inputDriver;
 };
 
 }       // namespace

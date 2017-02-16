@@ -16,25 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ChessHardware.hpp"
+#include "BoardInputDriverPipe.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver):
-  m_inputDriver(std::move(inputDriver))
+BoardInputDriverPipe::BoardInputDriverPipe()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::~ChessHardware()
+BoardInputDriverPipe::~BoardInputDriverPipe()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int ChessHardware::init()
+int BoardInputDriverPipe::init()
 {
-  return m_inputDriver->init();
+  // TODO
+  return -1;
+}
+
+//--------------------------------------------------------------------------------------------
+int BoardInputDriverPipe::read(BoardValue& bv)
+{
+  // TODO
+  return -1;
+}
+
+//--------------------------------------------------------------------------------------------
+void BoardInputDriverPipe::registerObserver(IBoardInputObserver& o)
+{
+  // TODO
 }
 
 }       // namespace

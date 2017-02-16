@@ -33,7 +33,7 @@ public:
   virtual ~IBoardInputDriver();
 
   virtual int init() = 0;
-  virtual BoardValue read() = 0;
+  virtual int read(BoardValue& bv) = 0;
 };
 
 }       // namespace

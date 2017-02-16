@@ -16,26 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
-#define _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
+#ifndef _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_
+#define _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_
 
 #include "IBoardInputDriver.hpp"
-#include "IBoardInputObserver.hpp"
 
 namespace cgc {
 
 /**
- * \brief An extension of the IBoardInputDriver which can raise events on change
+ * \brief An interface to work with chess hardware
  */
-class IBoardInputDriverObservable:
+class BoardInputDriverCharGuy:
     public IBoardInputDriver
 {
 public:
-  IBoardInputDriverObservable();
-  virtual ~IBoardInputDriverObservable();
+  BoardInputDriverCharGuy();
+  virtual ~BoardInputDriverCharGuy();
 
-  virtual void registerObserver(IBoardInputObserver& o) = 0;
+  // IBoardInputDriver
+  virtual int init() override;
+  virtual int read(BoardValue& bv) override;
 };
 
 }       // namespace
-#endif  // _CGC_I_BOARD_INPUT_DRIVER_HPP_
+#endif  // _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_

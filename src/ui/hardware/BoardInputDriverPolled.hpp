@@ -16,26 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
-#define _CGC_I_BOARD_INPUT_DRIVER_OBSERVABLE_HPP_
+#ifndef _CGC_I_BOARD_INPUT_DRIVER_POLLED_HPP_
+#define _CGC_I_BOARD_INPUT_DRIVER_POLLED_HPP_
 
-#include "IBoardInputDriver.hpp"
-#include "IBoardInputObserver.hpp"
+#include <memory>
+
+#include "IBoardInputDriverObservable.hpp"
 
 namespace cgc {
 
 /**
- * \brief An extension of the IBoardInputDriver which can raise events on change
+ * \brief Poll an BoardInputeDriver and raise event when changed
  */
-class IBoardInputDriverObservable:
-    public IBoardInputDriver
+class BoardInputDriverPolled:
+    public IBoardInputDriverObservable
 {
 public:
-  IBoardInputDriverObservable();
-  virtual ~IBoardInputDriverObservable();
+  BoardInputDriverPolled(std::unique_ptr<IBoardInputDriver> inputDriver);
+  virtual ~BoardInputDriverPolled();
 
-  virtual void registerObserver(IBoardInputObserver& o) = 0;
+  // IBoardInputDriver
+  virtual int init() override;
+  virtual int read(BoardValue& bv) override;
+
+  // IBoardInputDriverObservable
+  virtual void registerObserver(IBoardInputObserver& o) override;
+
+private:
+  std::unique_ptr<IBoardInputDriver> m_inputDriver;
 };
 
 }       // namespace
-#endif  // _CGC_I_BOARD_INPUT_DRIVER_HPP_
+#endif  // _CGC_I_BOARD_INPUT_DRIVER_POLLED_HPP_

@@ -16,25 +16,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "ChessHardware.hpp"
+#include "../../logging/LogMacros.hpp"
+#include "BoardInputDriverCharGuy.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver):
-  m_inputDriver(std::move(inputDriver))
+BoardInputDriverCharGuy::BoardInputDriverCharGuy()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::~ChessHardware()
+BoardInputDriverCharGuy::~BoardInputDriverCharGuy()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int ChessHardware::init()
+int BoardInputDriverCharGuy::init()
 {
-  return m_inputDriver->init();
+  // TODO
+
+  LOGER() << "Board input driver not implemented yet!";
+  return -1;
+}
+
+//--------------------------------------------------------------------------------------------
+int BoardInputDriverCharGuy::read(BoardValue& bv)
+{
+  // TODO
+
+  LOGER() << "Board input driver not implemented yet!";
+  return -1;
 }
 
 }       // namespace

@@ -32,7 +32,7 @@ public:
   IBoardInputObserver();
   virtual ~IBoardInputObserver();
 
-  virtual void boardChanged(BoardValue bb);
+  virtual void boardChanged(BoardValue bv) = 0;
 };
 
 }       // namespace
