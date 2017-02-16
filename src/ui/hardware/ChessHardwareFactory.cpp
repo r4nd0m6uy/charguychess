@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "BoardInputDriverPipe.hpp"
-#include "BoardInputDriverCharGuy.hpp"
+#include "simulation/BoardInputDriverPipe.hpp"
+#include "cgc/BoardInputDriverCharGuy.hpp"
 #include "BoardInputDriverPolled.hpp"
 #include "ChessHardwareFactory.hpp"
 

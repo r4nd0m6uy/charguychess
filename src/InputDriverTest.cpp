@@ -60,5 +60,6 @@ int main(int argc, char* argv[])
 
     usleep(interval * 1000);
   }
+
   return 0;
 }

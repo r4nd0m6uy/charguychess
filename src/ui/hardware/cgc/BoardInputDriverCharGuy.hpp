@@ -19,7 +19,7 @@
 #ifndef _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_
 #define _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_
 
-#include "IBoardInputDriver.hpp"
+#include "../IBoardInputDriver.hpp"
 
 namespace cgc {
 

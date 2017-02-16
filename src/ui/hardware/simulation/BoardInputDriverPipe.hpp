@@ -19,7 +19,7 @@
 #ifndef _CGC_I_BOARD_INPUT_DRIVER_PIPE_HPP_
 #define _CGC_I_BOARD_INPUT_DRIVER_PIPE_HPP_
 
-#include "IBoardInputDriverObservable.hpp"
+#include "../IBoardInputDriverObservable.hpp"
 
 namespace cgc {
 

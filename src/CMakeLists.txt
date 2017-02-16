@@ -23,9 +23,9 @@ set(APP_SOURCES
   ui/hardware/IBoardInputDriverObservable.cpp
   ui/hardware/IBoardInputObserver.cpp
   ui/hardware/BoardInputDriverPolled.cpp
-  ui/hardware/BoardInputDriverCharGuy.cpp
-  ui/hardware/BoardInputDriverPipe.cpp
   ui/hardware/ChessHardwareFactory.cpp
+  ui/hardware/cgc/BoardInputDriverCharGuy.cpp
+  ui/hardware/simulation/BoardInputDriverPipe.cpp
   ui/hardware/BitBoard.cpp
   event-loop/IHandledIo.cpp
   event-loop/HandledIoLibevent.cpp

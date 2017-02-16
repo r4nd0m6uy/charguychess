@@ -16,51 +16,43 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "../../logging/LogMacros.hpp"
-#include "BoardInputDriverCharGuy.hpp"
+#include "../../../logging/LogMacros.hpp"
+#include "BoardInputDriverPipe.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-BoardInputDriverCharGuy::BoardInputDriverCharGuy()
+BoardInputDriverPipe::BoardInputDriverPipe()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-BoardInputDriverCharGuy::~BoardInputDriverCharGuy()
+BoardInputDriverPipe::~BoardInputDriverPipe()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int BoardInputDriverCharGuy::init()
+int BoardInputDriverPipe::init()
 {
   // TODO
-//  LOGER() << "Charguy input driver not implemented yet!";
-//  return -1;
 
-  // XXX: Testing
-  return 0;
+  LOGER() << "Simulated hardware is not implemented yet!";
+  return -1;
 }
 
 //--------------------------------------------------------------------------------------------
-int BoardInputDriverCharGuy::read(BoardValue& bv)
+int BoardInputDriverPipe::read(BoardValue& bv)
 {
   // TODO
-//  LOGER() << "Charguy input driver not implemented yet!";
-//  return -1;
 
-  // XXX: Testing
-  static BoardValue lastValue = 0;
-  if(lastValue == 0)
-    lastValue = 0xFFFF00000000FFFF;
-  else if(lastValue == 0xFFFF00000000FFFF)
-    lastValue = 0xFFF700000000FFFF;
-  else
-    lastValue = 0xFFF700080000FFFF;
+  LOGER() << "Simulated hardware is not implemented yet!";
+  return -1;
+}
 
-  bv = lastValue;
-
-  return 0;
+//--------------------------------------------------------------------------------------------
+void BoardInputDriverPipe::registerObserver(IBoardInputObserver& o)
+{
+  // TODO
 }
 
 }       // namespace
