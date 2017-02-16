@@ -42,8 +42,8 @@ public:
   virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
 
   // IHandledIo
-  virtual IoHandle getHandle();
-  virtual void readReady();
+  virtual IoHandle getHandle() override;
+  virtual void readReady() override;
 
 private:
   GameLogic& m_gl;
