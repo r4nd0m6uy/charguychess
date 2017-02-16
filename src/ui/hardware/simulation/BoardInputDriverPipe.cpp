@@ -24,7 +24,10 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
+#include <iomanip>
+
 #include "../../../logging/LogMacros.hpp"
+#include "../BitBoard.hpp"
 #include "BoardInputDriverPipe.hpp"
 
 namespace cgc {
@@ -116,7 +119,13 @@ void BoardInputDriverPipe::readReady()
     return;
   }
 
-  LOGDB() << "Read from pipe: " << std::string(buffer, readSize);
+  BitBoard bb(std::string(buffer, readSize));
+  m_bv = bb.getBoardValue();
+
+  LOGDB() << "New board value: 0x" <<
+      std::setfill('0') << std::setw(16) << std::hex << m_bv;
+
+  // TODO: Raise event
 }
 
 }       // namespace
