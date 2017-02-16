@@ -18,6 +18,10 @@ set(APP_SOURCES
   logging/LoggerInstance.cpp
   logging/LogStream.cpp
   ui/console/ConsoleUI.cpp
+  ui/hardware/ChessHardware.cpp
+  ui/hardware/IBoardInputDriver.cpp
+  ui/hardware/IBoardInputDriverObservable.cpp
+  ui/hardware/IBoardInputObserver.cpp
   event-loop/IHandledIo.cpp
   event-loop/HandledIoLibevent.cpp
   event-loop/EventLoop.cpp
