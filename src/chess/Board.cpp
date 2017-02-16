@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../logging/LogMacros.hpp"
 #include "Board.hpp"
 
 namespace cgc {
@@ -69,12 +70,25 @@ Board::~Board()
 //--------------------------------------------------------------------------------------------
 const PlayerPiece& Board::getPiece(const Square& s) const
 {
+  // Precondition
+  if(!s.isValid())
+  {
+    LOGWA() << "Getting a piece on an invalid square!";
+    return m_invalidPiece;
+  }
+
   return m_boardPieces[s.getRank()][s.getFile()];
 }
 
 //--------------------------------------------------------------------------------------------
 void Board::setPiece(const PlayerPiece& p, const Square& s)
 {
+  if(!s.isValid())
+  {
+    LOGWA() << "Setting a piece on an invalid square!";
+    return;
+  }
+
   m_boardPieces[s.getRank()][s.getFile()] = p;
 }
 

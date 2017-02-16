@@ -36,6 +36,27 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, setInivalidSquare)
+{
+  Square s;
+  PlayerPiece pp(WHITE, BISHOP);
+  Board b;
+
+  b.setPiece(pp, s);
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BoardTest, getInivalidSquare)
+{
+  Square s;
+  Board b;
+  const PlayerPiece& pp =  b.getPiece(s);
+
+  CHECK_EQUAL(NO_COLOR, pp.getColor());
+  CHECK_EQUAL(NO_PIECE, pp.getType());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, isEmptySquare)
 {
   Board b;

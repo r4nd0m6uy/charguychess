@@ -45,6 +45,7 @@ public:
 private:
   typedef std::vector< std::vector<PlayerPiece> > BoardPieces;
   BoardPieces m_boardPieces;
+  PlayerPiece m_invalidPiece;
 };
 
 }       // namespace
