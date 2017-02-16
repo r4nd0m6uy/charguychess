@@ -36,7 +36,7 @@ int BoardInputDriverCharGuy::init()
 {
   // TODO
 
-  LOGER() << "Board input driver not implemented yet!";
+  LOGER() << "Charguy input driver not implemented yet!";
   return -1;
 }
 
@@ -45,7 +45,7 @@ int BoardInputDriverCharGuy::read(BoardValue& bv)
 {
   // TODO
 
-  LOGER() << "Board input driver not implemented yet!";
+  LOGER() << "Charguy input driver not implemented yet!";
   return -1;
 }
 

@@ -16,25 +16,46 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_CHESS_HARDWARE_FACTORY_HPP_
-#define _CGC_CHESS_HARDWARE_FACTORY_HPP_
-
-#include "ChessHardware.hpp"
+#include "BoardInputDriverPipe.hpp"
+#include "BoardInputDriverCharGuy.hpp"
+#include "BoardInputDriverPolled.hpp"
+#include "ChessHardwareFactory.hpp"
 
 namespace cgc {
 
-/**
- * \brief Build different chess hardware types
- */
-class ChessHardwareFactory
+//--------------------------------------------------------------------------------------------
+ChessHardwareFactory::ChessHardwareFactory()
 {
-public:
-  ChessHardwareFactory();
-  ~ChessHardwareFactory();
+}
 
-  std::unique_ptr<ChessHardware> buildCgc();
-  std::unique_ptr<ChessHardware> buildSimulated();
-};
+//--------------------------------------------------------------------------------------------
+ChessHardwareFactory::~ChessHardwareFactory()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgc()
+{
+  return std::unique_ptr<ChessHardware>(
+      new ChessHardware(
+          std::unique_ptr<IBoardInputDriverObservable>(
+              new BoardInputDriverPolled(
+                  std::unique_ptr<IBoardInputDriver>(new BoardInputDriverCharGuy())
+              )
+           )
+      )
+  );
+}
+
+//--------------------------------------------------------------------------------------------
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulated()
+{
+  return std::unique_ptr<ChessHardware>(
+      new ChessHardware(
+          std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe())
+      )
+  );
+}
 
 }       // namespace
-#endif  // _CGC_I_BOARD_INPUT_DRIVER_CHAR_GUY_HPP_
+

@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../../logging/LogMacros.hpp"
 #include "BoardInputDriverPipe.hpp"
 
 namespace cgc {
@@ -34,6 +35,8 @@ BoardInputDriverPipe::~BoardInputDriverPipe()
 int BoardInputDriverPipe::init()
 {
   // TODO
+
+  LOGER() << "Simulated hardware is not implemented yet!";
   return -1;
 }
 
@@ -41,6 +44,8 @@ int BoardInputDriverPipe::init()
 int BoardInputDriverPipe::read(BoardValue& bv)
 {
   // TODO
+
+  LOGER() << "Simulated hardware is not implemented yet!";
   return -1;
 }
 

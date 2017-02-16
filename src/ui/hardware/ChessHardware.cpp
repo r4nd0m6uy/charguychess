@@ -16,6 +16,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../../logging/LogMacros.hpp"
 #include "ChessHardware.hpp"
 
 namespace cgc {
@@ -34,6 +35,8 @@ ChessHardware::~ChessHardware()
 //--------------------------------------------------------------------------------------------
 int ChessHardware::init()
 {
+  LOGDB() << "Initializing chess hardware ...";
+
   return m_inputDriver->init();
 }
 
