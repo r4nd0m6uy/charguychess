@@ -34,25 +34,15 @@ ILogSink::~ILogSink()
 std::ostream& operator<<(std::ostream& os, const ILogSink::LogLevel& loglevel)
 {
     if(loglevel == ILogSink::DEBUG)
-    {
-        os << "DEBUG";
-    }
+        os << "[DEBUG]   ";
     else if(loglevel == ILogSink::INFO)
-    {
-        os << "INFO";
-    }
+        os << "[INFO]    ";
     else if(loglevel == ILogSink::WARNING)
-    {
-        os << "WARNING";
-    }
+        os << "[WARNING] ";
     else if(loglevel == ILogSink::ERROR)
-    {
-        os << "ERROR";
-    }
+        os << "[ERROR]   ";
     else
-    {
-        os << "UNKOWN_LOG_LEVEL";
-    }
+        os << "[???]     ";
 
     return os;
 }

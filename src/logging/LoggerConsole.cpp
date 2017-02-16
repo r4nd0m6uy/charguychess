@@ -33,7 +33,7 @@ LoggerConsole::~LoggerConsole()
 //--------------------------------------------------------------------------------------------
 void LoggerConsole::sinkLogLine(LogLevel level, const std::string& line)
 {
-    std::cout << "[" << level << "]" << " " << line << std::endl;
+    std::cout << level << line << std::endl;
 }
 
 }       // namespace
