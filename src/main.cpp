@@ -25,13 +25,8 @@
 #include "ui/hardware/ChessHardwareFactory.hpp"
 #include "logging/LogMacros.hpp"
 
-enum ChessHardwareToUse{
-  NONE,
-  SIMULATION,
-  CGC
-};
-
-ChessHardwareToUse ch = NONE;
+/* local variables */
+std::string hardwareArg = "none";
 
 //--------------------------------------------------------------------------------------------
 void printHelp(char* appName)
@@ -71,19 +66,7 @@ int parseArgs(int argc, char* argv[], int& retCode)
       return -1;
       break;
     case 'H':
-      if(std::string(optarg) == "none")
-        ch = NONE;
-      else if(std::string(optarg) == "sim")
-        ch = SIMULATION;
-      else if(std::string(optarg) == "cgc")
-        ch = CGC;
-      else
-      {
-        std::cout << "Unknown hardware " << optarg << std::endl;
-        printHelp(argv[0]);
-        retCode = -1;
-        return -1;
-      }
+      hardwareArg = optarg;
       break;
     case '?':
     default:
@@ -109,15 +92,21 @@ int main(int argc, char* argv[])
     return ret;
 
   // Create the driver when requested
-  if(ch == NONE)
+  if(hardwareArg == "none")
     cUi.enableMoveInput(true);
   else
   {
     cgc::ChessHardwareFactory hwFactory;
-    if(ch == CGC)
+    if(hardwareArg == "cgc")
       hw = hwFactory.buildCgc();
-    else
+    else if(hardwareArg == "sim")
       hw = hwFactory.buildSimulated();
+    else
+    {
+      std::cout << "Unknown hardware " << hardwareArg << std::endl;
+      printHelp(argv[0]);
+      return -1;
+    }
 
     if(hw->init() != 0)
     {
