@@ -93,6 +93,10 @@ int main(int argc, char* argv[])
   if(parseArgs(argc, argv, ret) != 0)
     return ret;
 
+  // Initialize the event loop
+  if(el.init() != 0)
+    return -1;
+
   // Create the driver when requested
   if(hardwareArg == "none")
     cUi.enableMoveInput(true);
@@ -101,7 +105,7 @@ int main(int argc, char* argv[])
     if(hardwareArg == "cgc")
       hw = cgc::ChessHardwareFactory::buildCgcHardware();
     else if(hardwareArg == "sim")
-      hw = cgc::ChessHardwareFactory::buildSimulatedHardware();
+      hw = cgc::ChessHardwareFactory::buildSimulatedHardware(el);
     else
     {
       std::cout << "Unknown hardware " << hardwareArg << std::endl;
@@ -118,10 +122,6 @@ int main(int argc, char* argv[])
     else
       cUi.enableMoveInput(false);
   }
-
-  // Initialize the event loop
-  if(el.init() != 0)
-    return -1;
 
   // Intialize the console UI
   if(cUi.init() != 0)

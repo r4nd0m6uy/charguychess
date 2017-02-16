@@ -19,6 +19,7 @@
 #ifndef _CGC_I_BOARD_INPUT_DRIVER_PIPE_HPP_
 #define _CGC_I_BOARD_INPUT_DRIVER_PIPE_HPP_
 
+#include "../../../event-loop/EventLoop.hpp"
 #include "../IBoardInputDriverObservable.hpp"
 
 namespace cgc {
@@ -27,10 +28,11 @@ namespace cgc {
  * \brief Simulate a chess input hardware using a pipe in file system
  */
 class BoardInputDriverPipe:
-    public IBoardInputDriverObservable
+    public IBoardInputDriverObservable,
+    public IHandledIo
 {
 public:
-  BoardInputDriverPipe();
+  BoardInputDriverPipe(EventLoop& el);
   virtual ~BoardInputDriverPipe();
 
   // IBoardInputDriver
@@ -39,6 +41,15 @@ public:
 
   // IBoardInputDriverObservable
   virtual void registerObserver(IBoardInputObserver& o) override;
+
+  // IHandledIo
+  virtual IoHandle getHandle() override;
+  virtual void readReady() override;
+
+private:
+  EventLoop& m_el;
+  BoardValue m_bv;
+  int m_pipeFd;
 };
 
 }       // namespace

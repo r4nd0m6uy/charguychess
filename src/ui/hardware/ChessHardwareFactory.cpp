@@ -43,11 +43,11 @@ std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware()
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulatedHardware()
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulatedHardware(EventLoop& el)
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
-          std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe())
+          std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe(el))
       )
   );
 }

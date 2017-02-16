@@ -19,6 +19,7 @@
 #ifndef _CGC_CHESS_HARDWARE_FACTORY_HPP_
 #define _CGC_CHESS_HARDWARE_FACTORY_HPP_
 
+#include "../../event-loop/EventLoop.hpp"
 #include "ChessHardware.hpp"
 
 namespace cgc {
@@ -33,7 +34,7 @@ public:
   ~ChessHardwareFactory();
 
   static std::unique_ptr<ChessHardware> buildCgcHardware();
-  static std::unique_ptr<ChessHardware> buildSimulatedHardware();
+  static std::unique_ptr<ChessHardware> buildSimulatedHardware(EventLoop& el);
   static std::unique_ptr<IBoardInputDriver> buildCgcBoardInputDriver();
 };
 

@@ -16,43 +16,107 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <fcntl.h>
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
 #include "../../../logging/LogMacros.hpp"
 #include "BoardInputDriverPipe.hpp"
 
 namespace cgc {
 
+const std::string PIPE_PATH = "/tmp/board_input";
+const int BUFFER_SIZE = 128;
+
 //--------------------------------------------------------------------------------------------
-BoardInputDriverPipe::BoardInputDriverPipe()
+BoardInputDriverPipe::BoardInputDriverPipe(EventLoop& el):
+    m_el(el),
+    m_bv(0),
+    m_pipeFd(-1)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 BoardInputDriverPipe::~BoardInputDriverPipe()
 {
+  if(m_pipeFd >= 0)
+  {
+    unlink(PIPE_PATH.c_str());
+    close(m_pipeFd);
+  }
 }
 
 //--------------------------------------------------------------------------------------------
 int BoardInputDriverPipe::init()
 {
-  // TODO
+  if(m_pipeFd >= 0)
+  {
+    LOGWA() << "Driver pipe already initialized";
+    return 0;
+  }
 
-  LOGER() << "Simulated hardware is not implemented yet!";
-  return -1;
+  if(mkfifo(PIPE_PATH.c_str(), S_IRUSR | S_IWUSR))
+  {
+    LOGER() << "Cannot create pipe: " << strerror(errno);
+    return -1;
+  }
+
+  m_pipeFd = open(PIPE_PATH.c_str(), O_RDWR);
+  if(m_pipeFd < 0)
+  {
+    LOGER() << "Cannot create pipe: " << strerror(errno);
+    unlink(PIPE_PATH.c_str());
+    return -1;
+  }
+
+  if(m_el.registerHandledIo(*this, EventLoop::READ | EventLoop::PERSIST))
+  {
+    LOGER() << "Cannot register pipe to the event loop";
+    unlink(PIPE_PATH.c_str());
+    close(m_pipeFd);
+    return -1;
+  }
+
+  return 0;
 }
 
 //--------------------------------------------------------------------------------------------
 int BoardInputDriverPipe::read(BoardValue& bv)
 {
-  // TODO
-
-  LOGER() << "Simulated hardware is not implemented yet!";
-  return -1;
+  bv = m_bv;
+  return 0;
 }
 
 //--------------------------------------------------------------------------------------------
 void BoardInputDriverPipe::registerObserver(IBoardInputObserver& o)
 {
   // TODO
+}
+
+//--------------------------------------------------------------------------------------------
+IoHandle BoardInputDriverPipe::getHandle()
+{
+  return m_pipeFd;
+}
+
+//--------------------------------------------------------------------------------------------
+void BoardInputDriverPipe::readReady()
+{
+  char buffer[BUFFER_SIZE];
+  ssize_t readSize;
+
+  readSize = ::read(m_pipeFd, buffer, BUFFER_SIZE);
+  if(readSize < 0)
+  {
+    LOGER() << "Cannot read pipe " << strerror(errno);
+    return;
+  }
+
+  LOGDB() << "Read from pipe: " << std::string(buffer, readSize);
 }
 
 }       // namespace
