@@ -19,8 +19,8 @@
 #ifndef _CGC_CONSOLE_UI_HPP_
 #define _CGC_CONSOLE_UI_HPP_
 
-#include "../event-loop/EventLoop.hpp"
-#include "../chess/GameLogic.hpp"
+#include "../../event-loop/EventLoop.hpp"
+#include "../../chess/GameLogic.hpp"
 
 namespace cgc {
 

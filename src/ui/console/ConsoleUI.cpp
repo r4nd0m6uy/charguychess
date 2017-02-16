@@ -22,7 +22,7 @@
 
 #include <iostream>
 
-#include "../logging/LogMacros.hpp"
+#include "../../logging/LogMacros.hpp"
 #include "ConsoleUI.hpp"
 
 namespace cgc {

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "event-loop/EventLoop.hpp"
-#include "ui/ConsoleUI.hpp"
+#include "ui/console/ConsoleUI.hpp"
 #include "logging/LogMacros.hpp"
 
 //--------------------------------------------------------------------------------------------
