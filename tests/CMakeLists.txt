@@ -14,6 +14,7 @@ set(TEST_SOURCES
     utils/LoggerNull.cpp
     mocks/IBoardObserverMock.cpp
     PlayerPieceTest.cpp
+    BitBoardTest.cpp
     BoardTest.cpp
     SquareTest.cpp
     MoveTest.cpp

@@ -16,25 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_BOARD_VALUE_HPP_
-#define _CGC_BOARD_VALUE_HPP_
+#ifndef _CGC_BIT_BOARD_HPP_
+#define _CGC_BIT_BOARD_HPP_
 
-#include <cstdint>
+#include <string>
+
+#include "BoardValue.hpp"
 
 namespace cgc {
 
 /**
- * Status of the board in term of bitset presented as follow:
- * MSB   ...   LSB
- * A1|B1|...|G8|H8
- *
- * Where the start position is:
- * 0xFFFF00000000FFFF
- * And after e2e4:
- * 0xFFFF00000800F7FF
- *
+ * \brief A class to work with the chess hardware bitset
  */
-typedef uint64_t BoardValue;
+class BitBoard
+{
+public:
+  BitBoard();
+  virtual ~BitBoard();
+
+  void setBoardValue(BoardValue bv);
+  BoardValue getBoardValue() const;
+  bool isBitSet(unsigned int pos) const;
+  std::string toBoardString() const;
+
+private:
+  BoardValue m_bVal;
+};
 
 }       // namespace
-#endif  // _CGC_BOARD_VALUE_HPP_
+#endif  // _CGC_BIT_BOARD_HPP_
