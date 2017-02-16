@@ -16,25 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include "HandledIoLibevent.hpp"
+#ifndef _CGC_HANDLED_BY_LIBEVENT_HPP_
+#define _CGC_HANDLED_BY_LIBEVENT_HPP_
+
+#include <event2/event.h>
+
+#include "IHandledSignal.hpp"
 
 namespace cgc {
 
-//--------------------------------------------------------------------------------------------
-HandledIoLibevent::HandledIoLibevent(IHandledIo& handledIo):
-    m_handledIo(handledIo)
+/**
+ * \brief Wraps a libevent event
+ */
+class HandledByLibevent
 {
-}
+public:
+  HandledByLibevent();
+  virtual ~HandledByLibevent();
 
-//--------------------------------------------------------------------------------------------
-HandledIoLibevent::~HandledIoLibevent()
-{
-}
+  struct event* getEvent();
+  void setEvent(struct event* ev);
 
-//--------------------------------------------------------------------------------------------
-IHandledIo& HandledIoLibevent::getHandledIo()
-{
-  return m_handledIo;
-}
+private:
+  struct event* m_event;
+};
 
 }       // namespace
+#endif  // _CGC_HANDLED_BY_LIBEVENT_HPP_

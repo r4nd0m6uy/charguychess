@@ -22,28 +22,13 @@ namespace cgc {
 
 //--------------------------------------------------------------------------------------------
 HandledSignalLibevent::HandledSignalLibevent(IHandledSignal& handledSignal):
-        m_handledSignal(handledSignal),
-        m_event(nullptr)
+        m_handledSignal(handledSignal)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 HandledSignalLibevent::~HandledSignalLibevent()
 {
-  if(m_event != nullptr)
-    event_free(m_event);
-}
-
-//--------------------------------------------------------------------------------------------
-struct event* HandledSignalLibevent::getEvent()
-{
-  return m_event;
-}
-
-//--------------------------------------------------------------------------------------------
-void HandledSignalLibevent::setEvent(struct event* ev)
-{
-  m_event = ev;
 }
 
 //--------------------------------------------------------------------------------------------

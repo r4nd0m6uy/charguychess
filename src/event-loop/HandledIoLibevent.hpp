@@ -19,28 +19,25 @@
 #ifndef _CGC_HANDLED_IO_LIBEVENT_HPP_
 #define _CGC_HANDLED_IO_LIBEVENT_HPP_
 
-#include <event2/event.h>
-
 #include "IHandledIo.hpp"
+#include "HandledByLibevent.hpp"
 
 namespace cgc {
 
 /**
  * \brief Wraps an IHandledIo in libevent
  */
-class HandledIoLibevent
+class HandledIoLibevent:
+    public HandledByLibevent
 {
 public:
   HandledIoLibevent(IHandledIo& handledIo);
   virtual ~HandledIoLibevent();
 
-  struct event* getEvent();
-  void setEvent(struct event* ev);
   IHandledIo& getHandledIo();
 
 private:
   IHandledIo& m_handledIo;
-  struct event* m_event;
 };
 
 }       // namespace

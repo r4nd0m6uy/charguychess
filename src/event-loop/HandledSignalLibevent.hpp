@@ -19,8 +19,7 @@
 #ifndef _CGC_HANDLED_SIGNAL_LIBEVENT_HPP_
 #define _CGC_HANDLED_SIGNAL_LIBEVENT_HPP_
 
-#include <event2/event.h>
-
+#include "HandledByLibevent.hpp"
 #include "IHandledSignal.hpp"
 
 namespace cgc {
@@ -28,19 +27,17 @@ namespace cgc {
 /**
  * \brief Wraps an IHandledIo in libevent
  */
-class HandledSignalLibevent
+class HandledSignalLibevent:
+    public HandledByLibevent
 {
 public:
   HandledSignalLibevent(IHandledSignal& handledSignal);
   virtual ~HandledSignalLibevent();
 
-  struct event* getEvent();
-  void setEvent(struct event* ev);
   IHandledSignal& getHandledSignal();
 
 private:
   IHandledSignal& m_handledSignal;
-  struct event* m_event;
 };
 
 }       // namespace

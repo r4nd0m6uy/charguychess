@@ -29,6 +29,7 @@ set(APP_SOURCES
   ui/hardware/BitBoard.cpp
   event-loop/IHandledIo.cpp
   event-loop/IHandledSignal.cpp
+  event-loop/HandledByLibevent.cpp
   event-loop/HandledIoLibevent.cpp
   event-loop/HandledSignalLibevent.cpp
   event-loop/EventLoop.cpp
