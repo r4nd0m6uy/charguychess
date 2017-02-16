@@ -16,47 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_EVENT_LOOP_HPP_
-#define _CGC_EVENT_LOOP_HPP_
+#ifndef _CGC_HANDLED_QUIT_SIGNAL_HPP_
+#define _CGC_HANDLED_QUIT_SIGNAL_HPP_
 
-#include <list>
-#include <map>
-
-#include <event2/event.h>
-
-#include "IHandledIo.hpp"
-#include "HandledIoLibevent.hpp"
-#include "IHandledSignal.hpp"
-#include "HandledSignalLibevent.hpp"
+#include "EventLoop.hpp"
 
 namespace cgc {
 
 /**
- * \brief An event loop
+ * \brief Gracefully quit the app on SIGTERM and SIGINT
  */
-class EventLoop
+class HandledQuitSignal:
+    public IHandledSignal
 {
 public:
-  enum EventType
-  {
-    READ    = 0x01,
-    PERSIST = 0x02
-  };
+  HandledQuitSignal(EventLoop& el);
+  virtual ~HandledQuitSignal();
 
-  EventLoop();
-  virtual ~EventLoop();
-
-  int init();
-  int registerHandledIo(IHandledIo& handler, int what);
-  int registerHandledSignal(IHandledSignal& handler, SignalHandle s);
-  int run();
-  int breakLoop();
+  // IHandledSignal
+  virtual void signalRaised(SignalHandle s) override;
 
 private:
-  struct event_base* m_eventBase;
-  std::list<HandledIoLibevent*> m_handledIos;
-  std::map<SignalHandle, HandledSignalLibevent*> m_handleSignals;
+  EventLoop& m_el;
+
 };
 
 }       // namespace
-#endif  // _CGC_EVENT_LOOP_HPP_
+#endif  // _CGC_HANDLED_QUIT_SIGNAL_HPP_

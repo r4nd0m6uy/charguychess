@@ -16,47 +16,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_EVENT_LOOP_HPP_
-#define _CGC_EVENT_LOOP_HPP_
-
-#include <list>
-#include <map>
-
-#include <event2/event.h>
-
-#include "IHandledIo.hpp"
-#include "HandledIoLibevent.hpp"
-#include "IHandledSignal.hpp"
-#include "HandledSignalLibevent.hpp"
+#ifndef _CGC_I_HANDLED_SIGNAL_HPP_
+#define _CGC_I_HANDLED_SIGNAL_HPP_
 
 namespace cgc {
 
+typedef int SignalHandle;
+
 /**
- * \brief An event loop
+ * \brief An interface to get signal events from an event loop
  */
-class EventLoop
+class IHandledSignal
 {
 public:
-  enum EventType
-  {
-    READ    = 0x01,
-    PERSIST = 0x02
-  };
+  IHandledSignal();
+  virtual ~IHandledSignal();
 
-  EventLoop();
-  virtual ~EventLoop();
-
-  int init();
-  int registerHandledIo(IHandledIo& handler, int what);
-  int registerHandledSignal(IHandledSignal& handler, SignalHandle s);
-  int run();
-  int breakLoop();
-
-private:
-  struct event_base* m_eventBase;
-  std::list<HandledIoLibevent*> m_handledIos;
-  std::map<SignalHandle, HandledSignalLibevent*> m_handleSignals;
+  virtual void signalRaised(SignalHandle s) = 0;
 };
 
 }       // namespace
-#endif  // _CGC_EVENT_LOOP_HPP_
+#endif  // _CGC_I_HANDLED_SIGNAL_HPP_

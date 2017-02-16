@@ -19,8 +19,9 @@
 #include <getopt.h>
 
 #include <iostream>
+#include <csignal>
 
-#include "event-loop/EventLoop.hpp"
+#include "event-loop/HandledQuitSignal.hpp"
 #include "ui/console/ConsoleUI.hpp"
 #include "ui/hardware/ChessHardwareFactory.hpp"
 #include "logging/LogMacros.hpp"
@@ -83,6 +84,7 @@ int parseArgs(int argc, char* argv[], int& retCode)
 int main(int argc, char* argv[])
 {
   cgc::EventLoop el;
+  cgc::HandledQuitSignal quitSignal(el);
   cgc::GameLogic gl;
   cgc::ConsoleUI cUi(gl, el);
   std::unique_ptr<cgc::ChessHardware> hw(nullptr);
@@ -124,6 +126,10 @@ int main(int argc, char* argv[])
   // Intialize the console UI
   if(cUi.init() != 0)
     return -1;
+
+  // Register to signals to quit gracefully
+  el.registerHandledSignal(quitSignal, SIGTERM);
+  el.registerHandledSignal(quitSignal, SIGINT);
 
   // Run the event loop
   LOGIN() << "Starting application ...";

@@ -28,8 +28,11 @@ set(APP_SOURCES
   ui/hardware/simulation/BoardInputDriverPipe.cpp
   ui/hardware/BitBoard.cpp
   event-loop/IHandledIo.cpp
+  event-loop/IHandledSignal.cpp
   event-loop/HandledIoLibevent.cpp
+  event-loop/HandledSignalLibevent.cpp
   event-loop/EventLoop.cpp
+  event-loop/HandledQuitSignal.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})
