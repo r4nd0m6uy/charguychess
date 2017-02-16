@@ -48,6 +48,17 @@ std::ostream& operator<<(std::ostream& os, const Rank& r)
 }
 
 //--------------------------------------------------------------------------------------------
+Rank& operator--(Rank& r)
+{
+  if(r == ONE)
+    r = INVALID_RANK;
+  else if(r != INVALID_RANK)
+    r = static_cast<Rank>(r - 1);
+
+  return r;
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const File& f)
 {
   if(f == A)
@@ -72,6 +83,17 @@ std::ostream& operator<<(std::ostream& os, const File& f)
     os << "unkown rank";
 
   return os;
+}
+
+//--------------------------------------------------------------------------------------------
+File& operator++(File& f)
+{
+  if(f == H)
+    f = INVALID_FILE;
+  else if(f != INVALID_FILE)
+    f = static_cast<File>(f + 1);
+
+  return f;
 }
 
 //--------------------------------------------------------------------------------------------

@@ -129,15 +129,12 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
   std::cout << WHITE << std::endl;
 
   // Show each rank
-  for(Rank r = EIGHT ; r >= ONE ; )
+  for(Rank r = EIGHT ; r != INVALID_RANK ; --r)
   {
     std::cout << r << "|";  // Label
 
-    for(File f = A ; f <= H ; )
-    {
+    for(File f = A ; f <= H ; ++f)
       std::cout << " " <<  m_gl.getBoard().getPiece(Square(f, r)) << " |";
-      f = static_cast<File>(f + 1);
-    }
 
     // Show black turn
     if(r == EIGHT)
@@ -151,7 +148,6 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
     }
 
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
-    r = static_cast<Rank>(r - 1);
   }
 
   // Label
@@ -219,11 +215,11 @@ void ConsoleUI::showLegalSquare(const std::string& square)
 
   m_gl.getLegalSquares(ls);
   std::cout << RANK_SEPARATOR << std::endl;
-  for(Rank r = EIGHT ; r >= ONE ; )
+  for(Rank r = EIGHT ; r != INVALID_RANK ; --r)
   {
     std::cout << r << "|";
 
-    for(File f = A ; f <= H ; )
+    for(File f = A ; f <= H ; ++f)
     {
       Square s(f, r);
 
@@ -234,17 +230,12 @@ void ConsoleUI::showLegalSquare(const std::string& square)
       else
         std::cout << " " << m_gl.getBoard().getPiece(s) << " ";
       std::cout << "|";
-
-      f = static_cast<File>(f + 1);
     }
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
-
-    r = static_cast<Rank>(r - 1);
   }
 
   std::cout << "   " << A << "   " << B << "   " << C << "   " << D << "   " << E << "   " <<
       F << "   " << G << "   " << H << std::endl;
-
 }
 
 }       // namespace
