@@ -36,6 +36,7 @@ public:
   virtual ~ConsoleUI();
 
   int init();
+  void enableMoveInput(bool isEnabled);
 
   // IBoardObserver
   virtual void boardChanged(Color playerTurn, const Board& newStatus) override;
@@ -47,6 +48,7 @@ public:
 private:
   GameLogic& m_gl;
   EventLoop& m_eventLoop;
+  bool m_isMoveEnabled;
 
   void showBoard(Color playerTurn, const Board& newStatus);
   void printPrompt();

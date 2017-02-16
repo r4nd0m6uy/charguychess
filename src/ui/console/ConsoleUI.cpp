@@ -34,7 +34,8 @@ static const std::string PROMPT = "charguychess> ";
 //--------------------------------------------------------------------------------------------
 ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop):
     m_gl(gl),
-    m_eventLoop(eventLoop)
+    m_eventLoop(eventLoop),
+    m_isMoveEnabled(true)
 {
 }
 
@@ -59,6 +60,17 @@ int ConsoleUI::init()
   LOGDB() << "Console UI ready!";
 
   return 0;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::enableMoveInput(bool isEnabled)
+{
+  if(isEnabled)
+    LOGIN() << "Move input from console UI enabled";
+  else
+    LOGIN() << "Move input from console UI disabled";
+
+  m_isMoveEnabled = isEnabled;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -189,8 +201,13 @@ void ConsoleUI::printHelp()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::readMove(const std::string& move)
 {
-  Move m(move);
+  if(!m_isMoveEnabled)
+  {
+    std::cout << "Move from console deactivated, please use connected hardware" << std::endl;
+    return;
+  }
 
+  Move m(move);
   if(!m.isValid())
   {
     std::cout << "Invalid move " << move.substr(0, move.length() - 1) << std::endl;

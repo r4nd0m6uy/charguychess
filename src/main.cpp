@@ -109,7 +109,9 @@ int main(int argc, char* argv[])
     return ret;
 
   // Create the driver when requested
-  if(ch != NONE)
+  if(ch == NONE)
+    cUi.enableMoveInput(true);
+  else
   {
     cgc::ChessHardwareFactory hwFactory;
     if(ch == CGC)
@@ -121,7 +123,10 @@ int main(int argc, char* argv[])
     {
       LOGWA() << "Cannot initialize chess hardware, it will not work!";
       hw = nullptr;
+      cUi.enableMoveInput(true);
     }
+    else
+      cUi.enableMoveInput(false);
   }
 
   // Initialize the event loop
