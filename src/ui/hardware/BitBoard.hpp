@@ -32,9 +32,11 @@ class BitBoard
 {
 public:
   BitBoard();
+  BitBoard(const std::string& value);
   virtual ~BitBoard();
 
   void setBoardValue(BoardValue bv);
+  void setBoardValue(const std::string& value);
   BoardValue getBoardValue() const;
   bool isBitSet(unsigned int pos) const;
   std::string toBoardString() const;

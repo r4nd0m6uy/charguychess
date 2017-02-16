@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <stdlib.h>
+
 #include "BitBoard.hpp"
 
 namespace cgc {
@@ -27,6 +29,12 @@ BitBoard::BitBoard():
 }
 
 //--------------------------------------------------------------------------------------------
+BitBoard::BitBoard(const std::string& value)
+{
+  setBoardValue(value);
+}
+
+//--------------------------------------------------------------------------------------------
 BitBoard::~BitBoard()
 {
 }
@@ -35,6 +43,15 @@ BitBoard::~BitBoard()
 void BitBoard::setBoardValue(BoardValue bv)
 {
   m_bVal = bv;
+}
+
+//--------------------------------------------------------------------------------------------
+void BitBoard::setBoardValue(const std::string& value)
+{
+  if(value[0] == '0' && value[1] == 'x')
+    m_bVal = ::strtoul(&value.c_str()[2], nullptr, 16);
+  else
+    m_bVal = ::strtoul(value.c_str(), nullptr, 10);
 }
 
 //--------------------------------------------------------------------------------------------

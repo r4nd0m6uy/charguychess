@@ -36,6 +36,30 @@ TEST_GROUP(BitBoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, buildFromHex)
+{
+  BitBoard bb("0xFF000000000000FF");
+
+  CHECK_EQUAL(0xFF000000000000FF, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, buildFromStringMaxUint64)
+{
+  BitBoard bb("18446744073709551615");
+
+  CHECK_EQUAL(0xFFFFFFFFFFFFFFFF, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, buildFromString)
+{
+  BitBoard bb("1234");
+
+  CHECK_EQUAL(1234, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BitBoardTest, toBoardStringE2E4)
 {
   BitBoard bb;
