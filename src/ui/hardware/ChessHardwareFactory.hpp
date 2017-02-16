@@ -29,11 +29,12 @@ namespace cgc {
 class ChessHardwareFactory
 {
 public:
-  ChessHardwareFactory();
+  ChessHardwareFactory() = delete;
   ~ChessHardwareFactory();
 
-  std::unique_ptr<ChessHardware> buildCgc();
-  std::unique_ptr<ChessHardware> buildSimulated();
+  static std::unique_ptr<ChessHardware> buildCgcHardware();
+  static std::unique_ptr<ChessHardware> buildSimulatedHardware();
+  static std::unique_ptr<IBoardInputDriver> buildCgcBoardInputDriver();
 };
 
 }       // namespace

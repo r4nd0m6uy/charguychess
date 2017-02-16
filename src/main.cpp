@@ -96,11 +96,10 @@ int main(int argc, char* argv[])
     cUi.enableMoveInput(true);
   else
   {
-    cgc::ChessHardwareFactory hwFactory;
     if(hardwareArg == "cgc")
-      hw = hwFactory.buildCgc();
+      hw = cgc::ChessHardwareFactory::buildCgcHardware();
     else if(hardwareArg == "sim")
-      hw = hwFactory.buildSimulated();
+      hw = cgc::ChessHardwareFactory::buildSimulatedHardware();
     else
     {
       std::cout << "Unknown hardware " << hardwareArg << std::endl;

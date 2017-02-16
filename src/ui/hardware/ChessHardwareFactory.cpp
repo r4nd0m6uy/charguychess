@@ -24,23 +24,18 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-ChessHardwareFactory::ChessHardwareFactory()
-{
-}
-
-//--------------------------------------------------------------------------------------------
 ChessHardwareFactory::~ChessHardwareFactory()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgc()
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware()
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
           std::unique_ptr<IBoardInputDriverObservable>(
               new BoardInputDriverPolled(
-                  std::unique_ptr<IBoardInputDriver>(new BoardInputDriverCharGuy())
+                  std::unique_ptr<IBoardInputDriver>(buildCgcBoardInputDriver())
               )
            )
       )
@@ -48,13 +43,19 @@ std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgc()
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulated()
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulatedHardware()
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
           std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe())
       )
   );
+}
+
+//--------------------------------------------------------------------------------------------
+std::unique_ptr<IBoardInputDriver> ChessHardwareFactory::buildCgcBoardInputDriver()
+{
+  return std::unique_ptr<IBoardInputDriver>(new BoardInputDriverCharGuy());
 }
 
 }       // namespace
