@@ -16,9 +16,50 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <getopt.h>
+
+#include <iostream>
+
 #include "event-loop/EventLoop.hpp"
 #include "ui/console/ConsoleUI.hpp"
 #include "logging/LogMacros.hpp"
+
+//--------------------------------------------------------------------------------------------
+void printHelp(char* appName)
+{
+  std::cout << appName << ":" << std::endl;
+  std::cout << "-h|--help    Show this help message" << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+int parseArgs(int argc, char* argv[], int& retCode)
+{
+  int c;
+
+  static struct option long_options[] =
+  {
+    {"help",    no_argument,    0,    'h'},
+    {0, 0, 0, 0}
+  };
+
+  while(1)
+  {
+    c = getopt_long(argc, argv, "h", long_options, 0);
+
+    if(c == -1)
+      break;
+
+    switch(c)
+    {
+    case 'h':
+      printHelp(argv[0]);
+      retCode = 0;
+      return -1;
+    }
+  }
+
+  return 0;
+}
 
 //--------------------------------------------------------------------------------------------
 int main(int argc, char* argv[])
@@ -27,6 +68,9 @@ int main(int argc, char* argv[])
   cgc::GameLogic gl;
   cgc::ConsoleUI cUi(gl, el);
   int ret;
+
+  if(parseArgs(argc, argv, ret) != 0)
+    return ret;
 
   LOGIN() << "Starting application ...";
 
