@@ -19,6 +19,8 @@
 #ifndef _CGC_CHESS_DEFINITION_HPP_
 #define _CGC_CHESS_DEFINITION_HPP_
 
+#include <ostream>
+
 namespace cgc {
 
 enum Rank{
@@ -33,6 +35,7 @@ enum Rank{
   LAST_RANK = EIGHT,
   INVALID_RANK
 };
+std::ostream& operator<<(std::ostream& os, const Rank& r);
 
 enum File{
   A = 0,
@@ -46,6 +49,7 @@ enum File{
   LAST_FILE = H,
   INVALID_FILE
 };
+std::ostream& operator<<(std::ostream& os, const File& f);
 
 enum Color
 {
@@ -53,6 +57,7 @@ enum Color
   BLACK,
   NO_COLOR
 };
+std::ostream& operator<<(std::ostream& os, const Color& c);
 
 enum PieceType
 {

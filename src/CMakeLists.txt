@@ -3,6 +3,7 @@ pkg_search_module(LIBEVENT REQUIRED libevent>=2.0)
 message(STATUS "Found libevent version ${LIBEVENT_VERSION}")
 
 set(APP_SOURCES
+  chess/ChessDefinitions.cpp
   chess/Board.cpp
   chess/PlayerPiece.cpp
   chess/Square.cpp

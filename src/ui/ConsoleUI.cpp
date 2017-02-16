@@ -126,12 +126,12 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
     std::cout << "   * ";
   else
     std::cout << "     ";
-  std::cout << "WHITE" << std::endl;
+  std::cout << WHITE << std::endl;
 
   // Show each rank
   for(Rank r = EIGHT ; r >= ONE ; )
   {
-    std::cout << r + 1 << "|";  // Label
+    std::cout << r << "|";  // Label
 
     for(File f = A ; f <= H ; )
     {
@@ -147,7 +147,7 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
       else
         std::cout << "     ";
 
-      std::cout << "black";
+      std::cout << BLACK;
     }
 
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
@@ -155,16 +155,17 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
   }
 
   // Label
-  std::cout <<"   A   B   C   D   E   F   G   H" << std::endl;
+  std::cout << "   " << A << "   " << B << "   " << C << "   " << D << "   " << E << "   " <<
+      F << "   " << G << "   " << H << std::endl;
 
   // Captured black pieces
-  std::cout << "WHITE: ";
+  std::cout << WHITE << ": ";
   for(auto& cp: m_gl.getCapturedBlackPieces())
     std::cout << cp;
   std::cout << std::endl;
 
   // Captured white pieces
-  std::cout << "black: ";
+  std::cout << BLACK << ": ";
   for(auto& cp : m_gl.getCapturedWhitePieces())
     std::cout << cp;
   std::cout << std::endl;
@@ -196,7 +197,7 @@ void ConsoleUI::readMove(const std::string& move)
 
   if(!m.isValid())
   {
-    std::cout << "Invalid move " << move << std::endl;
+    std::cout << "Invalid move " << move.substr(0, move.length() - 1) << std::endl;
     return;
   }
 
@@ -220,7 +221,7 @@ void ConsoleUI::showLegalSquare(const std::string& square)
   std::cout << RANK_SEPARATOR << std::endl;
   for(Rank r = EIGHT ; r >= ONE ; )
   {
-    std::cout << r + 1 << "|";
+    std::cout << r << "|";
 
     for(File f = A ; f <= H ; )
     {
@@ -241,7 +242,8 @@ void ConsoleUI::showLegalSquare(const std::string& square)
     r = static_cast<Rank>(r - 1);
   }
 
-  std::cout <<"   A   B   C   D   E   F   G   H" << std::endl;
+  std::cout << "   " << A << "   " << B << "   " << C << "   " << D << "   " << E << "   " <<
+      F << "   " << G << "   " << H << std::endl;
 
 }
 

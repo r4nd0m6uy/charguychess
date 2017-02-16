@@ -19,8 +19,6 @@
 #ifndef _CGC_PLAYER_PIECE_HPP_
 #define _CGC_PLAYER_PIECE_HPP_
 
-#include <ostream>
-
 #include "ChessDefinitions.hpp"
 
 namespace cgc {
