@@ -31,7 +31,7 @@ namespace cgc {
  * Where the start position is:
  * 0xFFFF00000000FFFF
  * And after e2e4:
- * 0xFFFF00000800F7FF
+ * 0xFFF700080000FFFF
  *
  */
 typedef uint64_t BoardValue;
