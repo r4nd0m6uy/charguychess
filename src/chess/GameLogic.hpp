@@ -47,8 +47,8 @@ public:
   void getLegalSquares(LegalSquares& legalSquares) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
-  const std::list<PlayerPiece>& getCapturedWhitePieces();
-  const std::list<PlayerPiece>& getCapturedBlackPieces();
+  const std::list<PlayerPiece>& getCapturedWhitePieces() const;
+  const std::list<PlayerPiece>& getCapturedBlackPieces() const;
 
 private:
   Board m_board;

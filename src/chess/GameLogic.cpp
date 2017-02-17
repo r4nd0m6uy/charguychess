@@ -136,13 +136,13 @@ bool GameLogic::applyMove(const Move& m)
 }
 
 //--------------------------------------------------------------------------------------------
-const std::list<PlayerPiece>& GameLogic::getCapturedWhitePieces()
+const std::list<PlayerPiece>& GameLogic::getCapturedWhitePieces() const
 {
   return m_capPiecesWhite;
 }
 
 //--------------------------------------------------------------------------------------------
-const std::list<PlayerPiece>& GameLogic::getCapturedBlackPieces()
+const std::list<PlayerPiece>& GameLogic::getCapturedBlackPieces() const
 {
   return m_capPiecesBlack;
 }
