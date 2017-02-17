@@ -30,6 +30,8 @@ int main(int argc, char* argv[])
   std::unique_ptr<cgc::IBoardInputDriver> inputDriver =
       cgc::ChessHardwareFactory::buildCgcBoardInputDriver();
 
+  (*cgc::LoggerInstance::getInstance()).setMaxLevel(cgc::ILogSink::DEBUG);
+
   if(inputDriver->init() != 0)
   {
     LOGER() << "Cannot intialize driver!";
