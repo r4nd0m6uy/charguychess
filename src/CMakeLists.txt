@@ -26,6 +26,7 @@ set(APP_SOURCES
   ui/hardware/IBoardInputObserver.cpp
   ui/hardware/BoardInputDriverPolled.cpp
   ui/hardware/ChessHardwareFactory.cpp
+  ui/hardware/DispatchedBoardInputEvent.cpp
   ui/hardware/cgc/BoardInputDriverCharGuy.cpp
   ui/hardware/simulation/BoardInputDriverPipe.cpp
   ui/hardware/BitBoard.cpp

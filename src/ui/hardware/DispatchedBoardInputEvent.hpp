@@ -16,24 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_BOARD_INPUT_OBSERVER_HPP_
-#define _CGC_I_BOARD_INPUT_OBSERVER_HPP_
+#ifndef _CGC_DISPATCHED_BOARD_INPUT_EVENT_HPP_
+#define _CGC_DISPATCHED_BOARD_INPUT_EVENT_HPP_
 
-#include "BoardValue.hpp"
+#include <list>
+#include <functional>
+
+#include "IBoardInputObserver.hpp"
 
 namespace cgc {
 
 /**
- * \brief An interface to work with chess hardware
+ * \brief Dispatch new board event
  */
-class IBoardInputObserver
+class DispatchedBoardInputEvent
 {
 public:
-  IBoardInputObserver();
-  virtual ~IBoardInputObserver();
+  DispatchedBoardInputEvent();
+  ~DispatchedBoardInputEvent();
 
-  virtual void boardValueChanged(BoardValue bv) = 0;
+  void registerObserver(IBoardInputObserver& o);
+  void raiseBoardChanged(BoardValue bv);
+
+private:
+  BoardValue m_lastValue;
+  std::list<std::reference_wrapper<IBoardInputObserver> > m_inputObservers;
 };
 
 }       // namespace
-#endif  // _CGC_I_BOARD_INPUT_OBSERVER_HPP_
+#endif  // _CGC_DISPATCHED_BOARD_INPUT_EVENT_HPP_

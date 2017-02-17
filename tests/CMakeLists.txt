@@ -12,6 +12,7 @@ endif()
 set(TEST_APP_NAME ${APP_NAME}_tests)
 set(TEST_SOURCES
     mocks/IBoardObserverMock.cpp
+    mocks/IBoardInputObserverMock.cpp
     PlayerPieceTest.cpp
     BitBoardTest.cpp
     BoardTest.cpp
@@ -19,6 +20,7 @@ set(TEST_SOURCES
     MoveTest.cpp
     LegalSquaresTest.cpp
     GameLogicTest.cpp
+    DispatchedBoardInputEventTest.cpp
     main.cpp
 )
 

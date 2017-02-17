@@ -16,24 +16,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_BOARD_INPUT_OBSERVER_HPP_
-#define _CGC_I_BOARD_INPUT_OBSERVER_HPP_
+#include <CppUTestExt/MockSupport.h>
 
-#include "BoardValue.hpp"
+#include "IBoardInputObserverMock.hpp"
 
 namespace cgc {
+namespace tests {
 
-/**
- * \brief An interface to work with chess hardware
- */
-class IBoardInputObserver
+//--------------------------------------------------------------------------------------------
+IBoardInputObserverMock::IBoardInputObserverMock()
 {
-public:
-  IBoardInputObserver();
-  virtual ~IBoardInputObserver();
+}
 
-  virtual void boardValueChanged(BoardValue bv) = 0;
-};
+//--------------------------------------------------------------------------------------------
+IBoardInputObserverMock::~IBoardInputObserverMock()
+{
+}
+//--------------------------------------------------------------------------------------------
+void IBoardInputObserverMock::boardValueChanged(BoardValue bv)
+{
+  mock().actualCall(__func__).onObject(this).
+      withParameter("bv", bv);
+}
 
-}       // namespace
-#endif  // _CGC_I_BOARD_INPUT_OBSERVER_HPP_
+}}      // namespace
