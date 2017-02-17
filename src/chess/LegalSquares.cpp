@@ -40,7 +40,7 @@ void LegalSquares::clear()
 }
 
 //--------------------------------------------------------------------------------------------
-void LegalSquares::addLegalSquare(const Square& square)
+void LegalSquares::add(const Square& square)
 {
   m_legalSquares.push_back(square);
 }
@@ -59,7 +59,7 @@ const Square& LegalSquares::getFrom() const
 }
 
 //--------------------------------------------------------------------------------------------
-int LegalSquares::getLegalSquaresCount() const
+int LegalSquares::count() const
 {
   return m_legalSquares.size();
 }

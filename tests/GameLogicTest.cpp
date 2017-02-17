@@ -23,7 +23,6 @@
 
 #include "mocks/IBoardObserverMock.hpp"
 #include "chess/GameLogic.hpp"
-#include "chess/Move.hpp"
 
 using namespace cgc;
 using namespace tests;
@@ -223,11 +222,11 @@ TEST(GameLogicTest, legalMovesCleared)
   GameLogic gl;
 
   gl.setTurn(BLACK);
-  ls.addLegalSquare(Square(G, TWO));
+  ls.add(Square(G, TWO));
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK_EQUAL(2, ls.count());
   CHECK(ls.contains(Square(E, SIX)));
   CHECK(ls.contains(Square(E, FIVE)));
 }
@@ -242,7 +241,7 @@ TEST(GameLogicTest, blackPawnStartLegalMoves)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK_EQUAL(2, ls.count());
   CHECK(ls.contains(Square(E, SIX)));
   CHECK(ls.contains(Square(E, FIVE)));
 }
@@ -255,7 +254,7 @@ TEST(GameLogicTest, noLegalMoveOnWrongPlayer)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(0, ls.getLegalSquaresCount());
+  CHECK_EQUAL(0, ls.count());
 }
 
 //--------------------------------------------------------------------------------------------
@@ -266,7 +265,7 @@ TEST(GameLogicTest, whitePawnLegalMovesAFile)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK_EQUAL(2, ls.count());
   CHECK(ls.contains(Square(A, THREE)));
   CHECK(ls.contains(Square(A, FOUR)));
 }
@@ -279,7 +278,7 @@ TEST(GameLogicTest, whitePawnLegalMovesHFile)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK_EQUAL(2, ls.count());
   CHECK(ls.contains(Square(H, THREE)));
   CHECK(ls.contains(Square(H, FOUR)));
 }
@@ -297,7 +296,7 @@ TEST(GameLogicTest, whitePawnLegalMovesRightLeftCapture)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(4, ls.getLegalSquaresCount());
+  CHECK_EQUAL(4, ls.count());
   CHECK(ls.contains(Square(E, THREE)));
   CHECK(ls.contains(Square(E, FOUR)));
   CHECK(ls.contains(Square(F, THREE)));
@@ -316,7 +315,7 @@ TEST(GameLogicTest, whitePawnLegalMoves)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(1, ls.getLegalSquaresCount());
+  CHECK_EQUAL(1, ls.count());
   CHECK(ls.contains(Square(E, FIVE)));
 }
 
@@ -332,7 +331,7 @@ TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInTwoFront)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(1, ls.getLegalSquaresCount());
+  CHECK_EQUAL(1, ls.count());
   CHECK(ls.contains(Square(E, FIVE)));
 }
 
@@ -348,7 +347,7 @@ TEST(GameLogicTest, whitePawnStartLegalMovesWithPieceInFront)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(0, ls.getLegalSquaresCount());
+  CHECK_EQUAL(0, ls.count());
 }
 
 //--------------------------------------------------------------------------------------------
@@ -359,7 +358,7 @@ TEST(GameLogicTest, whitePawnStartLegalMoves)
 
   gl.getLegalSquares(ls);
 
-  CHECK_EQUAL(2, ls.getLegalSquaresCount());
+  CHECK_EQUAL(2, ls.count());
   CHECK(ls.contains(Square(E, THREE)));
   CHECK(ls.contains(Square(E, FOUR)));
 }

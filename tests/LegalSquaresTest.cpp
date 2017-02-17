@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "../src/chess/LegalSquares.hpp"
+#include "chess/LegalSquares.hpp"
 
 #include <CppUTest/TestHarness.h>
 
@@ -42,7 +42,7 @@ TEST(LegalMovesTest, doesntContainAfterClear)
   LegalSquares lm(Square(A, ONE));
   Square ls(A, TWO);
 
-  lm.addLegalSquare(ls);
+  lm.add(ls);
   lm.clear();
   CHECK_FALSE(lm.contains(ls));
 }
@@ -53,7 +53,7 @@ TEST(LegalMovesTest, containsAfterAdd)
   LegalSquares lm(Square(A, ONE));
   Square ls(A, TWO);
 
-  lm.addLegalSquare(ls);
+  lm.add(ls);
   CHECK(lm.contains(ls));
 }
 

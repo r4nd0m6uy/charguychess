@@ -19,7 +19,7 @@
 #include <CppUTest/CommandLineTestRunner.h>
 
 #include "logging/LoggerInstance.hpp"
-#include "utils/LoggerNull.hpp"
+#include "logging/LoggerNull.hpp"
 
 //--------------------------------------------------------------------------------------------
 int main(int ac, char** av)

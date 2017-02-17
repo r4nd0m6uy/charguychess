@@ -15,6 +15,7 @@ set(APP_SOURCES
   logging/ILogSink.cpp
   logging/Logger.cpp
   logging/LoggerConsole.cpp
+  logging/LoggerNull.cpp
   logging/LoggerInstance.cpp
   logging/LogStream.cpp
   ui/console/ConsoleUI.cpp

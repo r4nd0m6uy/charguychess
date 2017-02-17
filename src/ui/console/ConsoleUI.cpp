@@ -63,7 +63,7 @@ int ConsoleUI::init()
 }
 
 //--------------------------------------------------------------------------------------------
-void ConsoleUI::enableMoveInput(bool isEnabled)
+void ConsoleUI::enableMoveCommand(bool isEnabled)
 {
   if(isEnabled)
     LOGIN() << "Move input from console UI enabled";
@@ -116,7 +116,7 @@ void ConsoleUI::readReady()
     m_gl.newGame();
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
-  else
+  else if(cmd != "\n")
     std::cout << "Unknown command, type 'help' for more information" << std::endl;
 
   printPrompt();
@@ -210,7 +210,7 @@ void ConsoleUI::readMove(const std::string& move)
   Move m(move);
   if(!m.isValid())
   {
-    std::cout << "Invalid move " << move.substr(0, move.length() - 1) << std::endl;
+    std::cout << "Invalid move " << move << std::endl;
     return;
   }
 

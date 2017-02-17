@@ -63,8 +63,7 @@ BoardValue BitBoard::getBoardValue() const
 //--------------------------------------------------------------------------------------------
 bool BitBoard::isBitSet(unsigned int pos) const
 {
-  BoardValue mask = ((BoardValue)1 << pos);
-  return (m_bVal & mask) != 0;
+  return (m_bVal & ((BoardValue)1 << pos)) != 0;
 }
 
 //--------------------------------------------------------------------------------------------

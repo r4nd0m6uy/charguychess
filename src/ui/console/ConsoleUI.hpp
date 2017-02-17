@@ -36,7 +36,7 @@ public:
   virtual ~ConsoleUI();
 
   int init();
-  void enableMoveInput(bool isEnabled);
+  void enableMoveCommand(bool isEnabled);
 
   // IBoardObserver
   virtual void boardChanged(Color playerTurn, const Board& newStatus) override;

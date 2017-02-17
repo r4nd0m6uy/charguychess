@@ -131,7 +131,7 @@ TEST(BitBoardTest, toBoardStringEmptySet)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(BitBoardTest, isBitSetSetAt64)
+TEST(BitBoardTest, isBitSetSetAt63)
 {
   BitBoard bb;
 

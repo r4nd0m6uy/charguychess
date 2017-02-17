@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 
   // Create the driver when requested
   if(hardwareArg == "none")
-    cUi.enableMoveInput(true);
+    cUi.enableMoveCommand(true);
   else
   {
     if(hardwareArg == "cgc")
@@ -117,10 +117,10 @@ int main(int argc, char* argv[])
     {
       LOGWA() << "Cannot initialize chess hardware, it will not work!";
       hw = nullptr;
-      cUi.enableMoveInput(true);
+      cUi.enableMoveCommand(true);
     }
     else
-      cUi.enableMoveInput(false);
+      cUi.enableMoveCommand(false);
   }
 
   // Intialize the console UI

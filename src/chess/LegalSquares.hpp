@@ -35,10 +35,10 @@ public:
   ~LegalSquares();
 
   void clear();
-  void addLegalSquare(const Square& square);
+  void add(const Square& square);
   bool contains(const Square& square);
   const Square& getFrom() const;
-  int getLegalSquaresCount() const;
+  int count() const;
 
 private:
   Square m_from;

@@ -163,14 +163,14 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
   Square s(from.getFile(), static_cast<Rank>(from.getRank() + forwardDirection));
   if(m_board.isEmpty(s))
   {
-    legalSquares.addLegalSquare(s);
+    legalSquares.add(s);
 
     if( (movedPawn.getColor() == WHITE && from.getRank() == TWO) ||
         (movedPawn.getColor() == BLACK && from.getRank() == SEVEN) )
     {
       s = Square(from.getFile(), static_cast<Rank>(s.getRank() + forwardDirection));
       if(m_board.isEmpty(s))
-        legalSquares.addLegalSquare(s);
+        legalSquares.add(s);
     }
   }
 
@@ -181,7 +181,7 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
         static_cast<File>(from.getFile() + 1),
         static_cast<Rank>(from.getRank() + forwardDirection));
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalSquares.addLegalSquare(s);
+      legalSquares.add(s);
   }
 
   // Capture left
@@ -191,7 +191,7 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
         static_cast<File>(from.getFile() - 1),
         static_cast<Rank>(from.getRank() + forwardDirection));
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalSquares.addLegalSquare(s);
+      legalSquares.add(s);
   }
 }
 
