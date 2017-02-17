@@ -21,7 +21,7 @@
 
 #include "../../event-loop/EventLoop.hpp"
 #include "../../chess/GameLogic.hpp"
-
+#include "../hardware/IBoardInputObserver.hpp"
 namespace cgc {
 
 /**
@@ -29,7 +29,8 @@ namespace cgc {
  */
 class ConsoleUI:
     public IBoardObserver,
-    public IHandledIo
+    public IHandledIo,
+    public IBoardInputObserver
 {
 public:
   ConsoleUI(GameLogic& gl, EventLoop& eventLoop);
@@ -44,6 +45,9 @@ public:
   // IHandledIo
   virtual IoHandle getHandle() override;
   virtual void readReady() override;
+
+  // IBoardInputObserver
+  virtual void boardValueChanged(BoardValue bv) override;
 
 private:
   GameLogic& m_gl;

@@ -32,6 +32,7 @@ class BitBoard
 {
 public:
   BitBoard();
+  BitBoard(BoardValue bv);
   BitBoard(const std::string& value);
   virtual ~BitBoard();
 

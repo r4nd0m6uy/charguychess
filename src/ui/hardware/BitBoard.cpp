@@ -29,6 +29,12 @@ BitBoard::BitBoard():
 }
 
 //--------------------------------------------------------------------------------------------
+BitBoard::BitBoard(BoardValue bv):
+  m_bVal(bv)
+{
+}
+
+//--------------------------------------------------------------------------------------------
 BitBoard::BitBoard(const std::string& value)
 {
   setBoardValue(value);

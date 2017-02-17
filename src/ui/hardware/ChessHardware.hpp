@@ -35,6 +35,7 @@ public:
   virtual ~ChessHardware();
 
   int init();
+  void registerBoardInputObserver(IBoardInputObserver& o);
 
 private:
   std::unique_ptr<IBoardInputDriverObservable> m_inputDriver;

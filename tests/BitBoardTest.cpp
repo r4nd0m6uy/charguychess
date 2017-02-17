@@ -36,6 +36,15 @@ TEST_GROUP(BitBoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, buildFromBoardValue)
+{
+  BoardValue bv = 887766;
+  BitBoard bb(bv);
+
+  CHECK_EQUAL(bv, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BitBoardTest, buildFromHex)
 {
   BitBoard bb("0xFF000000000000FF");

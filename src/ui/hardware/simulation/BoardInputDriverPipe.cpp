@@ -97,7 +97,7 @@ int BoardInputDriverPipe::read(BoardValue& bv)
 //--------------------------------------------------------------------------------------------
 void BoardInputDriverPipe::registerObserver(IBoardInputObserver& o)
 {
-  // TODO
+  m_dispatchedInputEvent.registerObserver(o);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -124,8 +124,7 @@ void BoardInputDriverPipe::readReady()
 
   LOGDB() << "New board value: 0x" <<
       std::setfill('0') << std::setw(16) << std::hex << m_bv;
-
-  // TODO: Raise event
+  m_dispatchedInputEvent.raiseBoardChanged(m_bv);
 }
 
 }       // namespace

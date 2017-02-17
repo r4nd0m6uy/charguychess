@@ -132,7 +132,10 @@ int main(int argc, char* argv[])
       cUi.enableMoveCommand(true);
     }
     else
+    {
       cUi.enableMoveCommand(false);
+      hw->registerBoardInputObserver(cUi);
+    }
   }
 
   // Intialize the console UI

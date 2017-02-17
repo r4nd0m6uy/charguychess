@@ -20,6 +20,7 @@
 #define _CGC_I_BOARD_INPUT_DRIVER_PIPE_HPP_
 
 #include "../../../event-loop/EventLoop.hpp"
+#include "../DispatchedBoardInputEvent.hpp"
 #include "../IBoardInputDriverObservable.hpp"
 
 namespace cgc {
@@ -50,6 +51,7 @@ private:
   EventLoop& m_el;
   BoardValue m_bv;
   int m_pipeFd;
+  DispatchedBoardInputEvent m_dispatchedInputEvent;
 };
 
 }       // namespace

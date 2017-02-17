@@ -23,6 +23,7 @@
 #include <iostream>
 
 #include "../../logging/LogMacros.hpp"
+#include "../hardware/BitBoard.hpp"
 #include "ConsoleUI.hpp"
 
 namespace cgc {
@@ -119,6 +120,16 @@ void ConsoleUI::readReady()
   else if(cmd != "\n")
     std::cout << "Unknown command, type 'help' for more information" << std::endl;
 
+  printPrompt();
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::boardValueChanged(BoardValue bv)
+{
+  BitBoard bb(bv);
+
+  std::cout << std::endl << "New hardware position:" << std::endl;
+  std::cout << bb.toBoardString() << std::endl;
   printPrompt();
 }
 

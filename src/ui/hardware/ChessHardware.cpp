@@ -40,4 +40,10 @@ int ChessHardware::init()
   return m_inputDriver->init();
 }
 
+//--------------------------------------------------------------------------------------------
+void ChessHardware::registerBoardInputObserver(IBoardInputObserver& o)
+{
+  m_inputDriver->registerObserver(o);
+}
+
 }       // namespace
