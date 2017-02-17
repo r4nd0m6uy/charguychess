@@ -25,7 +25,7 @@
 int main(int ac, char** av)
 {
   // Don't log messages
-  cgc::LoggerInstance::getInstance().setLogger(new cgc::tests::LoggerNull());
+  cgc::LoggerInstance::getInstance().setLogger(new cgc::LoggerNull());
 
   return CommandLineTestRunner::RunAllTests(ac, av);
 }
