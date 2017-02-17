@@ -64,7 +64,7 @@ int BoardInputDriverPipe::init()
 
   if(mkfifo(PIPE_PATH.c_str(), S_IRUSR | S_IWUSR))
   {
-    LOGER() << "Cannot create pipe: " << strerror(errno);
+    LOGER() << "Cannot create pipe " << PIPE_PATH << ": " << strerror(errno);
     return -1;
   }
 
