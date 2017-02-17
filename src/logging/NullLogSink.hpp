@@ -16,28 +16,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_LOGGER_HPP_
-#define _CGC_LOGGER_HPP_
+#ifndef _CGC_NULL_LOG_SINK_HPP_
+#define _CGC_NULL_LOG_SINK_HPP_
 
-#include "ILogger.hpp"
-#include "NullLogSink.hpp"
+#include "ILogSink.hpp"
 
 namespace cgc {
 
-class Logger:
-        public ILogger
+class NullLogSink:
+        public ILogSink
 {
 public:
-    Logger();
-    virtual ~Logger();
+    NullLogSink();
+    virtual ~NullLogSink();
 
-    virtual LogStream getLogStream(ILogSink::LogLevel loglevel) override;
-    virtual void setMaxLevel(ILogSink::LogLevel loglevel) override;
-
-private:
-    ILogSink::LogLevel m_maxLevel;
-    NullLogSink m_nullSink;
+    virtual void sinkLogLine(LogLevel level, const std::string& line) override;
 };
 
 }       // namespace
-#endif  // _CGC_LOGGER_HPP_
+#endif  // _CGC_NULL_LOG_SINK_HPP_

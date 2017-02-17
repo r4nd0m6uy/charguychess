@@ -18,7 +18,6 @@
 #include "LoggerNull.hpp"
 
 namespace cgc{
-namespace tests{
 
 //--------------------------------------------------------------------------------------------
 LoggerNull::LoggerNull()
@@ -36,4 +35,4 @@ void LoggerNull::sinkLogLine(LogLevel level, const std::string& line)
     /* NULL logger ... */
 }
 
-}}      // namespace
+}       // namespace

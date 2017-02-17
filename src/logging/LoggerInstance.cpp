@@ -38,18 +38,15 @@ LoggerInstance::LoggerInstance():
 LoggerInstance::~LoggerInstance()
 {
     if(m_pLogger != NULL)
-    {
         delete m_pLogger;
-    }
 }
 
 //--------------------------------------------------------------------------------------------
 void LoggerInstance::setLogger(ILogger* logger)
 {
     if(m_pLogger != NULL)
-    {
         delete m_pLogger;
-    }
+
     m_pLogger = logger;
 }
 
@@ -57,9 +54,8 @@ void LoggerInstance::setLogger(ILogger* logger)
 ILogger& LoggerInstance::operator*()
 {
     if(m_pLogger == NULL)
-    {
         m_pLogger = new LoggerConsole();
-    }
+
     return *m_pLogger;
 }
 

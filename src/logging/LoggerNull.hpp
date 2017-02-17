@@ -18,10 +18,9 @@
 #ifndef _CGC_LOGGER_NULL_HPP_
 #define _CGC_LOGGER_NULL_HPP_
 
-#include "logging/Logger.hpp"
+#include "Logger.hpp"
 
 namespace cgc{
-namespace tests{
 
 class LoggerNull:
         public Logger
@@ -33,5 +32,5 @@ public:
     virtual void sinkLogLine(LogLevel level, const std::string& line) override;
 };
 
-}}      // namespace
+}       // namespace
 #endif  // _CGC_LOGGER_NULL_HPP_

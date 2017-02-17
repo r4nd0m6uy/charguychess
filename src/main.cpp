@@ -35,26 +35,30 @@ void printHelp(char* appName)
   std::cout << appName << " [OPTIONS]:" << std::endl;
   std::cout << "-h|--help       Show this help message" << std::endl;
   std::cout << "-H|--hardware   Hardware to use" << std::endl;
-  std::cout << "                * none: No hardware" << std::endl;
-  std::cout << "                * sim:  Simulate hardware" << std::endl;
-  std::cout << "                * cgc:  Charguy chess hardware" << std::endl;
+  std::cout << "                  * none: No hardware" << std::endl;
+  std::cout << "                  * sim:  Simulate hardware" << std::endl;
+  std::cout << "                  * cgc:  Charguy chess hardware" << std::endl;
+  std::cout << "-l|--loglevel   Max loglevel (0 - "  << (int)cgc::ILogSink::MAX
+          << ")" << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------
 int parseArgs(int argc, char* argv[], int& retCode)
 {
   int c;
+  int logLevel;
 
   static struct option long_options[] =
   {
     {"help",      no_argument,        0,    'h'},
     {"hardware",  required_argument,  0,    'H'},
+    {"loglevel",  required_argument,  0,    'l'},
     {0, 0, 0, 0}
   };
 
   while(1)
   {
-    c = getopt_long(argc, argv, "hH:", long_options, 0);
+    c = getopt_long(argc, argv, "hH:l:", long_options, 0);
 
     if(c == -1)
       break;
@@ -68,6 +72,14 @@ int parseArgs(int argc, char* argv[], int& retCode)
       break;
     case 'H':
       hardwareArg = optarg;
+      break;
+    case 'l':
+      logLevel = atoi(optarg);
+      if(logLevel >= cgc::ILogSink::DEBUG && logLevel <= cgc::ILogSink::MAX)
+        (*cgc::LoggerInstance::getInstance()).setMaxLevel(
+            static_cast<cgc::ILogSink::LogLevel>(logLevel));
+      else
+        std::cout << "Invalid log level " << logLevel << std::endl;
       break;
     case '?':
     default:

@@ -31,6 +31,7 @@ public:
     virtual ~ILogger();
 
     virtual LogStream getLogStream(ILogSink::LogLevel loglevel) = 0;
+    virtual void setMaxLevel(ILogSink::LogLevel loglevel) = 0;
 };
 
 }       // namespace

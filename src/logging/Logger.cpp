@@ -21,7 +21,8 @@
 namespace cgc{
 
 //--------------------------------------------------------------------------------------------
-Logger::Logger()
+Logger::Logger():
+    m_maxLevel(ILogSink::WARNING)
 {
 }
 
@@ -33,7 +34,16 @@ Logger::~Logger()
 //--------------------------------------------------------------------------------------------
 LogStream Logger::getLogStream(ILogSink::LogLevel loglevel)
 {
-    return LogStream(*this, loglevel);
+    if(loglevel < m_maxLevel)
+        return LogStream(m_nullSink, loglevel);
+    else
+        return LogStream(*this, loglevel);
+}
+
+//--------------------------------------------------------------------------------------------
+void Logger::setMaxLevel(ILogSink::LogLevel loglevel)
+{
+    m_maxLevel = loglevel;
 }
 
 }       // namespace
