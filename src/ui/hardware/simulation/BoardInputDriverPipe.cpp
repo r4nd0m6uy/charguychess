@@ -84,6 +84,8 @@ int BoardInputDriverPipe::init()
     return -1;
   }
 
+  LOGDB() << "Simulated hardware ready!";
+
   return 0;
 }
 
