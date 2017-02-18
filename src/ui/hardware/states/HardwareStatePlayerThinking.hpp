@@ -25,7 +25,7 @@
 namespace cgc {
 
 /**
- * \brief An hardware state that does nothing
+ * \brief An hardware state when a player is thinking for the next move
  */
 class HardwareStatePlayerThinking:
     public IHardwareState

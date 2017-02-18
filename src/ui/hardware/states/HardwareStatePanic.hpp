@@ -16,30 +16,30 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_HARDWARE_STATE_POOL_HPP_
-#define _CGC_I_HARDWARE_STATE_POOL_HPP_
+#ifndef _CGC_HARDWARE_STATE_PANIC_HPP_
+#define _CGC_HARDWARE_STATE_PANIC_HPP_
 
-#include "IHardwareState.hpp"
+#include "../../../chess/GameLogic.hpp"
+#include "IHardwareStatePool.hpp"
 
 namespace cgc {
 
 /**
- * \brief An interface to all all possible hardware states
+ * \brief An hardware state when something goes wrong and position has to be redone
  */
-class IHardwareStatePool
+class HardwareStatePanic:
+    public IHardwareState
 {
 public:
-  enum State{
-    PLAYER_THINKING,
-    //PLAYER_LIFTED_PIECE,
-    //PLAYER_DONE_MOVE,
-    PANIC
-  };
-  IHardwareStatePool();
-  virtual ~IHardwareStatePool();
+  HardwareStatePanic(IHardwareStatePool& statesPool, GameLogic& gl);
+  virtual ~HardwareStatePanic();
 
-  virtual IHardwareState& getState(State which) = 0;
+  virtual IHardwareState& execute(BoardValue bv) override;
+
+private:
+  IHardwareStatePool& m_statesPool;
+  GameLogic& m_gl;
 };
 
 }       // namespace
-#endif  // _CGC_I_HARDWARE_STATE_POOL_HPP_
+#endif  // _CGC_HARDWARE_STATE_PANIC_HPP_

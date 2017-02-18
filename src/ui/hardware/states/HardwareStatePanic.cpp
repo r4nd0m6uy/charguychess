@@ -16,30 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_I_HARDWARE_STATE_POOL_HPP_
-#define _CGC_I_HARDWARE_STATE_POOL_HPP_
-
-#include "IHardwareState.hpp"
+#include "HardwareStatePanic.hpp"
 
 namespace cgc {
 
-/**
- * \brief An interface to all all possible hardware states
- */
-class IHardwareStatePool
+//--------------------------------------------------------------------------------------------
+HardwareStatePanic::HardwareStatePanic(IHardwareStatePool& statesPool, GameLogic& gl):
+    m_statesPool(statesPool),
+    m_gl(gl)
 {
-public:
-  enum State{
-    PLAYER_THINKING,
-    //PLAYER_LIFTED_PIECE,
-    //PLAYER_DONE_MOVE,
-    PANIC
-  };
-  IHardwareStatePool();
-  virtual ~IHardwareStatePool();
+}
 
-  virtual IHardwareState& getState(State which) = 0;
-};
+//--------------------------------------------------------------------------------------------
+HardwareStatePanic::~HardwareStatePanic()
+{
+}
+
+//--------------------------------------------------------------------------------------------
+IHardwareState& HardwareStatePanic::execute(BoardValue bv)
+{
+  (void)m_gl;
+
+  return m_statesPool.getState(IHardwareStatePool::PANIC);
+}
 
 }       // namespace
-#endif  // _CGC_I_HARDWARE_STATE_POOL_HPP_

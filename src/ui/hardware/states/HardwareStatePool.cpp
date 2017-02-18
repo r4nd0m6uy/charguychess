@@ -18,6 +18,7 @@
  */
 #include "../../../logging/LogMacros.hpp"
 #include "HardwareStatePlayerThinking.hpp"
+#include "HardwareStatePanic.hpp"
 #include "HardwareStatePool.hpp"
 
 namespace cgc {
@@ -36,6 +37,7 @@ HardwareStatePool::~HardwareStatePool()
 int HardwareStatePool::init(GameLogic& gl)
 {
   m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this, gl));
+  m_states[PANIC].reset(new HardwareStatePanic(*this, gl));
 
   return 0;
 }
