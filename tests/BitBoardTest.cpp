@@ -36,6 +36,88 @@ TEST_GROUP(BitBoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromStartPos)
+{
+  Board b;
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0xFFFF00000000FFFF, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromBoardQueenH8)
+{
+  Board b;
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(H, EIGHT));
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0x1, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromBoardQueenA2)
+{
+  Board b;
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(A, TWO));
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0x0080000000000000, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromBoardQueenB1)
+{
+  Board b;
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(B, ONE));
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0x4000000000000000, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromBoardQueenA1)
+{
+  Board b;
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(A, ONE));
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0x8000000000000000, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, fromEmptyBoard)
+{
+  Board b;
+  b.clear();
+  BitBoard bb(b);
+
+  CHECK_EQUAL(0, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, setBit63)
+{
+  BitBoard bb;
+
+  bb.setBit(63);
+  CHECK_EQUAL(0x8000000000000000, bb.getBoardValue());
+}
+
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, setBitZero)
+{
+  BitBoard bb;
+
+  bb.setBit(0);
+  CHECK_EQUAL(0x1, bb.getBoardValue());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BitBoardTest, startPosD2Lifted)
 {
   SquaresList cs;

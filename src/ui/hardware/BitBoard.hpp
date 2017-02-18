@@ -22,6 +22,7 @@
 #include <string>
 #include <list>
 
+#include "../../chess/Board.hpp"
 #include "../../chess/SquaresList.hpp"
 #include "BoardValue.hpp"
 
@@ -36,12 +37,14 @@ public:
   BitBoard();
   BitBoard(BoardValue bv);
   BitBoard(const std::string& value);
+  BitBoard(const Board& b);
   virtual ~BitBoard();
 
   void setBoardValue(BoardValue bv);
   void setBoardValue(const std::string& value);
   BoardValue getBoardValue() const;
   bool isBitSet(unsigned int pos) const;
+  void setBit(unsigned int pos);
   void getActiveSquares(SquaresList& squares);
   void getChangedSquares(BoardValue newValue, SquaresList& squares);
   std::string toBoardString() const;

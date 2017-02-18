@@ -30,8 +30,18 @@ BitBoard::BitBoard():
 
 //--------------------------------------------------------------------------------------------
 BitBoard::BitBoard(BoardValue bv):
-  m_bVal(bv)
+    m_bVal(bv)
 {
+}
+
+//--------------------------------------------------------------------------------------------
+BitBoard::BitBoard(const Board& b):
+    m_bVal(0)
+{
+  for(File f = A ; f <= LAST_FILE ; ++f)
+    for(Rank r = ONE ; r <= LAST_RANK ; ++r)
+      if(!b.isEmpty(Square(f, r)))
+        setBit(63 - f - (r * 8));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -70,6 +80,12 @@ BoardValue BitBoard::getBoardValue() const
 bool BitBoard::isBitSet(unsigned int pos) const
 {
   return (m_bVal & ((BoardValue)1 << pos)) != 0;
+}
+
+//--------------------------------------------------------------------------------------------
+void BitBoard::setBit(unsigned int pos)
+{
+  m_bVal |= (BoardValue)1 << pos;
 }
 
 //--------------------------------------------------------------------------------------------
