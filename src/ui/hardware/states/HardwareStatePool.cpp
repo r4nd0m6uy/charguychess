@@ -45,15 +45,14 @@ int HardwareStatePool::init(GameLogic& gl)
 //--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStatePool::enterState(State which)
 {
-  IHardwareState& next = m_nullState;
+  if(m_states.find(which) != m_states.end())
+  {
+    m_states[which]->enter();
+    return *m_states[which];
+  }
 
-  if(m_states.find(which) == m_states.end())
-    LOGWA() << "State " << which << " not found in pool, using null state";
-  else
-    next = *m_states[which];
-
-  next.enter();
-  return next;
+  LOGWA() << "State " << which << " not found in pool, using null state";
+  return m_nullState;
 }
 
 }       // namespace
