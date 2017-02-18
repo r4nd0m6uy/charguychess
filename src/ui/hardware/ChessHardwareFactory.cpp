@@ -29,13 +29,14 @@ ChessHardwareFactory::~ChessHardwareFactory()
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware()
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware(EventLoop& el)
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
           std::unique_ptr<IBoardInputDriverObservable>(
               new BoardInputDriverPolled(
-                  std::unique_ptr<IBoardInputDriver>(buildCgcBoardInputDriver())
+                  std::unique_ptr<IBoardInputDriver>(buildCgcBoardInputDriver()),
+                  el
               )
            )
       )

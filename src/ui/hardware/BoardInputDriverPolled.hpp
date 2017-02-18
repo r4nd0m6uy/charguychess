@@ -21,7 +21,9 @@
 
 #include <memory>
 
+#include "../../event-loop/EventLoop.hpp"
 #include "IBoardInputDriverObservable.hpp"
+#include "DispatchedBoardInputEvent.hpp"
 
 namespace cgc {
 
@@ -29,10 +31,12 @@ namespace cgc {
  * \brief Poll an BoardInputeDriver and raise event when changed
  */
 class BoardInputDriverPolled:
-    public IBoardInputDriverObservable
+    public IBoardInputDriverObservable,
+    public ITimedOut
 {
 public:
-  BoardInputDriverPolled(std::unique_ptr<IBoardInputDriver> inputDriver);
+  BoardInputDriverPolled(std::unique_ptr<IBoardInputDriver> inputDriver,
+      EventLoop& el);
   virtual ~BoardInputDriverPolled();
 
   // IBoardInputDriver
@@ -42,8 +46,14 @@ public:
   // IBoardInputDriverObservable
   virtual void registerObserver(IBoardInputObserver& o) override;
 
+  // ITimedOut
+  virtual void timedOut(const std::string& which) override;
+
 private:
   std::unique_ptr<IBoardInputDriver> m_inputDriver;
+  EventLoop& m_el;
+  std::unique_ptr<Timer> m_pollTimer;
+  DispatchedBoardInputEvent m_dispBoardInputEvent;
 };
 
 }       // namespace

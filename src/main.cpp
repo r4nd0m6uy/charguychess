@@ -115,7 +115,7 @@ int main(int argc, char* argv[])
   else
   {
     if(hardwareArg == "cgc")
-      hw = cgc::ChessHardwareFactory::buildCgcHardware();
+      hw = cgc::ChessHardwareFactory::buildCgcHardware(el);
     else if(hardwareArg == "sim")
       hw = cgc::ChessHardwareFactory::buildSimulatedHardware(el);
     else

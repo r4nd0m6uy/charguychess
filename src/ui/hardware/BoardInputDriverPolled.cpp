@@ -16,14 +16,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../../logging/LogMacros.hpp"
 #include "BoardInputDriverPolled.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
 BoardInputDriverPolled::BoardInputDriverPolled(
-    std::unique_ptr<IBoardInputDriver> inputDriver):
-  m_inputDriver(std::move(inputDriver))
+    std::unique_ptr<IBoardInputDriver> inputDriver, EventLoop& el):
+  m_inputDriver(std::move(inputDriver)),
+  m_el(el)
 {
 }
 
@@ -35,7 +37,10 @@ BoardInputDriverPolled::~BoardInputDriverPolled()
 //--------------------------------------------------------------------------------------------
 int BoardInputDriverPolled::init()
 {
-  // TODO: Create a polling timer
+  if(m_el.createTimer("PollHardware", *this, m_pollTimer))
+    return -1;
+  m_pollTimer->setTimeout(10);
+  m_pollTimer->start();
 
   return m_inputDriver->init();
 }
@@ -49,7 +54,22 @@ int BoardInputDriverPolled::read(BoardValue& bv)
 //--------------------------------------------------------------------------------------------
 void BoardInputDriverPolled::registerObserver(IBoardInputObserver& o)
 {
-  // TODO
+  m_dispBoardInputEvent.registerObserver(o);
+}
+
+//--------------------------------------------------------------------------------------------
+void BoardInputDriverPolled::timedOut(const std::string& which)
+{
+  BoardValue bv;
+
+  if(m_inputDriver->read(bv))
+  {
+    LOGER() << "Cannot read from board driver, stop polling!";
+    return;
+  }
+
+  m_dispBoardInputEvent.raiseBoardChanged(bv);
+  m_pollTimer->start();
 }
 
 }       // namespace
