@@ -36,6 +36,7 @@ set(APP_SOURCES
   ui/hardware/states/IHardwareState.cpp
   ui/hardware/states/HardwareStateNull.cpp
   ui/hardware/states/HardwareStatePlayerThinking.cpp
+  ui/hardware/states/HardwareStatePieceLifted.cpp
   ui/hardware/states/HardwareStatePanic.cpp
   event-loop/IHandledIo.cpp
   event-loop/IHandledSignal.cpp

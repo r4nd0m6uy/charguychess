@@ -16,34 +16,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_MOVE_HPP_
-#define _CGC_MOVE_HPP_
+#ifndef _CGC_HARDWARE_STATE_PIECE_LIFTED_HPP_
+#define _CGC_HARDWARE_STATE_PIECE_LIFTED_HPP_
 
-#include "Square.hpp"
+#include "../../../chess/GameLogic.hpp"
+#include "../BitBoard.hpp"
+#include "IHardwareStatePool.hpp"
 
 namespace cgc {
 
 /**
- * \brief Represent a move
+ * \brief An hardware state when one or more pieces have been lifted
  */
-class Move
+class HardwareStatePieceLifted:
+    public IHardwareState
 {
 public:
-  Move();
-  Move(const std::string& str);
-  Move(const Square& from, const Square& to);
-  ~Move();
+  HardwareStatePieceLifted(IHardwareStatePool& statesPool, GameLogic& gl);
+  virtual ~HardwareStatePieceLifted();
 
-  const Square& getFrom() const;
-  const Square& getTo() const;
-  bool isValid() const;
+  // IHardwareState
+  virtual void enter(BoardValue bv) override;
+  virtual IHardwareState& execute(BoardValue bv) override;
 
 private:
-  Square m_from;
-  Square m_to;
+  IHardwareStatePool& m_statesPool;
+  GameLogic& m_gl;
+  SquaresList m_liftedPieces;
+  BitBoard m_previous;
 };
 
-std::ostream& operator<<(std::ostream& os, const Move& m);
-
 }       // namespace
-#endif  // _CGC_MOVE_HPP_
+#endif  // _CGC_HARDWARE_STATE_PIECE_LIFTED_HPP_

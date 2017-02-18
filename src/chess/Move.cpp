@@ -67,4 +67,11 @@ bool Move::isValid() const
       m_from != m_to;
 }
 
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const Move& m)
+{
+  os << m.getFrom() << m.getTo() << std::endl;
+  return os;
+}
+
 }       // namespace

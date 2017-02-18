@@ -17,44 +17,69 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../../../logging/LogMacros.hpp"
-#include "HardwareStatePlayerThinking.hpp"
 #include "HardwareStatePieceLifted.hpp"
-#include "HardwareStatePanic.hpp"
-#include "HardwareStatePool.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-HardwareStatePool::HardwareStatePool()
+HardwareStatePieceLifted::HardwareStatePieceLifted(IHardwareStatePool& statesPool,
+    GameLogic& gl):
+  m_statesPool(statesPool),
+  m_gl(gl),
+  m_previous(0)
 {
 }
 
 //--------------------------------------------------------------------------------------------
-HardwareStatePool::~HardwareStatePool()
+HardwareStatePieceLifted::~HardwareStatePieceLifted()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int HardwareStatePool::init(GameLogic& gl)
+void HardwareStatePieceLifted::enter(BoardValue bv)
 {
-  m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this, gl));
-  m_states[PLAYER_LIFTED_PIECE].reset(new HardwareStatePieceLifted(*this, gl));
-  m_states[PANIC].reset(new HardwareStatePanic(*this, gl));
+  LOGDB() << "Entering piece lifted";
 
-  return 0;
+  // TODO TDD
+  BitBoard game(m_gl.getBoard());
+  game.getChangedSquares(bv, m_liftedPieces);
+  m_previous.setBoardValue(bv);
 }
 
 //--------------------------------------------------------------------------------------------
-IHardwareState& HardwareStatePool::enterState(State which, BoardValue bv)
+IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
 {
-  if(m_states.find(which) != m_states.end())
+  // TODO TDD
+  SquaresList changedSquare;
+  m_previous.getChangedSquares(bv, changedSquare);
+
+  if(changedSquare.count() == 1)
   {
-    m_states[which]->enter(bv);
-    return *m_states[which];
+    const Square& s = changedSquare.getSquares().front();
+
+    // Piece put back
+    if(m_liftedPieces.contains(s))
+    {
+      LOGDB() << "Piece put back on " << s;
+      return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
+    }
+
+    // New movement
+    else
+    {
+      Move m(m_liftedPieces.getSquares().front(), s);
+      if(!m_gl.applyMove(m))
+      {
+        LOGDB() << "Illegal move " << m;
+        return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
+      }
+      else
+        return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
+    }
   }
 
-  LOGWA() << "State " << which << " not found in pool, using null state";
-  return m_nullState;
+
+  return *this;
 }
 
 }       // namespace
