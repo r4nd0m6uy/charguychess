@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cassert>
+
 #include "../../logging/LogMacros.hpp"
 #include "ChessHardware.hpp"
 
@@ -23,7 +25,8 @@ namespace cgc {
 
 //--------------------------------------------------------------------------------------------
 ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver):
-  m_inputDriver(std::move(inputDriver))
+  m_inputDriver(std::move(inputDriver)),
+  m_currentHwState(nullptr)
 {
 }
 
@@ -37,13 +40,28 @@ int ChessHardware::init()
 {
   LOGDB() << "Initializing chess hardware ...";
 
-  return m_inputDriver->init();
+  if(m_statesPool.init())
+    return -1;
+
+  if(m_inputDriver->init() != 0)
+    return -1;
+
+  m_inputDriver->registerObserver(*this);
+  m_currentHwState = &m_statesPool.getState(IHardwareStatePool::PLAYER_THINKING);
+  return 0;
 }
 
 //--------------------------------------------------------------------------------------------
 void ChessHardware::registerBoardInputObserver(IBoardInputObserver& o)
 {
   m_inputDriver->registerObserver(o);
+}
+
+//--------------------------------------------------------------------------------------------
+void ChessHardware::boardValueChanged(BoardValue bv)
+{
+  assert(m_currentHwState != nullptr);
+  m_currentHwState = &m_currentHwState->execute(bv);
 }
 
 }       // namespace

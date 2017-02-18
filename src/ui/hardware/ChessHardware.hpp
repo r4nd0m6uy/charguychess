@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include "states/HardwareStatePool.hpp"
 #include "IBoardInputDriverObservable.hpp"
 
 namespace cgc {
@@ -28,7 +29,8 @@ namespace cgc {
 /**
  * \brief An interface to work with chess hardware
  */
-class ChessHardware
+class ChessHardware:
+    public IBoardInputObserver
 {
 public:
   ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver);
@@ -37,8 +39,14 @@ public:
   int init();
   void registerBoardInputObserver(IBoardInputObserver& o);
 
+  // IBoardInputObserver
+  virtual void boardValueChanged(BoardValue bv) override;
+
 private:
   std::unique_ptr<IBoardInputDriverObservable> m_inputDriver;
+  IHardwareState* m_currentHwState;
+  HardwareStatePool m_statesPool;
+
 };
 
 }       // namespace
