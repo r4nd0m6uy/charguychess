@@ -34,6 +34,8 @@ public:
   HardwareStatePlayerThinking(IHardwareStatePool& statesPool, GameLogic& gl);
   virtual ~HardwareStatePlayerThinking();
 
+  // IHardwareState
+  virtual void enter() override;
   virtual IHardwareState& execute(BoardValue bv) override;
 
 private:

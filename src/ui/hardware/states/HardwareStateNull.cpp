@@ -34,6 +34,14 @@ HardwareStateNull::~HardwareStateNull()
 }
 
 //--------------------------------------------------------------------------------------------
+void HardwareStateNull::enter()
+{
+  // Something is wrong
+  LOGER() << "Entering hardware state null, this should not happen!";
+  assert(0);
+}
+
+//--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStateNull::execute(BoardValue bv)
 {
   // Something is wrong

@@ -33,6 +33,8 @@ public:
   HardwareStateNull();
   virtual ~HardwareStateNull();
 
+  // IHardwareState
+  virtual void enter() override;
   virtual IHardwareState& execute(BoardValue bv) override;
 };
 

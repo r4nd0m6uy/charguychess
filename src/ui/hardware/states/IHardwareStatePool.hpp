@@ -38,7 +38,7 @@ public:
   IHardwareStatePool();
   virtual ~IHardwareStatePool();
 
-  virtual IHardwareState& getState(State which) = 0;
+  virtual IHardwareState& enterState(State which) = 0;
 };
 
 }       // namespace

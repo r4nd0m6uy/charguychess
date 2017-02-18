@@ -34,7 +34,7 @@ IHardwareStatePoolMock::~IHardwareStatePoolMock()
 }
 
 //--------------------------------------------------------------------------------------------
-IHardwareState& IHardwareStatePoolMock::getState(IHardwareStatePool::State which)
+IHardwareState& IHardwareStatePoolMock::enterState(IHardwareStatePool::State which)
 {
   return *((IHardwareState*)mock().actualCall(__func__).onObject(this).
       withParameter("which", which).

@@ -33,11 +33,16 @@ HardwareStatePanic::~HardwareStatePanic()
 }
 
 //--------------------------------------------------------------------------------------------
+void HardwareStatePanic::enter()
+{
+}
+
+//--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStatePanic::execute(BoardValue bv)
 {
   (void)m_gl;
 
-  return m_statesPool.getState(IHardwareStatePool::PANIC);
+  return m_statesPool.enterState(IHardwareStatePool::PANIC);
 }
 
 }       // namespace

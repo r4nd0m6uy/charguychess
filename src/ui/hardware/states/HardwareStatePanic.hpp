@@ -34,6 +34,8 @@ public:
   HardwareStatePanic(IHardwareStatePool& statesPool, GameLogic& gl);
   virtual ~HardwareStatePanic();
 
+  // IHardwareState
+  virtual void enter() override;
   virtual IHardwareState& execute(BoardValue bv) override;
 
 private:

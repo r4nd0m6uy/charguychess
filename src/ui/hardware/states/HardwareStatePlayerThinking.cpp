@@ -35,13 +35,18 @@ HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 }
 
 //--------------------------------------------------------------------------------------------
+void HardwareStatePlayerThinking::enter()
+{
+}
+
+//--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 {
   LOGDB() << "Executing player thinking state ...";
 
   (void)m_gl;
 
-  return m_statesPool.getState(IHardwareStatePool::PLAYER_THINKING);
+  return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING);
 }
 
 }       // namespace
