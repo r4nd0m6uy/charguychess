@@ -36,6 +36,19 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, clear)
+{
+  Board b;
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, FIVE));
+  b.clear();
+
+  for(File f = A ; f <= LAST_FILE ; ++f)
+    for(Rank r = ONE ; r <= LAST_RANK ; ++r)
+      CHECK(b.isEmpty(Square(f, r)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, setInivalidSquare)
 {
   Square s;

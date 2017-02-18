@@ -37,6 +37,7 @@ enum Rank{
 };
 std::ostream& operator<<(std::ostream& os, const Rank& r);
 Rank& operator--(Rank& r);
+Rank& operator++(Rank& r);
 
 enum File{
   A = 0,

@@ -59,6 +59,17 @@ Rank& operator--(Rank& r)
 }
 
 //--------------------------------------------------------------------------------------------
+Rank& operator++(Rank& r)
+{
+  if(r == EIGHT)
+    r = INVALID_RANK;
+  else if(r != INVALID_RANK)
+    r = static_cast<Rank>(r + 1);
+
+  return r;
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const File& f)
 {
   if(f == A)
