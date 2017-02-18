@@ -18,49 +18,42 @@
  */
 #include <algorithm>
 
-#include "LegalSquares.hpp"
+#include "SquaresList.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-LegalSquares::LegalSquares(const Square& from):
-    m_from(from)
+SquaresList::SquaresList()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-LegalSquares::~LegalSquares()
+SquaresList::~SquaresList()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-const Square& LegalSquares::getFrom() const
+void SquaresList::clear()
 {
-  return m_from;
+  m_squaresList.clear();
 }
 
 //--------------------------------------------------------------------------------------------
-void LegalSquares::clear()
+void SquaresList::add(const Square& square)
 {
-  m_legalSquares.clear();
+  m_squaresList.push_back(square);
 }
 
 //--------------------------------------------------------------------------------------------
-void LegalSquares::add(const Square& square)
+bool SquaresList::contains(const Square& square)
 {
-  m_legalSquares.add(square);
+  return std::find(m_squaresList.begin(), m_squaresList.end(), square) != m_squaresList.end();
 }
 
 //--------------------------------------------------------------------------------------------
-bool LegalSquares::contains(const Square& square)
+int SquaresList::count() const
 {
-  return m_legalSquares.contains(square);
-}
-
-//--------------------------------------------------------------------------------------------
-int LegalSquares::count() const
-{
-  return m_legalSquares.count();
+  return m_squaresList.size();
 }
 
 }       // namespace

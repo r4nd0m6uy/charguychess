@@ -8,6 +8,7 @@ set(APP_SOURCES
   chess/PlayerPiece.cpp
   chess/Square.cpp
   chess/Move.cpp
+  chess/SquaresList.cpp
   chess/LegalSquares.cpp
   chess/GameLogic.cpp
   chess/IBoardObserver.cpp

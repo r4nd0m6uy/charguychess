@@ -16,34 +16,32 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_LEGAL_SQUARES_HPP_
-#define _CGC_LEGAL_SQUARES_HPP_
+#ifndef _CGC_SQUARES_LIST_HPP_
+#define _CGC_SQUARES_LIST_HPP_
 
 #include <list>
 
-#include "SquaresList.hpp"
+#include "Square.hpp"
 
 namespace cgc {
 
 /**
  * \brief Hold a list of legal moves form a given square
  */
-class LegalSquares
+class SquaresList
 {
 public:
-  LegalSquares(const Square& from);
-  ~LegalSquares();
+  SquaresList();
+  ~SquaresList();
 
-  const Square& getFrom() const;
   void clear();
   void add(const Square& square);
   bool contains(const Square& square);
   int count() const;
 
 private:
-  Square m_from;
-  SquaresList m_legalSquares;
+  std::list<Square> m_squaresList;
 };
 
 }       // namespace
-#endif  // _CGC_LEGAL_SQUARES_HPP_
+#endif  // _CGC_SQUARES_LIST_HPP_
