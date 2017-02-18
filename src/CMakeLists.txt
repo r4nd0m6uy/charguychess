@@ -34,6 +34,7 @@ set(APP_SOURCES
   ui/hardware/states/HardwareStatePool.cpp
   ui/hardware/states/IHardwareState.cpp
   ui/hardware/states/HardwareStateNull.cpp
+  ui/hardware/states/HardwareStatePlayerThinking.cpp
   event-loop/IHandledIo.cpp
   event-loop/IHandledSignal.cpp
   event-loop/HandledByLibevent.cpp

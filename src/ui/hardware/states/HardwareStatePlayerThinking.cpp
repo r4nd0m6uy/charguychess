@@ -18,38 +18,26 @@
  */
 #include "../../../logging/LogMacros.hpp"
 #include "HardwareStatePlayerThinking.hpp"
-#include "HardwareStatePool.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-HardwareStatePool::HardwareStatePool()
+HardwareStatePlayerThinking::HardwareStatePlayerThinking(IHardwareStatePool& statesPool):
+    m_statesPool(statesPool)
 {
 }
 
 //--------------------------------------------------------------------------------------------
-HardwareStatePool::~HardwareStatePool()
+HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 {
 }
 
 //--------------------------------------------------------------------------------------------
-int HardwareStatePool::init()
+IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 {
-  m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this));
+  LOGDB() << "Executing player thinking state ...";
 
-  return 0;
-}
-
-//--------------------------------------------------------------------------------------------
-IHardwareState& HardwareStatePool::getState(State which)
-{
-  if(m_states.find(which) == m_states.end())
-  {
-    LOGWA() << "State " << which << " not found in pool, using null state";
-    return m_nullState;
-  }
-
-  return *m_states[which];
+  return m_statesPool.getState(IHardwareStatePool::PLAYER_THINKING);
 }
 
 }       // namespace
