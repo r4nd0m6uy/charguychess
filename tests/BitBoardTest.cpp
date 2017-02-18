@@ -36,6 +36,112 @@ TEST_GROUP(BitBoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, startPosD2Lifted)
+{
+  SquaresList cs;
+  BitBoard bb(0xFFFF00000000FFFF);
+
+  bb.getChangedSquares(0xFFEF00000000FFFF, cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(D, TWO)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getChangedSquaresEmptyE2Added)
+{
+  SquaresList cs;
+  BitBoard bb(0x0);
+
+  bb.getChangedSquares(0x0008000000000000, cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(E, TWO)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getChangedSquaresNoChangeButFilledList)
+{
+  SquaresList cs;
+  BitBoard bb(1234);
+
+  cs.add(Square(A, ONE));
+  bb.getChangedSquares(1234, cs);
+
+  CHECK_EQUAL(0, cs.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getChangedSquaresNoChange)
+{
+  SquaresList cs;
+  BitBoard bb(1234);
+
+  bb.getChangedSquares(1234, cs);
+
+  CHECK_EQUAL(0, cs.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getActiveSquaresG8)
+{
+  SquaresList cs;
+  BitBoard bb(0x0000000000000002);
+
+  bb.getActiveSquares(cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(G, EIGHT)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getActiveSquaresB1)
+{
+  SquaresList cs;
+  BitBoard bb(0x4000000000000000);
+
+  bb.getActiveSquares(cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(B, ONE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getActiveSquaresH8)
+{
+  SquaresList cs;
+  BitBoard bb(0x0000000000000001);
+
+  bb.getActiveSquares(cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(H, EIGHT)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getActiveSquaresA1)
+{
+  SquaresList cs;
+  BitBoard bb(0x8000000000000000);
+
+  bb.getActiveSquares(cs);
+
+  CHECK_EQUAL(1, cs.count());
+  CHECK(cs.contains(Square(A, ONE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(BitBoardTest, getActiveSquaresNoSquare)
+{
+  SquaresList cs;
+  BitBoard bb(0);
+
+  bb.getActiveSquares(cs);
+
+  CHECK_EQUAL(0, cs.count());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BitBoardTest, buildFromBoardValue)
 {
   BoardValue bv = 887766;

@@ -20,7 +20,9 @@
 #define _CGC_BIT_BOARD_HPP_
 
 #include <string>
+#include <list>
 
+#include "../../chess/SquaresList.hpp"
 #include "BoardValue.hpp"
 
 namespace cgc {
@@ -40,6 +42,8 @@ public:
   void setBoardValue(const std::string& value);
   BoardValue getBoardValue() const;
   bool isBitSet(unsigned int pos) const;
+  void getActiveSquares(SquaresList& squares);
+  void getChangedSquares(BoardValue newValue, SquaresList& squares);
   std::string toBoardString() const;
 
 private:

@@ -73,6 +73,47 @@ bool BitBoard::isBitSet(unsigned int pos) const
 }
 
 //--------------------------------------------------------------------------------------------
+void BitBoard::getActiveSquares(SquaresList& squares)
+{
+  for(unsigned int i = 0 ; i < 64 ; ++i)
+  {
+    if(isBitSet(i))
+    {
+      Rank r;
+      File f = static_cast<File>(LAST_FILE - (i % 8));
+
+      if(i < 8)
+        r = EIGHT;
+      else if(i < 16)
+        r = SEVEN;
+      else if(i < 24)
+        r = SIX;
+      else if(i < 32)
+        r = FIVE;
+      else if(i < 40)
+        r = FOUR;
+      else if(i < 48)
+        r = THREE;
+      else if(i < 56)
+        r = TWO;
+      else
+        r = ONE;
+
+      squares.add(Square(f, r));
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+void BitBoard::getChangedSquares(BoardValue newValue, SquaresList& squares)
+{
+  BitBoard masked(m_bVal ^  newValue);
+
+  squares.clear();
+  masked.getActiveSquares(squares);
+}
+
+//--------------------------------------------------------------------------------------------
 std::string BitBoard::toBoardString() const
 {
   std::string bStr;
