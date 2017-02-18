@@ -38,7 +38,6 @@ public:
   IHardwareStatePool();
   virtual ~IHardwareStatePool();
 
-  virtual int init() = 0;
   virtual IHardwareState& getState(State which) = 0;
 };
 

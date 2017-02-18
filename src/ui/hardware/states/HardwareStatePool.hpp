@@ -22,6 +22,7 @@
 #include <map>
 #include <memory>
 
+#include "../../../chess/GameLogic.hpp"
 #include "HardwareStateNull.hpp"
 #include "IHardwareStatePool.hpp"
 
@@ -37,7 +38,9 @@ public:
   HardwareStatePool();
   virtual ~HardwareStatePool();
 
-  virtual int init() override;
+  int init(GameLogic& gl);
+
+  // IHardwareStatePool
   virtual IHardwareState& getState(State which) override;
 
 private:

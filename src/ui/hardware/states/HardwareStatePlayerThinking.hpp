@@ -19,6 +19,7 @@
 #ifndef _CGC_HARDWARE_STATE_PLAYER_THINKING_HPP_
 #define _CGC_HARDWARE_STATE_PLAYER_THINKING_HPP_
 
+#include "../../../chess/GameLogic.hpp"
 #include "IHardwareStatePool.hpp"
 
 namespace cgc {
@@ -30,13 +31,14 @@ class HardwareStatePlayerThinking:
     public IHardwareState
 {
 public:
-  HardwareStatePlayerThinking(IHardwareStatePool& statesPool);
+  HardwareStatePlayerThinking(IHardwareStatePool& statesPool, GameLogic& gl);
   virtual ~HardwareStatePlayerThinking();
 
   virtual IHardwareState& execute(BoardValue bv) override;
 
 private:
   IHardwareStatePool& m_statesPool;
+  GameLogic& m_gl;
 };
 
 }       // namespace

@@ -33,8 +33,8 @@ public:
   ChessHardwareFactory() = delete;
   ~ChessHardwareFactory();
 
-  static std::unique_ptr<ChessHardware> buildCgcHardware(EventLoop& el);
-  static std::unique_ptr<ChessHardware> buildSimulatedHardware(EventLoop& el);
+  static std::unique_ptr<ChessHardware> buildCgcHardware(EventLoop& el, GameLogic& gl);
+  static std::unique_ptr<ChessHardware> buildSimulatedHardware(EventLoop& el, GameLogic& gl);
   static std::unique_ptr<IBoardInputDriver> buildCgcBoardInputDriver();
 };
 

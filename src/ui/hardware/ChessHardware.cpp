@@ -24,8 +24,10 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver):
+ChessHardware::ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver,
+    GameLogic& gl):
   m_inputDriver(std::move(inputDriver)),
+  m_gl(gl),
   m_currentHwState(nullptr)
 {
 }
@@ -40,7 +42,7 @@ int ChessHardware::init()
 {
   LOGDB() << "Initializing chess hardware ...";
 
-  if(m_statesPool.init())
+  if(m_statesPool.init(m_gl))
     return -1;
 
   if(m_inputDriver->init() != 0)

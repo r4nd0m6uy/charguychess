@@ -115,9 +115,9 @@ int main(int argc, char* argv[])
   else
   {
     if(hardwareArg == "cgc")
-      hw = cgc::ChessHardwareFactory::buildCgcHardware(el);
+      hw = cgc::ChessHardwareFactory::buildCgcHardware(el, gl);
     else if(hardwareArg == "sim")
-      hw = cgc::ChessHardwareFactory::buildSimulatedHardware(el);
+      hw = cgc::ChessHardwareFactory::buildSimulatedHardware(el, gl);
     else
     {
       std::cout << "Unknown hardware " << hardwareArg << std::endl;

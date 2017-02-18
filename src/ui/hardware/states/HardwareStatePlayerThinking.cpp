@@ -22,8 +22,10 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-HardwareStatePlayerThinking::HardwareStatePlayerThinking(IHardwareStatePool& statesPool):
-    m_statesPool(statesPool)
+HardwareStatePlayerThinking::HardwareStatePlayerThinking(IHardwareStatePool& statesPool,
+      GameLogic& gl):
+    m_statesPool(statesPool),
+    m_gl(gl)
 {
 }
 
@@ -36,6 +38,8 @@ HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 {
   LOGDB() << "Executing player thinking state ...";
+
+  (void)m_gl;
 
   return m_statesPool.getState(IHardwareStatePool::PLAYER_THINKING);
 }

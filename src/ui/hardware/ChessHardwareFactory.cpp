@@ -29,7 +29,8 @@ ChessHardwareFactory::~ChessHardwareFactory()
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware(EventLoop& el)
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware(EventLoop& el,
+    GameLogic& gl)
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
@@ -38,17 +39,20 @@ std::unique_ptr<ChessHardware> ChessHardwareFactory::buildCgcHardware(EventLoop&
                   std::unique_ptr<IBoardInputDriver>(buildCgcBoardInputDriver()),
                   el
               )
-           )
+           ),
+           gl
       )
   );
 }
 
 //--------------------------------------------------------------------------------------------
-std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulatedHardware(EventLoop& el)
+std::unique_ptr<ChessHardware> ChessHardwareFactory::buildSimulatedHardware(EventLoop& el,
+    GameLogic& gl)
 {
   return std::unique_ptr<ChessHardware>(
       new ChessHardware(
-          std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe(el))
+          std::unique_ptr<IBoardInputDriverObservable>(new BoardInputDriverPipe(el)),
+          gl
       )
   );
 }

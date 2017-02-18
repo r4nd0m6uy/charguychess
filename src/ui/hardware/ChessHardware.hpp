@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include "../../chess/GameLogic.hpp"
 #include "states/HardwareStatePool.hpp"
 #include "IBoardInputDriverObservable.hpp"
 
@@ -33,7 +34,7 @@ class ChessHardware:
     public IBoardInputObserver
 {
 public:
-  ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver);
+  ChessHardware(std::unique_ptr<IBoardInputDriverObservable> inputDriver, GameLogic& gl);
   virtual ~ChessHardware();
 
   int init();
@@ -44,6 +45,7 @@ public:
 
 private:
   std::unique_ptr<IBoardInputDriverObservable> m_inputDriver;
+  GameLogic& m_gl;
   IHardwareState* m_currentHwState;
   HardwareStatePool m_statesPool;
 

@@ -33,9 +33,9 @@ HardwareStatePool::~HardwareStatePool()
 }
 
 //--------------------------------------------------------------------------------------------
-int HardwareStatePool::init()
+int HardwareStatePool::init(GameLogic& gl)
 {
-  m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this));
+  m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this, gl));
 
   return 0;
 }
