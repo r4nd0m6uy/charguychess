@@ -48,6 +48,3 @@ link_directories(${LIBEVENT_LIBRARIES})
 
 add_executable(${APP_NAME} main.cpp)
 target_link_libraries(${APP_NAME} ${APP_LIB_NAME} ${LIBEVENT_LDFLAGS})
-
-add_executable(cgcTestInputDriver InputDriverTest.cpp)
-target_link_libraries(cgcTestInputDriver ${APP_LIB_NAME} ${LIBEVENT_LDFLAGS})
