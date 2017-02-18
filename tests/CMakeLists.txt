@@ -13,6 +13,8 @@ set(TEST_APP_NAME ${APP_NAME}_tests)
 set(TEST_SOURCES
     mocks/IBoardObserverMock.cpp
     mocks/IBoardInputObserverMock.cpp
+    mocks/IHardwareStateMock.cpp
+    mocks/IHardwareStatePoolMock.cpp
     PlayerPieceTest.cpp
     BitBoardTest.cpp
     BoardTest.cpp
@@ -21,6 +23,7 @@ set(TEST_SOURCES
     LegalSquaresTest.cpp
     GameLogicTest.cpp
     DispatchedBoardInputEventTest.cpp
+    HardwareStatePanicTest.cpp
     main.cpp
 )
 
