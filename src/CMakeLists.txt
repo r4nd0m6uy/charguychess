@@ -37,6 +37,8 @@ set(APP_SOURCES
   event-loop/HandledSignalLibevent.cpp
   event-loop/EventLoop.cpp
   event-loop/HandledQuitSignal.cpp
+  event-loop/ITimedOut.cpp
+  event-loop/Timer.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})

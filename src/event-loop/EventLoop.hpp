@@ -21,6 +21,7 @@
 
 #include <list>
 #include <map>
+#include <memory>
 
 #include <event2/event.h>
 
@@ -28,6 +29,7 @@
 #include "HandledIoLibevent.hpp"
 #include "IHandledSignal.hpp"
 #include "HandledSignalLibevent.hpp"
+#include "Timer.hpp"
 
 namespace cgc {
 
@@ -49,6 +51,7 @@ public:
   int init();
   int registerHandledIo(IHandledIo& handler, int what);
   int registerHandledSignal(IHandledSignal& handler, SignalHandle s);
+  int createTimer(const std::string& name, ITimedOut& to, std::unique_ptr<Timer>& timer);
   int run();
   int breakLoop();
 

@@ -43,6 +43,16 @@ void libeventSignalCallback(evutil_socket_t fd, short what, void* data)
 }
 
 //--------------------------------------------------------------------------------------------
+void libeventTimerCallback(evutil_socket_t fd, short what, void* data)
+{
+  Timer* timer = static_cast<Timer*>(data);
+
+  assert(what & EV_TIMEOUT);
+
+  timer->timedOut();
+}
+
+//--------------------------------------------------------------------------------------------
 EventLoop::EventLoop():
     m_eventBase(nullptr)
 {
@@ -147,6 +157,32 @@ int EventLoop::registerHandledSignal(IHandledSignal& handler, SignalHandle s)
     delete m_handleSignals[s];
   }
   m_handleSignals[s] = wrappedEvent;
+
+  return 0;
+}
+
+//--------------------------------------------------------------------------------------------
+int EventLoop::createTimer(const std::string& name, ITimedOut& to,
+    std::unique_ptr<Timer>& timer)
+{
+  struct event* ev;
+  std::unique_ptr<Timer> newTimer(new Timer(name, to));
+
+  if(m_eventBase == nullptr)
+  {
+    LOGER() << "Cannot register handled signal on a non initialized event loop";
+    return -1;
+  }
+
+  ev = evtimer_new(m_eventBase, libeventTimerCallback, newTimer.get());
+  if(ev == nullptr)
+  {
+    LOGER() << "Cannot create timer libevent event";
+    return -1;
+  }
+  newTimer->setEvent(ev);
+
+  timer = std::move(newTimer);
 
   return 0;
 }
