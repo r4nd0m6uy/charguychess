@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include "../../../logging/LogMacros.hpp"
+#include "../BitBoard.hpp"
 #include "HardwareStatePanic.hpp"
 
 namespace cgc {
@@ -35,14 +37,25 @@ HardwareStatePanic::~HardwareStatePanic()
 //--------------------------------------------------------------------------------------------
 void HardwareStatePanic::enter()
 {
+  // TODO: Display expected status on the hardware
+  LOGIN() << "Entering panic!";
 }
 
 //--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStatePanic::execute(BoardValue bv)
 {
-  (void)m_gl;
+  BitBoard expectedBoardValue(m_gl.getBoard());
 
-  return m_statesPool.enterState(IHardwareStatePool::PANIC);
+  if(expectedBoardValue.getBoardValue() == bv)
+  {
+    LOGIN() << "Hardware corresponds now to the game status";
+    return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING);
+  }
+  else
+    LOGDB() << "Still panic, we expect the board status " << std::endl <<
+        expectedBoardValue.toBoardString();
+
+  return *this;
 }
 
 }       // namespace

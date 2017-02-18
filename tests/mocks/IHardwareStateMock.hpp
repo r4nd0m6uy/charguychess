@@ -34,6 +34,8 @@ public:
   IHardwareStateMock();
   virtual ~IHardwareStateMock();
 
+  // IHardwareState
+  virtual void enter() override;
   virtual IHardwareState& execute(BoardValue bv) override;
 };
 

@@ -19,10 +19,12 @@
 #include <memory>
 
 #include <CppUTest/TestHarness.h>
+#include <CppUTestExt/MockSupport.h>
 
 #include "mocks/IHardwareStatePoolMock.hpp"
 #include "mocks/IHardwareStateMock.hpp"
 #include "ui/hardware/states/HardwareStatePanic.hpp"
+#include "ui/hardware/BitBoard.hpp"
 
 using namespace cgc;
 using namespace tests;
@@ -32,11 +34,11 @@ TEST_GROUP(HardwareStatePanicTest)
 {
   TEST_SETUP()
   {
-    m_gl.setBoard(Board());
   }
 
   TEST_TEARDOWN()
   {
+    mock().clear();
   }
 
   std::unique_ptr<HardwareStatePanic> buildHwState()
@@ -44,10 +46,52 @@ TEST_GROUP(HardwareStatePanicTest)
     return std::unique_ptr<HardwareStatePanic>(new HardwareStatePanic(m_hsp, m_gl));
   }
 
+  IHardwareStatePoolMock& getHwStatePool()
+  {
+    return m_hsp;
+  }
+
 private:
   IHardwareStatePoolMock m_hsp;
   GameLogic m_gl;
 };
+//--------------------------------------------------------------------------------------------
+TEST(HardwareStatePanicTest, executeEntersThinkingOnExpectedValue)
+{
+  Board b;
+  BitBoard bb(b);
+  IHardwareStateMock nextState;
+  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+
+  mock().expectOneCall("enterState").onObject(&getHwStatePool()).
+      withParameter("which", IHardwareStatePool::PLAYER_THINKING).
+      andReturnValue(&nextState);
+
+  POINTERS_EQUAL(&nextState, &state->execute(bb.getBoardValue()));
+
+  mock().checkExpectations();
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(HardwareStatePanicTest, executeDoesNothingNotExpectedValue)
+{
+  BoardValue bv = 1234;
+  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+
+  POINTERS_EQUAL(state.get(), &state->execute(bv));
+
+  mock().checkExpectations();
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(HardwareStatePanicTest, enterDoesNothing)
+{
+  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+
+  state->enter();
+
+  mock().checkExpectations();
+}
 
 //--------------------------------------------------------------------------------------------
 TEST(HardwareStatePanicTest, DefaultConstructor)
