@@ -54,7 +54,7 @@ int ChessHardware::init()
     return -1;
 
   m_inputDriver->registerObserver(*this);
-  m_currentHwState = &m_statesPool.enterState(IHardwareStatePool::PANIC);
+  m_currentHwState = &m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
   m_currentHwState = &m_currentHwState->execute(bv);
 
   return 0;

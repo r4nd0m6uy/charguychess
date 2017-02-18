@@ -32,7 +32,7 @@ public:
   IHardwareState();
   virtual ~IHardwareState();
 
-  virtual void enter() = 0;
+  virtual void enter(BoardValue bv) = 0;
   virtual IHardwareState& execute(BoardValue bv) = 0;
 };
 

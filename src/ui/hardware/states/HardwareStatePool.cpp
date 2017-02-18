@@ -37,17 +37,18 @@ HardwareStatePool::~HardwareStatePool()
 int HardwareStatePool::init(GameLogic& gl)
 {
   m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this, gl));
+  m_states[PLAYER_LIFTED_PIECE].reset(new HardwareStatePanic(*this, gl));
   m_states[PANIC].reset(new HardwareStatePanic(*this, gl));
 
   return 0;
 }
 
 //--------------------------------------------------------------------------------------------
-IHardwareState& HardwareStatePool::enterState(State which)
+IHardwareState& HardwareStatePool::enterState(State which, BoardValue bv)
 {
   if(m_states.find(which) != m_states.end())
   {
-    m_states[which]->enter();
+    m_states[which]->enter(bv);
     return *m_states[which];
   }
 

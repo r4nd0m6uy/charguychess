@@ -34,7 +34,7 @@ public:
   IHardwareStatePoolMock();
   virtual ~IHardwareStatePoolMock();
 
-  virtual IHardwareState& enterState(IHardwareStatePool::State which) override;
+  virtual IHardwareState& enterState(IHardwareStatePool::State which, BoardValue bv) override;
 };
 
 }}      // namespace

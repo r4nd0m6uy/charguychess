@@ -35,7 +35,7 @@ HardwareStatePanic::~HardwareStatePanic()
 }
 
 //--------------------------------------------------------------------------------------------
-void HardwareStatePanic::enter()
+void HardwareStatePanic::enter(BoardValue bv)
 {
   // TODO: Display expected status on the hardware
   LOGIN() << "Entering panic!";
@@ -49,7 +49,7 @@ IHardwareState& HardwareStatePanic::execute(BoardValue bv)
   if(expectedBoardValue.getBoardValue() == bv)
   {
     LOGIN() << "Hardware corresponds now to the game status";
-    return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING);
+    return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
   }
   else
     LOGDB() << "Still panic, we expect the board status " << std::endl <<

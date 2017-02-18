@@ -38,6 +38,7 @@ public:
   void add(const Square& square);
   bool contains(const Square& square);
   int count() const;
+  const std::list<Square>& getSquares();
 
 private:
   std::list<Square> m_squaresList;

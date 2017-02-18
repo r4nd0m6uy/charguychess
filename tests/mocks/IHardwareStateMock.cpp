@@ -34,9 +34,10 @@ IHardwareStateMock::~IHardwareStateMock()
 }
 
 //--------------------------------------------------------------------------------------------
-void IHardwareStateMock::enter()
+void IHardwareStateMock::enter(BoardValue bv)
 {
-  mock().actualCall(__func__).onObject(this);
+  mock().actualCall(__func__).onObject(this).
+      withParameter("bv", bv);
 }
 
 //--------------------------------------------------------------------------------------------

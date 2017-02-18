@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "../../../logging/LogMacros.hpp"
+#include "../BitBoard.hpp"
 #include "HardwareStatePlayerThinking.hpp"
 
 namespace cgc {
@@ -35,7 +36,7 @@ HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 }
 
 //--------------------------------------------------------------------------------------------
-void HardwareStatePlayerThinking::enter()
+void HardwareStatePlayerThinking::enter(BoardValue bv)
 {
   LOGDB() << "Entering player thinking (" << m_gl.getTurn() << ")";
 }
@@ -43,11 +44,25 @@ void HardwareStatePlayerThinking::enter()
 //--------------------------------------------------------------------------------------------
 IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 {
+  SquaresList changedSquares;
+  BitBoard mask(m_gl.getBoard());
+
   LOGDB() << "Executing player thinking state ...";
 
-  (void)m_gl;
+  mask.getChangedSquares(bv, changedSquares);
 
-  return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING);
+  if(changedSquares.count() == 1)
+  {
+    const Square& s = changedSquares.getSquares().front();
+    if(m_gl.getBoard().isEmpty(s))
+    {
+      // A piece was added from nowhere
+      LOGWA() << "Too many pieces on the board!";
+      return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
+    }
+  }
+
+  return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
 }
 
 }       // namespace

@@ -24,6 +24,7 @@ set(TEST_SOURCES
     GameLogicTest.cpp
     DispatchedBoardInputEventTest.cpp
     HardwareStatePanicTest.cpp
+    HardwareStatePlayerThinkingTest.cpp
     main.cpp
 )
 

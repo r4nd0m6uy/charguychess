@@ -35,7 +35,7 @@ public:
   virtual ~HardwareStatePanic();
 
   // IHardwareState
-  virtual void enter() override;
+  virtual void enter(BoardValue bv) override;
   virtual IHardwareState& execute(BoardValue bv) override;
 
 private:

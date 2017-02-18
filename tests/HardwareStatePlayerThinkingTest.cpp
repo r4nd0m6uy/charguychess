@@ -23,14 +23,14 @@
 
 #include "mocks/IHardwareStatePoolMock.hpp"
 #include "mocks/IHardwareStateMock.hpp"
-#include "ui/hardware/states/HardwareStatePanic.hpp"
+#include "ui/hardware/states/HardwareStatePlayerThinking.hpp"
 #include "ui/hardware/BitBoard.hpp"
 
 using namespace cgc;
 using namespace tests;
 
 //--------------------------------------------------------------------------------------------
-TEST_GROUP(HardwareStatePanicTest)
+TEST_GROUP(HardwareStatePlayerThinkingTest)
 {
   TEST_SETUP()
   {
@@ -41,9 +41,10 @@ TEST_GROUP(HardwareStatePanicTest)
     mock().clear();
   }
 
-  std::unique_ptr<HardwareStatePanic> buildHwState()
+  std::unique_ptr<HardwareStatePlayerThinking> buildHwState()
   {
-    return std::unique_ptr<HardwareStatePanic>(new HardwareStatePanic(m_hsp, m_gl));
+    return std::unique_ptr<HardwareStatePlayerThinking>(
+        new HardwareStatePlayerThinking(m_hsp, m_gl));
   }
 
   IHardwareStatePoolMock& getHwStatePool()
@@ -62,14 +63,17 @@ private:
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(HardwareStatePanicTest, executeEntersThinkingOnExpectedValue)
+TEST(HardwareStatePlayerThinkingTest, executeTooManyPieces)
 {
-  BitBoard bb(getGl().getBoard());
+  Board b;
   IHardwareStateMock nextState;
-  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, FIVE));
+  BitBoard bb(b);
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
-      withParameter("which", IHardwareStatePool::PLAYER_THINKING).
+      withParameter("which", IHardwareStatePool::PANIC).
       withParameter("bv", bb.getBoardValue()).
       andReturnValue(&nextState);
 
@@ -79,25 +83,10 @@ TEST(HardwareStatePanicTest, executeEntersThinkingOnExpectedValue)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(HardwareStatePanicTest, executeDoesNothingNotExpectedValue)
+TEST(HardwareStatePlayerThinkingTest, enterDoesNothing)
 {
-  BoardValue bv = 1234;
-  Board b;
-  std::unique_ptr<HardwareStatePanic> state = buildHwState();
-
-  b.clear();
-  getGl().setBoard(b);
-
-  POINTERS_EQUAL(state.get(), &state->execute(bv));
-
-  mock().checkExpectations();
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(HardwareStatePanicTest, enterDoesNothing)
-{
-  BoardValue bv(1234);
-  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+  BoardValue bv(234);
+  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
 
   state->enter(bv);
 
@@ -105,7 +94,7 @@ TEST(HardwareStatePanicTest, enterDoesNothing)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(HardwareStatePanicTest, DefaultConstructor)
+TEST(HardwareStatePlayerThinkingTest, DefaultConstructor)
 {
-  std::unique_ptr<HardwareStatePanic> state = buildHwState();
+  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
 }

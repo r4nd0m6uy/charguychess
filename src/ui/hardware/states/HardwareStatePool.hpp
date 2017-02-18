@@ -41,7 +41,7 @@ public:
   int init(GameLogic& gl);
 
   // IHardwareStatePool
-  virtual IHardwareState& enterState(State which) override;
+  virtual IHardwareState& enterState(State which, BoardValue bv) override;
 
 private:
   std::map<State, std::unique_ptr<IHardwareState> > m_states;

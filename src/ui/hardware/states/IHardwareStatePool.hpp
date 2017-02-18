@@ -31,14 +31,14 @@ class IHardwareStatePool
 public:
   enum State{
     PLAYER_THINKING,
-    //PLAYER_LIFTED_PIECE,
+    PLAYER_LIFTED_PIECE,
     //PLAYER_DONE_MOVE,
     PANIC
   };
   IHardwareStatePool();
   virtual ~IHardwareStatePool();
 
-  virtual IHardwareState& enterState(State which) = 0;
+  virtual IHardwareState& enterState(State which, BoardValue bv) = 0;
 };
 
 }       // namespace

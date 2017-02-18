@@ -56,4 +56,10 @@ int SquaresList::count() const
   return m_squaresList.size();
 }
 
+//--------------------------------------------------------------------------------------------
+const std::list<Square>& SquaresList::getSquares()
+{
+  return m_squaresList;
+}
+
 }       // namespace

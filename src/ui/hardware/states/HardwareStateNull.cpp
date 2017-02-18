@@ -34,7 +34,7 @@ HardwareStateNull::~HardwareStateNull()
 }
 
 //--------------------------------------------------------------------------------------------
-void HardwareStateNull::enter()
+void HardwareStateNull::enter(BoardValue bv)
 {
   // Something is wrong
   LOGER() << "Entering hardware state null, this should not happen!";

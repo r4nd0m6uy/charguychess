@@ -34,10 +34,12 @@ IHardwareStatePoolMock::~IHardwareStatePoolMock()
 }
 
 //--------------------------------------------------------------------------------------------
-IHardwareState& IHardwareStatePoolMock::enterState(IHardwareStatePool::State which)
+IHardwareState& IHardwareStatePoolMock::enterState(IHardwareStatePool::State which,
+    BoardValue bv)
 {
   return *((IHardwareState*)mock().actualCall(__func__).onObject(this).
       withParameter("which", which).
+      withParameter("bv", bv).
       returnPointerValue());
 }
 
