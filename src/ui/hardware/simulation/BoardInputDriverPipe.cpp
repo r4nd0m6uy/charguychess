@@ -113,6 +113,7 @@ void BoardInputDriverPipe::readReady()
 {
   char buffer[BUFFER_SIZE];
   ssize_t readSize;
+  size_t endLine;
 
   readSize = ::read(m_pipeFd, buffer, BUFFER_SIZE);
   if(readSize < 0)
@@ -121,12 +122,20 @@ void BoardInputDriverPipe::readReady()
     return;
   }
 
-  BitBoard bb(std::string(buffer, readSize));
-  m_bv = bb.getBoardValue();
+  m_buffer += std::string(buffer, readSize);
+  while((endLine = m_buffer.find('\n', 0)) != std::string::npos)
+  {
+    std::string strVal = m_buffer.substr(0, endLine);
+    BitBoard bb(strVal);
 
-  LOGDB() << "New board value: 0x" <<
-      std::setfill('0') << std::setw(16) << std::hex << m_bv;
-  m_dispatchedInputEvent.raiseBoardChanged(m_bv);
+    m_bv = bb.getBoardValue();
+    LOGDB() << "New simulated board value: 0x" <<
+        std::setfill('0') << std::setw(16) << std::hex << m_bv << " -> " << strVal;
+    m_dispatchedInputEvent.raiseBoardChanged(m_bv);
+
+    m_buffer = m_buffer.substr(endLine + 1);
+    endLine = m_buffer.find('\n', 0);
+  }
 }
 
 }       // namespace

@@ -68,6 +68,9 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
     else
     {
       Move m(m_liftedPieces.getSquares().front(), s);
+
+      LOGIN() << m << " played on the hardware";
+
       if(!m_gl.applyMove(m))
       {
         LOGDB() << "Illegal move " << m;

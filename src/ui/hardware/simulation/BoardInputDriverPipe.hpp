@@ -52,6 +52,7 @@ private:
   BoardValue m_bv;
   int m_pipeFd;
   DispatchedBoardInputEvent m_dispatchedInputEvent;
+  std::string m_buffer;
 };
 
 }       // namespace

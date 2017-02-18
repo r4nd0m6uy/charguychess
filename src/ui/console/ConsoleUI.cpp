@@ -126,6 +126,8 @@ void ConsoleUI::readReady()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::boardValueChanged(BoardValue bv)
 {
+  return;
+
   BitBoard bb(bv);
 
   std::cout << std::endl << "New hardware position:" << std::endl;

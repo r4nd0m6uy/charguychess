@@ -70,7 +70,7 @@ bool Move::isValid() const
 //--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {
-  os << m.getFrom() << m.getTo() << std::endl;
+  os << m.getFrom() << m.getTo();
   return os;
 }
 
