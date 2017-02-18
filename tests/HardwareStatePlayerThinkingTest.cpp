@@ -63,6 +63,29 @@ private:
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(HardwareStatePlayerThinkingTest, executeOnePieceLifted)
+{
+  Board b;
+  IHardwareStateMock nextState;
+  Square liftedSquare(C, FIVE);
+  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), liftedSquare);
+  getGl().setBoard(b);
+  b.clear(liftedSquare);
+  BitBoard bb(b);
+
+  mock().expectOneCall("enterState").onObject(&getHwStatePool()).
+      withParameter("which", IHardwareStatePool::PLAYER_LIFTED_PIECE).
+      withParameter("bv", bb.getBoardValue()).
+      andReturnValue(&nextState);
+
+  POINTERS_EQUAL(&nextState, &state->execute(bb.getBoardValue()));
+
+  mock().checkExpectations();
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(HardwareStatePlayerThinkingTest, executeTooManyPieces)
 {
   Board b;

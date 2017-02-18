@@ -60,6 +60,12 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
       LOGWA() << "Too many pieces on the board!";
       return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
     }
+    else
+    {
+      // A piece was lifted
+      LOGDB() << "Piece on " << s << " lifted ";
+      return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
+    }
   }
 
   return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);

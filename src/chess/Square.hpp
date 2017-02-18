@@ -50,5 +50,7 @@ private:
   Rank m_rank;
 };
 
+std::ostream& operator<<(std::ostream& os, const Square& s);
+
 }       // namespace
 #endif  // _CGC_SQUARE_HPP_

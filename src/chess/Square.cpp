@@ -97,4 +97,11 @@ bool Square::operator!=(const Square& rhs) const
   return !(*this == rhs);
 }
 
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const Square& s)
+{
+  os << s.getFile() << s.getRank();
+  return os;
+}
+
 }       // namespace
