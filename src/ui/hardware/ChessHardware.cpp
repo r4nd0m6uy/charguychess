@@ -40,6 +40,8 @@ ChessHardware::~ChessHardware()
 //--------------------------------------------------------------------------------------------
 int ChessHardware::init()
 {
+  BoardValue bv;
+
   LOGDB() << "Initializing chess hardware ...";
 
   if(m_statesPool.init(m_gl))
@@ -48,8 +50,12 @@ int ChessHardware::init()
   if(m_inputDriver->init() != 0)
     return -1;
 
+  if(m_inputDriver->read(bv))
+    return -1;
+
   m_inputDriver->registerObserver(*this);
   m_currentHwState = &m_statesPool.enterState(IHardwareStatePool::PANIC);
+  m_currentHwState = &m_currentHwState->execute(bv);
 
   return 0;
 }

@@ -37,6 +37,7 @@ HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 //--------------------------------------------------------------------------------------------
 void HardwareStatePlayerThinking::enter()
 {
+  LOGDB() << "Entering player thinking (" << m_gl.getTurn() << ")";
 }
 
 //--------------------------------------------------------------------------------------------
