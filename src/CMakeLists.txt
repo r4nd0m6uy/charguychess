@@ -27,9 +27,13 @@ set(APP_SOURCES
   ui/hardware/BoardInputDriverPolled.cpp
   ui/hardware/ChessHardwareFactory.cpp
   ui/hardware/DispatchedBoardInputEvent.cpp
+  ui/hardware/BitBoard.cpp
   ui/hardware/cgc/BoardInputDriverCharGuy.cpp
   ui/hardware/simulation/BoardInputDriverPipe.cpp
-  ui/hardware/BitBoard.cpp
+  ui/hardware/states/IHardwareStatePool.cpp
+  ui/hardware/states/HardwareStatePool.cpp
+  ui/hardware/states/IHardwareState.cpp
+  ui/hardware/states/HardwareStateNull.cpp
   event-loop/IHandledIo.cpp
   event-loop/IHandledSignal.cpp
   event-loop/HandledByLibevent.cpp
