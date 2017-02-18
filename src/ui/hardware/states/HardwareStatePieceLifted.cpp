@@ -38,7 +38,7 @@ HardwareStatePieceLifted::~HardwareStatePieceLifted()
 //--------------------------------------------------------------------------------------------
 void HardwareStatePieceLifted::enter(BoardValue bv)
 {
-  LOGDB() << "Entering piece lifted";
+  LOGIN() << "Entering piece lifted (" << m_gl.getTurn() << ")";
 
   // TODO TDD
   BitBoard game(m_gl.getBoard());

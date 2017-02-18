@@ -36,7 +36,8 @@ static const std::string PROMPT = "charguychess> ";
 ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop):
     m_gl(gl),
     m_eventLoop(eventLoop),
-    m_isMoveEnabled(true)
+    m_isMoveEnabled(true),
+    m_isDriverBbEnabled(false)
 {
 }
 
@@ -115,6 +116,8 @@ void ConsoleUI::readReady()
     readMove(cmd.substr(5, 4));
   else if(cmd.find("new") == 0)
     m_gl.newGame();
+  else if(cmd.find("hwAutoDsp") == 0)
+    m_isDriverBbEnabled = cmd[10] == '1';
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -126,13 +129,14 @@ void ConsoleUI::readReady()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::boardValueChanged(BoardValue bv)
 {
-  return;
+  if(m_isDriverBbEnabled)
+  {
+    BitBoard bb(bv);
 
-  BitBoard bb(bv);
-
-  std::cout << std::endl << "New hardware position:" << std::endl;
-  std::cout << bb.toBoardString() << std::endl;
-  printPrompt();
+    std::cout << std::endl << "New hardware position:" << std::endl;
+    std::cout << bb.toBoardString() << std::endl;
+    printPrompt();
+  }
 }
 
 //--------------------------------------------------------------------------------------------
@@ -144,7 +148,7 @@ void ConsoleUI::printPrompt()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
 {
-  std::cout << RANK_SEPARATOR;
+  std::cout << std::endl << RANK_SEPARATOR;
 
   // Show white turn
   if(playerTurn == WHITE)
@@ -203,12 +207,13 @@ void ConsoleUI::printGreeting()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::printHelp()
 {
-  std::cout << "help            Print this help" << std::endl;
-  std::cout << "show            Show the board" << std::endl;
-  std::cout << "legal <square>  Show legal moves from <square> (e2)" << std::endl;
-  std::cout << "move <move>     Make a move (e2e4)" << std::endl;
-  std::cout << "new             Start a new game" << std::endl;
-  std::cout << "quit            Quit the application" << std::endl;
+  std::cout << "help              Print this help" << std::endl;
+  std::cout << "show              Show the board" << std::endl;
+  std::cout << "legal <square>    Show legal moves from <square> (e2)" << std::endl;
+  std::cout << "move <move>       Make a move (e2e4)" << std::endl;
+  std::cout << "new               Start a new game" << std::endl;
+  std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware value" << std::endl;
+  std::cout << "quit              Quit the application" << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------

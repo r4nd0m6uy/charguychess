@@ -38,7 +38,7 @@ HardwareStatePlayerThinking::~HardwareStatePlayerThinking()
 //--------------------------------------------------------------------------------------------
 void HardwareStatePlayerThinking::enter(BoardValue bv)
 {
-  LOGDB() << "Entering player thinking (" << m_gl.getTurn() << ")";
+  LOGIN() << "Entering player thinking (" << m_gl.getTurn() << ")";
 }
 
 //--------------------------------------------------------------------------------------------
@@ -53,22 +53,29 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 
   if(changedSquares.count() == 1)
   {
-    const Square& s = changedSquares.getSquares().front();
-    if(m_gl.getBoard().isEmpty(s))
+    LegalSquares ls(changedSquares.getSquares().front());
+
+    // Added a piece
+    if(m_gl.getBoard().isEmpty(ls.getFrom()))
     {
-      // A piece was added from nowhere
       LOGWA() << "Too many pieces on the board!";
       return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
     }
-    else
+
+    m_gl.getLegalSquares(ls);
+
+    // Piece cannot move
+    if(ls.count() == 0)
     {
-      // A piece was lifted
-      LOGDB() << "Piece on " << s << " lifted ";
-      return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
+      LOGWA() << "Cannot move from " << ls.getFrom();
+      return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
     }
+
+    return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
   }
 
-  return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
+  LOGWA() << "Too many squares have changed at the same time!";
+  return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
 }
 
 }       // namespace

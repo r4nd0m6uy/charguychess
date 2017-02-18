@@ -53,6 +53,7 @@ private:
   GameLogic& m_gl;
   EventLoop& m_eventLoop;
   bool m_isMoveEnabled;
+  bool m_isDriverBbEnabled;
 
   void showBoard(Color playerTurn, const Board& newStatus);
   void printPrompt();
