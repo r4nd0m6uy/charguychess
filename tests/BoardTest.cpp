@@ -36,6 +36,18 @@ TEST_GROUP(BoardTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(BoardTest, clearSquare)
+{
+  Square s;
+  Board b;
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), s);
+  b.clear(s);
+
+  CHECK(b.isEmpty(s));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(BoardTest, clear)
 {
   Board b;

@@ -37,6 +37,7 @@ public:
   ~Board();
 
   void clear();
+  void clear(const Square& s);
   const PlayerPiece& getPiece(const Square& s) const;
   void setPiece(const PlayerPiece& p, const Square& s);
   bool isEmpty(const Square& s) const;

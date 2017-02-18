@@ -74,6 +74,12 @@ void Board::clear()
 }
 
 //--------------------------------------------------------------------------------------------
+void Board::clear(const Square& s)
+{
+  setPiece(PlayerPiece(NO_COLOR, NO_PIECE), s);
+}
+
+//--------------------------------------------------------------------------------------------
 const PlayerPiece& Board::getPiece(const Square& s) const
 {
   // Precondition
