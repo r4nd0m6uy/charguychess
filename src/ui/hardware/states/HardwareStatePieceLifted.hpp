@@ -42,8 +42,6 @@ public:
 private:
   IHardwareStatePool& m_statesPool;
   GameLogic& m_gl;
-  SquaresList m_liftedPieces;
-  BitBoard m_previous;
 };
 
 }       // namespace

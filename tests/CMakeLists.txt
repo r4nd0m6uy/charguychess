@@ -25,6 +25,7 @@ set(TEST_SOURCES
     DispatchedBoardInputEventTest.cpp
     HardwareStatePanicTest.cpp
     HardwareStatePlayerThinkingTest.cpp
+    HardwareStatePieceLiftedTest.cpp
     main.cpp
 )
 
