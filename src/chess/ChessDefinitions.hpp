@@ -38,6 +38,8 @@ enum Rank{
 std::ostream& operator<<(std::ostream& os, const Rank& r);
 Rank& operator--(Rank& r);
 Rank& operator++(Rank& r);
+Rank operator+(const Rank& r, const int& i);
+Rank operator-(const Rank& r, const int& i);
 
 enum File{
   A = 0,
@@ -52,7 +54,11 @@ enum File{
   INVALID_FILE
 };
 std::ostream& operator<<(std::ostream& os, const File& f);
+File& operator--(File& f);
 File& operator++(File& f);
+File operator+(const File& f, const int& i);
+File operator-(const File& f, const int& i);
+File& operator+=(File& f, const int& i);
 
 enum Color
 {

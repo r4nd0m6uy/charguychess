@@ -70,7 +70,8 @@ Board::~Board()
 //--------------------------------------------------------------------------------------------
 void Board::clear()
 {
-  m_boardPieces = BoardPieces(LAST_FILE + 1, std::vector<PlayerPiece>(LAST_RANK + 1));
+  m_boardPieces =
+      BoardPieces(LAST_FILE + 1, std::vector<PlayerPiece>(LAST_RANK + 1));
 }
 
 //--------------------------------------------------------------------------------------------

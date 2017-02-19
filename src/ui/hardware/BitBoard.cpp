@@ -96,7 +96,7 @@ void BitBoard::getActiveSquares(SquaresList& squares)
     if(isBitSet(i))
     {
       Rank r;
-      File f = static_cast<File>(LAST_FILE - (i % 8));
+      File f = static_cast<File>((int)LAST_FILE - (i % 8));
 
       if(i < 8)
         r = EIGHT;

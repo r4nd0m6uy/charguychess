@@ -58,6 +58,7 @@ private:
   std::list<PlayerPiece> m_capPiecesWhite;
 
   void getPawnLegalSquares(LegalSquares& legalSquares) const;
+  void getBishopLegalSquares(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
 };
 

@@ -41,6 +41,119 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, bishopMovesOnEmptyBoardOnF1)
+{
+  Square from(F, ONE);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), from);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(7, ls.count());
+  CHECK(ls.contains(Square(E, TWO)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(C, FOUR)));
+  CHECK(ls.contains(Square(B, FIVE)));
+  CHECK(ls.contains(Square(A, SIX)));
+  CHECK(ls.contains(Square(G, TWO)));
+  CHECK(ls.contains(Square(H, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, bishopMovesOnEmptyBoardWhitePawnG6)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), from);
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(G, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(11, ls.count());
+  CHECK(ls.contains(Square(A, EIGHT)));
+  CHECK(ls.contains(Square(B, SEVEN)));
+  CHECK(ls.contains(Square(C, SIX)));
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(F, THREE)));
+  CHECK(ls.contains(Square(G, TWO)));
+  CHECK(ls.contains(Square(H, ONE)));
+  CHECK(ls.contains(Square(B, ONE)));
+  CHECK(ls.contains(Square(C, TWO)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(F, FIVE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, bishopMovesOnEmptyBoardBlackPawnG6)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), from);
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(G, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(12, ls.count());
+  CHECK(ls.contains(Square(A, EIGHT)));
+  CHECK(ls.contains(Square(B, SEVEN)));
+  CHECK(ls.contains(Square(C, SIX)));
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(F, THREE)));
+  CHECK(ls.contains(Square(G, TWO)));
+  CHECK(ls.contains(Square(H, ONE)));
+  CHECK(ls.contains(Square(B, ONE)));
+  CHECK(ls.contains(Square(C, TWO)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(F, FIVE)));
+  CHECK(ls.contains(Square(G, SIX)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, bishopMovesOnEmptyBoard)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), from);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(13, ls.count());
+  CHECK(ls.contains(Square(A, EIGHT)));
+  CHECK(ls.contains(Square(B, SEVEN)));
+  CHECK(ls.contains(Square(C, SIX)));
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(F, THREE)));
+  CHECK(ls.contains(Square(G, TWO)));
+  CHECK(ls.contains(Square(H, ONE)));
+  CHECK(ls.contains(Square(B, ONE)));
+  CHECK(ls.contains(Square(C, TWO)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(F, FIVE)));
+  CHECK(ls.contains(Square(G, SIX)));
+  CHECK(ls.contains(Square(H, SEVEN)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, blackCapturedPiecesClearedAfterNew)
 {
   Square to(D, THREE);

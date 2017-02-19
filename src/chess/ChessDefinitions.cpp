@@ -50,23 +50,43 @@ std::ostream& operator<<(std::ostream& os, const Rank& r)
 //--------------------------------------------------------------------------------------------
 Rank& operator--(Rank& r)
 {
-  if(r == ONE)
-    r = INVALID_RANK;
-  else if(r != INVALID_RANK)
-    r = static_cast<Rank>(r - 1);
-
+  r = r - 1;
   return r;
 }
 
 //--------------------------------------------------------------------------------------------
 Rank& operator++(Rank& r)
 {
-  if(r == EIGHT)
-    r = INVALID_RANK;
-  else if(r != INVALID_RANK)
-    r = static_cast<Rank>(r + 1);
-
+  r = r + 1;
   return r;
+}
+
+//--------------------------------------------------------------------------------------------
+Rank operator+(const Rank& r, const int& i)
+{
+  int rInt = (int)r + i;
+
+  if(r == INVALID_RANK)
+    return INVALID_RANK;
+
+  if(rInt > LAST_RANK || rInt < ONE)
+    return INVALID_RANK;
+
+  return static_cast<Rank>(rInt);
+}
+
+//--------------------------------------------------------------------------------------------
+Rank operator-(const Rank& r, const int& i)
+{
+  int rInt = (int)r - i;
+
+  if(r == INVALID_RANK)
+    return INVALID_RANK;
+
+  if(rInt > LAST_RANK || rInt < ONE)
+    return INVALID_RANK;
+
+  return static_cast<Rank>(rInt);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -97,12 +117,51 @@ std::ostream& operator<<(std::ostream& os, const File& f)
 }
 
 //--------------------------------------------------------------------------------------------
+File& operator--(File& f)
+{
+  f = f - 1;
+  return f;
+}
+
+//--------------------------------------------------------------------------------------------
 File& operator++(File& f)
 {
-  if(f == H)
-    f = INVALID_FILE;
-  else if(f != INVALID_FILE)
-    f = static_cast<File>(f + 1);
+  f = f + 1;
+  return f;
+}
+
+//--------------------------------------------------------------------------------------------
+File operator+(const File& f, const int& i)
+{
+  int fInt = (int)f + i;
+
+  if(f == INVALID_FILE)
+    return INVALID_FILE;
+
+  if(fInt > LAST_FILE || fInt < A)
+    return INVALID_FILE;
+
+  return static_cast<File>(fInt);
+}
+
+//--------------------------------------------------------------------------------------------
+File operator-(const File& f, const int& i)
+{
+  int fInt = (int)f - i;
+
+  if(f == INVALID_FILE)
+    return INVALID_FILE;
+
+  if(fInt > LAST_FILE || fInt < A)
+    return INVALID_FILE;
+
+  return static_cast<File>(fInt);
+}
+
+//--------------------------------------------------------------------------------------------
+File& operator+=(File& f, const int& i)
+{
+  f = f + i;
 
   return f;
 }

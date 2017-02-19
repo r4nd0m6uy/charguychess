@@ -89,6 +89,8 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
     return;
   else if(t == PAWN)
     this->getPawnLegalSquares(legalSquares);
+  else if(t == BISHOP)
+    this->getBishopLegalSquares(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -192,6 +194,40 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
         static_cast<Rank>(from.getRank() + forwardDirection));
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
       legalSquares.add(s);
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getBishopLegalSquares(LegalSquares& legalSquares) const
+{
+  for(int vDir = -1 ; vDir <= 1 ; vDir += 2)
+  {
+    for(int hDir = -1 ; hDir <= 1 ; hDir += 2)
+    {
+      Rank r = legalSquares.getFrom().getRank() + hDir;
+
+      if(r != INVALID_RANK)
+      {
+        for(File f = legalSquares.getFrom().getFile() + vDir ; f != INVALID_FILE ; f += vDir)
+        {
+          Square s(f, r);
+
+          // Piece of the same color is blocking the way
+          if(!m_board.isEmpty(s) && m_board.getPieceColor(s) == m_turn)
+            break;
+
+          legalSquares.add(s);
+
+          // Piece of opposite color is blocking the way
+          if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
+            break;
+
+          r = r + hDir;
+          if(r == INVALID_RANK)
+            break;
+        }
+      }
+    }
   }
 }
 
