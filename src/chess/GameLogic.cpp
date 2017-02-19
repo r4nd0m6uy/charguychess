@@ -93,6 +93,11 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
     this->getBishopLegalSquares(legalSquares);
   else if(t == ROOK)
     this->getRookLegalSquares(legalSquares);
+  else if(t == QUEEN)
+  {
+    this->getBishopLegalSquares(legalSquares);
+    this->getRookLegalSquares(legalSquares);
+  }
 }
 
 //--------------------------------------------------------------------------------------------
