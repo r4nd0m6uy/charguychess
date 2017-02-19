@@ -56,7 +56,8 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
     LegalSquares ls(changedSquares.getSquares().front());
 
     // Added a piece
-    if(m_gl.getBoard().isEmpty(ls.getFrom()))
+    if(changedSquares.count() == 1 &&
+        m_gl.getBoard().isEmpty(ls.getFrom()))
     {
       LOGWA() << "Too many pieces on the board!";
       return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
@@ -72,6 +73,19 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
     }
 
     return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
+  }
+
+  else if(changedSquares.count() == 2)
+  {
+    LegalSquares ls1(changedSquares.getSquares().front());
+    LegalSquares ls2(changedSquares.getSquares().back());
+
+    m_gl.getLegalSquares(ls1);
+    m_gl.getLegalSquares(ls2);
+    if(ls1.count() != 0 || ls2.count() != 0)
+      return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
+    else
+      LOGWA() << "No legal move from " << ls1.getFrom() << " neither " << ls2.getFrom();
   }
 
   LOGWA() << "Too many squares have changed at the same time!";

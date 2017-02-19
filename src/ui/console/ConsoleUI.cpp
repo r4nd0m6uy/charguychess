@@ -211,7 +211,7 @@ void ConsoleUI::printHelp()
   std::cout << "legal <square>    Show legal moves from <square> (e2)" << std::endl;
   std::cout << "move <move>       Make a move (e2e4)" << std::endl;
   std::cout << "new               Start a new game" << std::endl;
-  std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware value" << std::endl;
+  std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 

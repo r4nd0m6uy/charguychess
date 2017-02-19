@@ -34,6 +34,7 @@ TEST_GROUP(HardwareStatePlayerThinkingTest)
 {
   TEST_SETUP()
   {
+    m_gl.newGame();
   }
 
   TEST_TEARDOWN()
@@ -61,6 +62,23 @@ private:
   IHardwareStatePoolMock m_hsp;
   GameLogic m_gl;
 };
+
+//--------------------------------------------------------------------------------------------
+TEST(HardwareStatePlayerThinkingTest, executeTwoBitsChangedLegal)
+{
+  IHardwareStateMock nextState;
+  BoardValue bv = 0xFF7F80000000FFFF;
+  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
+
+  mock().expectOneCall("enterState").onObject(&getHwStatePool()).
+      withParameter("which", IHardwareStatePool::PLAYER_LIFTED_PIECE).
+      withParameter("bv", bv).
+      andReturnValue(&nextState);
+
+  POINTERS_EQUAL(&nextState, &state->execute(bv));
+
+  mock().checkExpectations();
+}
 
 //--------------------------------------------------------------------------------------------
 TEST(HardwareStatePlayerThinkingTest, executeOnePieceLiftedIllegal)
