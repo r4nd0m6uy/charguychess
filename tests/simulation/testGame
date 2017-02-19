@@ -7,4 +7,7 @@
 0xFFE700181800E7FF  // d7d5 at once
 0xFFE700081800E7FF  // d4 lifted
 0xFFE700081000E7FF  // e5 lifted for capture
-0xFFE700081800E7FF  // e5 droppted for capture
+0xFFE700081800E7FF  // e5 dropped for capture
+0xFFE700080800E7FF  // d5 lifted for capture
+0xFFE700000800E7FF  // e4 lifted for capture
+0xFFE700080800E7FF  // e4 dropped for capture

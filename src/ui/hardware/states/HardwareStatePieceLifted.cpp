@@ -93,12 +93,13 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
       // Two pieces of different colors lifted for capture
       if(c1 != NO_COLOR && c2 != NO_COLOR && m_gl.isMoveLegal(m))
       {
-        LOGIN() << m_gl.getTurn() << " does capture move " << m << " on the hardware";
+        LOGIN() << m_gl.getTurn() << " is lifting pieces " << m << " for capture ...";
         return m_statesPool.enterState(IHardwareStatePool::PLAYER_CAPTURE, bv);
       }
 
       // Move done without capture
-      else if(!m_gl.applyMove(m))
+      LOGIN() << m_gl.getTurn() << " moves " << m << " on the hardware";
+      if(!m_gl.applyMove(m))
         LOGWA() << "Illegal move " << m;
       else
         return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);

@@ -1,0 +1,9 @@
+0xFFFF00000000FFFF  // Start pos
+0xFFF700000000FFFF  // e2 lifted
+0xFFF700080000FFFF  // e4 dropped
+0xFFF700080000EFFF  // d7 lifted
+0xFFF700080010EFFF  // d6 dropped
+0xFFF700000010EFFF  // e4 lifted
+0xFFF700000000EFFF  // d6 lifted illegal capture
+0xFFF700080010EFFF  // Back to normal
+

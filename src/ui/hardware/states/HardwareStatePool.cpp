@@ -18,6 +18,7 @@
  */
 #include "../../../logging/LogMacros.hpp"
 #include "HardwareStatePlayerThinking.hpp"
+#include "HardwareStateCapture.hpp"
 #include "HardwareStatePieceLifted.hpp"
 #include "HardwareStatePanic.hpp"
 #include "HardwareStatePool.hpp"
@@ -39,6 +40,7 @@ int HardwareStatePool::init(GameLogic& gl)
 {
   m_states[PLAYER_THINKING].reset(new HardwareStatePlayerThinking(*this, gl));
   m_states[PLAYER_LIFTED_PIECE].reset(new HardwareStatePieceLifted(*this, gl));
+  m_states[PLAYER_CAPTURE].reset(new HardwareStateCapture(*this, gl));
   m_states[PANIC].reset(new HardwareStatePanic(*this, gl));
 
   return 0;
