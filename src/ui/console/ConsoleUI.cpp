@@ -113,6 +113,8 @@ void ConsoleUI::readReady()
     showBoard(m_gl.getTurn(), m_gl.getBoard());
   else if(cmd.find("legal") == 0)
     showLegalSquare(cmd.substr(6, 2));
+  else if(cmd.find("ctrlSquares") == 0)
+    displayCtrlSquares();
   else if(cmd.find("move") == 0)
     readMove(cmd.substr(5, 4));
   else if(cmd.find("new") == 0)
@@ -213,6 +215,7 @@ void ConsoleUI::printHelp()
   std::cout << "show              Show the board" << std::endl;
   std::cout << "legal <square>    Show legal moves from <square> (e2)" << std::endl;
   std::cout << "move <move>       Make a move (e2e4)" << std::endl;
+  std::cout << "ctrlSquares       Display controlled square" << std::endl;
   std::cout << "new               Start a new game" << std::endl;
   std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
@@ -268,6 +271,44 @@ void ConsoleUI::showLegalSquare(const std::string& square)
         std::cout << " " << m_gl.getBoard().getPiece(s) << " ";
       std::cout << "|";
     }
+    std::cout << std::endl << RANK_SEPARATOR << std::endl;
+  }
+
+  std::cout << BOTTOM_LABEL << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::displayCtrlSquares()
+{
+  SquaresList whiteLs;
+  SquaresList blackLs;
+
+  m_gl.getControlledSquares(WHITE, whiteLs);
+  m_gl.getControlledSquares(BLACK, blackLs);
+
+  std::cout << RANK_SEPARATOR << std::endl;
+  for(Rank r = EIGHT ; r != INVALID_RANK ; --r)
+  {
+    std::cout << r << "|";
+
+    for(File f = A ; f <= H ; ++f)
+    {
+      Square s(f, r);
+
+      if(whiteLs.contains(s))
+        std::cout << "W";
+      else
+        std::cout << " ";
+
+      std::cout << m_gl.getBoard().getPiece(s);
+
+      if(blackLs.contains(s))
+        std::cout << "b";
+      else
+        std::cout << " ";
+      std::cout << "|";
+    }
+
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
   }
 

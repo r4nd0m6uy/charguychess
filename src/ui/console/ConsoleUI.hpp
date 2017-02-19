@@ -61,6 +61,7 @@ private:
   void printHelp();
   void readMove(const std::string& move);
   void showLegalSquare(const std::string& square);
+  void displayCtrlSquares();
 };
 
 }       // namespace
