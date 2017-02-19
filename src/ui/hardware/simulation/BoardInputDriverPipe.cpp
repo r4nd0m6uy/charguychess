@@ -126,14 +126,17 @@ void BoardInputDriverPipe::readReady()
   while((endLine = m_buffer.find('\n', 0)) != std::string::npos)
   {
     std::string strVal = m_buffer.substr(0, endLine);
-    BitBoard bb(strVal);
+    m_buffer = m_buffer.substr(endLine + 1);
 
+    if(strVal == "")
+      continue;
+
+    BitBoard bb(strVal);
     m_bv = bb.getBoardValue();
     LOGDB() << "New simulated board value: 0x" <<
         std::setfill('0') << std::setw(16) << std::hex << m_bv << " -> " << strVal;
     m_dispatchedInputEvent.raiseBoardChanged(m_bv);
 
-    m_buffer = m_buffer.substr(endLine + 1);
     endLine = m_buffer.find('\n', 0);
   }
 }

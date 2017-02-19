@@ -135,7 +135,6 @@ void ConsoleUI::boardValueChanged(BoardValue bv)
 
     std::cout << std::endl << "New hardware position:" << std::endl;
     std::cout << bb.toBoardString() << std::endl;
-    printPrompt();
   }
 }
 
