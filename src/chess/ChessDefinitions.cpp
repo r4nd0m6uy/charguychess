@@ -93,21 +93,21 @@ Rank operator-(const Rank& r, const int& i)
 std::ostream& operator<<(std::ostream& os, const File& f)
 {
   if(f == A)
-    os << "A";
+    os << "a";
   else if(f == B)
-    os << "B";
+    os << "b";
   else if(f == C)
-    os << "C";
+    os << "c";
   else if(f == D)
-    os << "D";
+    os << "d";
   else if(f == E)
-    os << "E";
+    os << "e";
   else if(f == F)
-    os << "F";
+    os << "f";
   else if(f == G)
-    os << "G";
+    os << "g";
   else if(f == H)
-    os << "H";
+    os << "h";
   else if(f == INVALID_FILE)
     os << "invalid";
   else

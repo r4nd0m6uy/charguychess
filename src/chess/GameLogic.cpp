@@ -132,6 +132,8 @@ bool GameLogic::applyMove(const Move& m)
   else
     m_turn = BLACK;
 
+  m_gh.addMove(m);  // TODO TDD
+
   raiseBoardChanged();
 
   return true;
@@ -147,6 +149,12 @@ const std::list<PlayerPiece>& GameLogic::getCapturedWhitePieces() const
 const std::list<PlayerPiece>& GameLogic::getCapturedBlackPieces() const
 {
   return m_capPiecesBlack;
+}
+
+//--------------------------------------------------------------------------------------------
+const GameHistory& GameLogic::getGameHistory() const
+{
+  return m_gh;
 }
 
 //--------------------------------------------------------------------------------------------

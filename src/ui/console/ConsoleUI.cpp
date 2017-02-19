@@ -30,6 +30,7 @@ namespace cgc {
 
 static const int BUFFER_SIZE = 128;
 static const std::string RANK_SEPARATOR = " +---+---+---+---+---+---+---+---+";
+static const std::string BOTTOM_LABEL =   "   A   B   C   D   E   F   G   H";
 static const std::string PROMPT = "charguychess> ";
 
 //--------------------------------------------------------------------------------------------
@@ -179,8 +180,7 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
   }
 
   // Label
-  std::cout << "   " << A << "   " << B << "   " << C << "   " << D << "   " << E << "   " <<
-      F << "   " << G << "   " << H << std::endl;
+  std::cout << BOTTOM_LABEL << std::endl;
 
   // Captured black pieces
   std::cout << WHITE << ": ";
@@ -193,6 +193,9 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
   for(auto& cp : m_gl.getCapturedWhitePieces())
     std::cout << cp;
   std::cout << std::endl;
+
+  // History
+  std::cout << m_gl.getGameHistory() << std::endl;
 
 }
 
@@ -268,8 +271,7 @@ void ConsoleUI::showLegalSquare(const std::string& square)
     std::cout << std::endl << RANK_SEPARATOR << std::endl;
   }
 
-  std::cout << "   " << A << "   " << B << "   " << C << "   " << D << "   " << E << "   " <<
-      F << "   " << G << "   " << H << std::endl;
+  std::cout << BOTTOM_LABEL << std::endl;
 }
 
 }       // namespace

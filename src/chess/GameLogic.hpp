@@ -26,6 +26,7 @@
 #include "Move.hpp"
 #include "LegalSquares.hpp"
 #include "IBoardObserver.hpp"
+#include "GameHistory.hpp"
 
 namespace cgc {
 
@@ -49,10 +50,12 @@ public:
   bool applyMove(const Move& m);
   const std::list<PlayerPiece>& getCapturedWhitePieces() const;
   const std::list<PlayerPiece>& getCapturedBlackPieces() const;
+  const GameHistory& getGameHistory() const;
 
 private:
   Board m_board;
   Color m_turn;
+  GameHistory m_gh;
   std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
   std::list<PlayerPiece> m_capPiecesBlack;
   std::list<PlayerPiece> m_capPiecesWhite;

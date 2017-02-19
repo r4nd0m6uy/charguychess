@@ -12,6 +12,8 @@ set(APP_SOURCES
   chess/LegalSquares.cpp
   chess/GameLogic.cpp
   chess/IBoardObserver.cpp
+  chess/GameTurn.cpp
+  chess/GameHistory.cpp
   logging/ILogger.cpp
   logging/ILogSink.cpp
   logging/Logger.cpp
