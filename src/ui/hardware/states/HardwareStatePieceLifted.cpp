@@ -56,13 +56,20 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
 
   // Not enough change to compute the move
   if(changedSquares.count() == 1)
+  {
+    LOGDB() << "Not enough square have change to compute move";
     return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
+  }
 
+  // Two squares have changed
   if(changedSquares.count() == 2)
   {
     LegalSquares ls1(changedSquares.getSquares().front());
     LegalSquares ls2(changedSquares.getSquares().back());
+    Color c1 = m_gl.getBoard().getPieceColor(ls1.getFrom());
+    Color c2 = m_gl.getBoard().getPieceColor(ls2.getFrom());
 
+    // Get legal moves from changed squres
     m_gl.getLegalSquares(ls1);
     m_gl.getLegalSquares(ls2);
 
@@ -71,11 +78,11 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
       LOGWA() << "No legal move from " << ls1.getFrom() << " neither from " << ls2.getFrom();
 
     // Two pieces of the same color lifted
-    else if(ls1.count() > 0 && ls2.count() > 0)
+    else if(c1 == c2)
       LOGWA() << "Two piece of the same player lifted on " << ls1.getFrom() <<
-        " and " << ls2.getFrom();
+      " and " << ls2.getFrom();
 
-    // Legal move
+    // Check move or capture
     else
     {
       Move m(ls1.getFrom(), ls2.getFrom());
@@ -83,13 +90,18 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
       if(ls1.count() == 0)
         m = Move(ls2.getFrom(), ls1.getFrom());
 
-      if(!m_gl.applyMove(m))
+      // Two pieces of different colors lifted for capture
+      if(c1 != NO_COLOR && c2 != NO_COLOR && m_gl.isMoveLegal(m))
+      {
+        LOGIN() << m_gl.getTurn() << " does capture move " << m << " on the hardware";
+        return m_statesPool.enterState(IHardwareStatePool::PLAYER_CAPTURE, bv);
+      }
+
+      // Move done without capture
+      else if(!m_gl.applyMove(m))
         LOGWA() << "Illegal move " << m;
       else
-      {
-        LOGIN() << m_gl.getTurn() << " plays " << m << " on the hardware";
         return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
-      }
     }
   }
   else

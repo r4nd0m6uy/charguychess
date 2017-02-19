@@ -63,6 +63,31 @@ private:
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(HardwareStatePieceLiftedTest, executeTwoBitsChangedTwoPiecesLiftedForCapture)
+{
+  IHardwareStateMock nextState;
+  BoardValue bv = 0xFFF700000000EFFF; // e4 and d5 lifted
+  Board b;
+  std::unique_ptr<HardwareStatePieceLifted> state = buildHwState();
+
+  // Fake 1. e2e4 d7d5
+  b.setPiece(PlayerPiece(), Square(E, TWO));
+  b.setPiece(PlayerPiece(), Square(D, SEVEN));
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FOUR));
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(D, FIVE));
+  getGl().setBoard(b);
+
+  mock().expectOneCall("enterState").onObject(&getHwStatePool()).
+      withParameter("which", IHardwareStatePool::PLAYER_CAPTURE).
+      withParameter("bv", bv).
+      andReturnValue(&nextState);
+
+  POINTERS_EQUAL(&nextState, &state->execute(bv));
+
+  mock().checkExpectations();
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(HardwareStatePieceLiftedTest, executeStateLegalMove)
 {
   Board b;

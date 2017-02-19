@@ -64,38 +64,21 @@ private:
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(HardwareStatePlayerThinkingTest, executeTwoWhitPiecesChangedIllegal)
-{
-  IHardwareStateMock nextState;
-  BoardValue bv = 0xFF3F00000000FFFF; // a2b2 lifted
-  std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
-
-  mock().expectOneCall("enterState").onObject(&getHwStatePool()).
-      withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bv).
-      andReturnValue(&nextState);
-
-  POINTERS_EQUAL(&nextState, &state->execute(bv));
-
-  mock().checkExpectations();
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(HardwareStatePlayerThinkingTest, executeTwoBitsChangedLegal)
+TEST(HardwareStatePlayerThinkingTest, executeTwoBitsChangedLegalMove)
 {
   IHardwareStateMock nextState;
   BoardValue bv = 0xFF7F80000000FFFF; // a2a3
   std::unique_ptr<HardwareStatePlayerThinking> state = buildHwState();
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
-      withParameter("which", IHardwareStatePool::PLAYER_THINKING).
+      withParameter("which", IHardwareStatePool::PLAYER_LIFTED_PIECE).
+      withParameter("bv", bv).
+      andReturnValue(&nextState);
+  mock().expectOneCall("execute").onObject(&nextState).
       withParameter("bv", bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
-  CHECK(getGl().getBoard().isEmpty(Square(A, TWO)));
-  CHECK(PlayerPiece(WHITE, PAWN) == getGl().getBoard().getPiece(Square(A, THREE)));
-  CHECK(BLACK == getGl().getTurn());
 
   mock().checkExpectations();
 }

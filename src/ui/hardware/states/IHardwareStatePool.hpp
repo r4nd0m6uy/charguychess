@@ -32,6 +32,7 @@ public:
   enum State{
     PLAYER_THINKING,
     PLAYER_LIFTED_PIECE,
+    PLAYER_CAPTURE,
     //PLAYER_DONE_MOVE,
     PANIC
   };
