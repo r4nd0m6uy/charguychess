@@ -90,6 +90,13 @@ Rank operator-(const Rank& r, const int& i)
 }
 
 //--------------------------------------------------------------------------------------------
+Rank& operator+=(Rank& r, const int& i)
+{
+  r = r + i;
+  return r;
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const File& f)
 {
   if(f == A)

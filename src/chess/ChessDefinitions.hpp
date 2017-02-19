@@ -40,6 +40,7 @@ Rank& operator--(Rank& r);
 Rank& operator++(Rank& r);
 Rank operator+(const Rank& r, const int& i);
 Rank operator-(const Rank& r, const int& i);
+Rank& operator+=(Rank& r, const int& i);
 
 enum File{
   A = 0,

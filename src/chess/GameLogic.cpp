@@ -91,6 +91,8 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
     this->getPawnLegalSquares(legalSquares);
   else if(t == BISHOP)
     this->getBishopLegalSquares(legalSquares);
+  else if(t == ROOK)
+    this->getRookLegalSquares(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -280,6 +282,60 @@ void GameLogic::getBishopLegalSquares(LegalSquares& ls) const
 
           r = r + hDir;
           if(r == INVALID_RANK)
+            break;
+        }
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getRookLegalSquares(LegalSquares& ls) const
+{
+  for(int vDir = -1 ; vDir <= 1 ; ++vDir)
+  {
+    for(int hDir = -1 ; hDir <= 1 ; ++hDir)
+    {
+      // Check vertical squares
+      if(vDir == 0 && hDir != 0)
+      {
+        Rank r = ls.getFrom().getRank();
+        for(File f = ls.getFrom().getFile() + hDir ; f != INVALID_FILE ; f += hDir)
+        {
+          Square s(f, r);
+
+          // Piece of the same color is blocking the way
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
+            break;
+
+          ls.add(s);
+
+          // Piece of opposite color is blocking the way
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) != m_board.getPieceColor(ls.getFrom()))
+            break;
+        }
+      }
+
+      // Check horizontal squares
+      else if(hDir == 0 && vDir != 0)
+      {
+        File f = ls.getFrom().getFile();
+        for(Rank r = ls.getFrom().getRank() + vDir ; r != INVALID_RANK ; r += vDir)
+        {
+          Square s(f, r);
+
+          // Piece of the same color is blocking the way
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
+            break;
+
+          ls.add(s);
+
+          // Piece of opposite color is blocking the way
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) != m_board.getPieceColor(ls.getFrom()))
             break;
         }
       }
