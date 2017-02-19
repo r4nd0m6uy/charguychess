@@ -94,10 +94,7 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
   else if(t == ROOK)
     this->getRookLegalSquares(legalSquares);
   else if(t == QUEEN)
-  {
-    this->getBishopLegalSquares(legalSquares);
-    this->getRookLegalSquares(legalSquares);
-  }
+    this->getQueenLegalSquares(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -181,11 +178,13 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
         PieceType t = m_board.getPieceType(s);
 
         if(t == PAWN)
-          getPawnControlledSquares(ls);
+          this->getPawnControlledSquares(ls);
         else if(t == BISHOP)
-          getBishopLegalSquares(ls);
+          this->getBishopLegalSquares(ls);
         else if(t == ROOK)
-          getRookLegalSquares(ls);
+          this->getRookLegalSquares(ls);
+        else if(t == QUEEN)
+          this->getQueenLegalSquares(ls);
 
         sl.append(ls.getSquaresList());
       }
@@ -348,6 +347,13 @@ void GameLogic::getRookLegalSquares(LegalSquares& ls) const
       }
     }
   }
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getQueenLegalSquares(LegalSquares& legalSquares) const
+{
+  this->getBishopLegalSquares(legalSquares);
+  this->getRookLegalSquares(legalSquares);
 }
 
 //--------------------------------------------------------------------------------------------

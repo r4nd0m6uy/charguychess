@@ -65,6 +65,7 @@ private:
   void getPawnControlledSquares(LegalSquares& legalSquares) const;
   void getBishopLegalSquares(LegalSquares& legalSquares) const;
   void getRookLegalSquares(LegalSquares& legalSquares) const;
+  void getQueenLegalSquares(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
 };
 

@@ -39,9 +39,8 @@ TEST_GROUP(GameLogicTest)
     mock().clear();
   }
 };
-
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, queenOnE4LegalSquares)
+TEST(GameLogicTest, queenOnE4ControlledSquares)
 {
   Square from(E, FOUR);
   Board b;
@@ -82,6 +81,53 @@ TEST(GameLogicTest, queenOnE4LegalSquares)
   CHECK(ls.contains(Square(F, FIVE)));
   CHECK(ls.contains(Square(G, SIX)));
   CHECK(ls.contains(Square(H, SEVEN)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, queenOnE4LegalSquares)
+{
+  Square from(E, FOUR);
+  Board b;
+  SquaresList whiteSquares;
+  SquaresList blackSquares;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, QUEEN), from);
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, whiteSquares);
+  gl.getControlledSquares(BLACK, blackSquares);
+
+  CHECK_EQUAL(27, whiteSquares.count());
+  CHECK(whiteSquares.contains(Square(A, FOUR)));
+  CHECK(whiteSquares.contains(Square(B, FOUR)));
+  CHECK(whiteSquares.contains(Square(C, FOUR)));
+  CHECK(whiteSquares.contains(Square(D, FOUR)));
+  CHECK(whiteSquares.contains(Square(F, FOUR)));
+  CHECK(whiteSquares.contains(Square(G, FOUR)));
+  CHECK(whiteSquares.contains(Square(H, FOUR)));
+  CHECK(whiteSquares.contains(Square(E, ONE)));
+  CHECK(whiteSquares.contains(Square(E, TWO)));
+  CHECK(whiteSquares.contains(Square(E, THREE)));
+  CHECK(whiteSquares.contains(Square(E, FIVE)));
+  CHECK(whiteSquares.contains(Square(E, SIX)));
+  CHECK(whiteSquares.contains(Square(E, SEVEN)));
+  CHECK(whiteSquares.contains(Square(E, EIGHT)));
+  CHECK(whiteSquares.contains(Square(A, EIGHT)));
+  CHECK(whiteSquares.contains(Square(B, SEVEN)));
+  CHECK(whiteSquares.contains(Square(C, SIX)));
+  CHECK(whiteSquares.contains(Square(D, FIVE)));
+  CHECK(whiteSquares.contains(Square(F, THREE)));
+  CHECK(whiteSquares.contains(Square(G, TWO)));
+  CHECK(whiteSquares.contains(Square(H, ONE)));
+  CHECK(whiteSquares.contains(Square(B, ONE)));
+  CHECK(whiteSquares.contains(Square(C, TWO)));
+  CHECK(whiteSquares.contains(Square(D, THREE)));
+  CHECK(whiteSquares.contains(Square(F, FIVE)));
+  CHECK(whiteSquares.contains(Square(G, SIX)));
+  CHECK(whiteSquares.contains(Square(H, SEVEN)));
+  CHECK_EQUAL(0, blackSquares.count());
 }
 
 //--------------------------------------------------------------------------------------------
