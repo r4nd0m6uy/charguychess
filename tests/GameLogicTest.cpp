@@ -41,6 +41,39 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, controlledSquareWROnA1)
+{
+  Board b;
+  SquaresList whiteSquares;
+  SquaresList blackSquares;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, ROOK), Square(A, ONE));
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, whiteSquares);
+  gl.getControlledSquares(BLACK, blackSquares);
+
+  CHECK_EQUAL(14, whiteSquares.count());
+  CHECK(whiteSquares.contains(Square(A, TWO)));
+  CHECK(whiteSquares.contains(Square(A, THREE)));
+  CHECK(whiteSquares.contains(Square(A, FOUR)));
+  CHECK(whiteSquares.contains(Square(A, FIVE)));
+  CHECK(whiteSquares.contains(Square(A, SIX)));
+  CHECK(whiteSquares.contains(Square(A, SEVEN)));
+  CHECK(whiteSquares.contains(Square(A, EIGHT)));
+  CHECK(whiteSquares.contains(Square(B, ONE)));
+  CHECK(whiteSquares.contains(Square(C, ONE)));
+  CHECK(whiteSquares.contains(Square(D, ONE)));
+  CHECK(whiteSquares.contains(Square(E, ONE)));
+  CHECK(whiteSquares.contains(Square(F, ONE)));
+  CHECK(whiteSquares.contains(Square(G, ONE)));
+  CHECK(whiteSquares.contains(Square(H, ONE)));
+  CHECK_EQUAL(0, blackSquares.count());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, rookOnE4BlackWhiteOnG4LegalSquares)
 {
   Square from(E, FOUR);

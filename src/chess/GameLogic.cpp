@@ -179,6 +179,8 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
           getPawnControlledSquares(ls);
         else if(t == BISHOP)
           getBishopLegalSquares(ls);
+        else if(t == ROOK)
+          getRookLegalSquares(ls);
 
         sl.append(ls.getSquaresList());
       }
