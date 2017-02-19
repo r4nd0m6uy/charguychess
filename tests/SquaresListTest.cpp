@@ -50,6 +50,23 @@ TEST(SquaresListTest, addTwiceTheSame)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(SquaresListTest, append)
+{
+  SquaresList sl1;
+  SquaresList sl2;
+  Square s1(A, ONE);
+  Square s2(A, TWO);
+
+  sl1.add(s1);
+  sl2.add(s2);
+  sl1.append(sl2);
+
+  CHECK_EQUAL(2, sl1.count());
+  CHECK(sl1.contains(s1));
+  CHECK(sl1.contains(s2));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(SquaresListTest, doesntContainAfterClear)
 {
   SquaresList sl;

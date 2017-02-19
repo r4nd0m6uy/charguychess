@@ -39,6 +39,7 @@ public:
   void add(const Square& square);
   bool contains(const Square& square);
   int count() const;
+  const SquaresList& getSquaresList();
 
 private:
   Square m_from;

@@ -38,7 +38,8 @@ public:
   void add(const Square& s);
   bool contains(const Square& s);
   int count() const;
-  const std::list<Square>& getSquares();
+  void append(const SquaresList& sl);
+  const std::list<Square>& getSquares() const;
 
 private:
   std::list<Square> m_squaresList;

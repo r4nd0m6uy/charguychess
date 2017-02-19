@@ -60,7 +60,14 @@ int SquaresList::count() const
 }
 
 //--------------------------------------------------------------------------------------------
-const std::list<Square>& SquaresList::getSquares()
+void SquaresList::append(const SquaresList& sl)
+{
+  for(auto& s : sl.getSquares())
+    this->add(s);
+}
+
+//--------------------------------------------------------------------------------------------
+const std::list<Square>& SquaresList::getSquares() const
 {
   return m_squaresList;
 }

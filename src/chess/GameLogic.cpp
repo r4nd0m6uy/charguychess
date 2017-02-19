@@ -158,6 +158,33 @@ const GameHistory& GameLogic::getGameHistory() const
 }
 
 //--------------------------------------------------------------------------------------------
+void GameLogic::getControlledSquares(Color c, SquaresList& sl)
+{
+  sl.clear();
+
+  for(File f = A ; f != INVALID_FILE ; ++f)
+  {
+    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
+    {
+      Square s(f, r);
+
+      if(m_board.getPieceColor(s) == c)
+      {
+        LegalSquares ls(s);
+        PieceType t = m_board.getPieceType(s);
+
+        if(t == PAWN)
+          getPawnControlledSquares(ls);
+        else if(t == BISHOP)
+          getBishopLegalSquares(ls);
+
+        sl.append(ls.getSquaresList());
+      }
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------
 void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
 {
   const Square& from = legalSquares.getFrom();
@@ -170,7 +197,7 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
     forwardDirection = -1;
 
   // Move forward
-  Square s(from.getFile(), static_cast<Rank>(from.getRank() + forwardDirection));
+  Square s(from.getFile(), from.getRank() + forwardDirection);
   if(m_board.isEmpty(s))
   {
     legalSquares.add(s);
@@ -178,7 +205,7 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
     if( (movedPawn.getColor() == WHITE && from.getRank() == TWO) ||
         (movedPawn.getColor() == BLACK && from.getRank() == SEVEN) )
     {
-      s = Square(from.getFile(), static_cast<Rank>(s.getRank() + forwardDirection));
+      s = Square(from.getFile(), s.getRank() + forwardDirection);
       if(m_board.isEmpty(s))
         legalSquares.add(s);
     }
@@ -187,9 +214,7 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
   // Capture right
   if(from.getFile() != H)
   {
-    s = Square(
-        static_cast<File>(from.getFile() + 1),
-        static_cast<Rank>(from.getRank() + forwardDirection));
+    s = Square(from.getFile() + 1, from.getRank() + forwardDirection);
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
       legalSquares.add(s);
   }
@@ -197,37 +222,60 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
   // Capture left
   if(from.getFile() != A)
   {
-    s = Square(
-        static_cast<File>(from.getFile() - 1),
-        static_cast<Rank>(from.getRank() + forwardDirection));
+    s = Square(from.getFile() - 1, from.getRank() + forwardDirection);
     if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
       legalSquares.add(s);
   }
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getBishopLegalSquares(LegalSquares& legalSquares) const
+void GameLogic::getPawnControlledSquares(LegalSquares& legalSquares) const
+{
+  Square s;
+  const Square& from = legalSquares.getFrom();
+  PlayerPiece movedPawn = m_board.getPiece(from);
+  int forwardDirection;
+
+  if(movedPawn.getColor() == WHITE)
+    forwardDirection = 1;
+  else
+    forwardDirection = -1;
+
+  // Move right
+  if(from.getFile() != H)
+    legalSquares.add(Square(from.getFile() + 1, from.getRank() + forwardDirection));
+
+  // Move left
+  if(from.getFile() != A)
+    legalSquares.add(Square(from.getFile() - 1, from.getRank() + forwardDirection));
+
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getBishopLegalSquares(LegalSquares& ls) const
 {
   for(int vDir = -1 ; vDir <= 1 ; vDir += 2)
   {
     for(int hDir = -1 ; hDir <= 1 ; hDir += 2)
     {
-      Rank r = legalSquares.getFrom().getRank() + hDir;
+      Rank r = ls.getFrom().getRank() + hDir;
 
       if(r != INVALID_RANK)
       {
-        for(File f = legalSquares.getFrom().getFile() + vDir ; f != INVALID_FILE ; f += vDir)
+        for(File f = ls.getFrom().getFile() + vDir ; f != INVALID_FILE ; f += vDir)
         {
           Square s(f, r);
 
           // Piece of the same color is blocking the way
-          if(!m_board.isEmpty(s) && m_board.getPieceColor(s) == m_turn)
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
             break;
 
-          legalSquares.add(s);
+          ls.add(s);
 
           // Piece of opposite color is blocking the way
-          if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) != m_board.getPieceColor(ls.getFrom()))
             break;
 
           r = r + hDir;

@@ -41,6 +41,128 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getControlledSquareStartPo)
+{
+  Board b;
+  GameLogic gl;
+  SquaresList ctrlBlack;
+  SquaresList ctrlWhite;
+
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, ctrlWhite);
+  gl.getControlledSquares(BLACK, ctrlBlack);
+
+  CHECK_EQUAL(8, ctrlWhite.count());
+  CHECK(ctrlWhite.contains(Square(A, THREE)));
+  CHECK(ctrlWhite.contains(Square(B, THREE)));
+  CHECK(ctrlWhite.contains(Square(C, THREE)));
+  CHECK(ctrlWhite.contains(Square(D, THREE)));
+  CHECK(ctrlWhite.contains(Square(E, THREE)));
+  CHECK(ctrlWhite.contains(Square(F, THREE)));
+  CHECK(ctrlWhite.contains(Square(G, THREE)));
+  CHECK(ctrlWhite.contains(Square(H, THREE)));
+
+  CHECK_EQUAL(8, ctrlBlack.count());
+  CHECK(ctrlBlack.contains(Square(A, SIX)));
+  CHECK(ctrlBlack.contains(Square(B, SIX)));
+  CHECK(ctrlBlack.contains(Square(C, SIX)));
+  CHECK(ctrlBlack.contains(Square(D, SIX)));
+  CHECK(ctrlBlack.contains(Square(E, SIX)));
+  CHECK(ctrlBlack.contains(Square(F, SIX)));
+  CHECK(ctrlBlack.contains(Square(G, SIX)));
+  CHECK(ctrlBlack.contains(Square(H, SIX)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getControlledSquareOneWhiteBishop)
+{
+  Board b;
+  GameLogic gl;
+  SquaresList ctrlBlack;
+  SquaresList ctrlWhite;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), Square(A, FOUR));
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, ctrlWhite);
+  gl.getControlledSquares(BLACK, ctrlBlack);
+
+  CHECK_EQUAL(7, ctrlWhite.count());
+  CHECK(ctrlWhite.contains(Square(B, THREE)));
+  CHECK(ctrlWhite.contains(Square(C, TWO)));
+  CHECK(ctrlWhite.contains(Square(D, ONE)));
+  CHECK(ctrlWhite.contains(Square(B, FIVE)));
+  CHECK(ctrlWhite.contains(Square(C, SIX)));
+  CHECK(ctrlWhite.contains(Square(D, SEVEN)));
+  CHECK(ctrlWhite.contains(Square(E, EIGHT)));
+  CHECK_EQUAL(0, ctrlBlack.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getControlledSquareOneBlackPawn)
+{
+  Board b;
+  GameLogic gl;
+  SquaresList ctrlBlack;
+  SquaresList ctrlWhite;
+
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, PAWN), Square(E, FIVE));
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, ctrlWhite);
+  gl.getControlledSquares(BLACK, ctrlBlack);
+
+  CHECK_EQUAL(0, ctrlWhite.count());
+  CHECK_EQUAL(2, ctrlBlack.count());
+  CHECK(ctrlBlack.contains(Square(D, FOUR)));
+  CHECK(ctrlBlack.contains(Square(F, FOUR)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getControlledSquareOneWhitePawn)
+{
+  Board b;
+  GameLogic gl;
+  SquaresList ctrlBlack;
+  SquaresList ctrlWhite;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(B, TWO));
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, ctrlWhite);
+  gl.getControlledSquares(BLACK, ctrlBlack);
+
+  CHECK_EQUAL(2, ctrlWhite.count());
+  CHECK(ctrlWhite.contains(Square(A, THREE)));
+  CHECK(ctrlWhite.contains(Square(C, THREE)));
+  CHECK_EQUAL(0, ctrlBlack.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getControlledSquareEmptyBoardButFilledSquares)
+{
+  Board b;
+  GameLogic gl;
+  SquaresList ctrlBlack;
+  SquaresList ctrlWhite;
+
+  b.clear();
+  gl.setBoard(b);
+  ctrlBlack.add(Square(A, ONE));
+  ctrlWhite.add(Square(A, ONE));
+
+  gl.getControlledSquares(WHITE, ctrlWhite);
+  gl.getControlledSquares(BLACK, ctrlBlack);
+
+  CHECK_EQUAL(0, ctrlWhite.count());
+  CHECK_EQUAL(0, ctrlBlack.count());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, bishopMovesOnEmptyBoardOnF1)
 {
   Square from(F, ONE);

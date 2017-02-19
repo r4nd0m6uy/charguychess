@@ -51,6 +51,7 @@ public:
   const std::list<PlayerPiece>& getCapturedWhitePieces() const;
   const std::list<PlayerPiece>& getCapturedBlackPieces() const;
   const GameHistory& getGameHistory() const;
+  void getControlledSquares(Color c, SquaresList& sl);
 
 private:
   Board m_board;
@@ -61,6 +62,7 @@ private:
   std::list<PlayerPiece> m_capPiecesWhite;
 
   void getPawnLegalSquares(LegalSquares& legalSquares) const;
+  void getPawnControlledSquares(LegalSquares& legalSquares) const;
   void getBishopLegalSquares(LegalSquares& legalSquares) const;
   void raiseBoardChanged();
 };

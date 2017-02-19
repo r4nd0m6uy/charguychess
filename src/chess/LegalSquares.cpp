@@ -63,4 +63,10 @@ int LegalSquares::count() const
   return m_legalSquares.count();
 }
 
+//--------------------------------------------------------------------------------------------
+const SquaresList& LegalSquares::getSquaresList()
+{
+  return m_legalSquares;
+}
+
 }       // namespace
