@@ -52,6 +52,13 @@ PieceType PlayerPiece::getType() const
 }
 
 //--------------------------------------------------------------------------------------------
+bool PlayerPiece::operator==(const PlayerPiece& rhs) const
+{
+  return this->getColor() == rhs.getColor() &&
+      this->getType() == rhs.getType();
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const PlayerPiece& playerPiece)
 {
   char p;

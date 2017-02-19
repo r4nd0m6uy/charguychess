@@ -36,6 +36,17 @@ TEST_GROUP(PlayerPieceTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(PlayerPieceTest, twoSamePiecesAreEqual)
+{
+  Color c = WHITE;
+  PieceType p = BISHOP;
+  PlayerPiece pp1(c, p);
+  PlayerPiece pp2(c, p);
+
+  CHECK(pp1 == pp2);
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(PlayerPieceTest, ConstructorWithArgs)
 {
   Color c = WHITE;

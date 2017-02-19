@@ -69,11 +69,11 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
     {
       Move m(m_liftedPieces.getSquares().front(), s);
 
-      LOGIN() << m << " played on the hardware";
+      LOGIN() << m_gl.getTurn() << " plays " << m << " on the hardware";
 
       if(!m_gl.applyMove(m))
       {
-        LOGDB() << "Illegal move " << m;
+        LOGWA() << "Illegal move " << m;
         return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
       }
       else
@@ -81,8 +81,7 @@ IHardwareState& HardwareStatePieceLifted::execute(BoardValue bv)
     }
   }
 
-
-  return *this;
+  return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
 }
 
 }       // namespace

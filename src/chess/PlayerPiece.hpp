@@ -36,6 +36,8 @@ public:
   Color getColor() const;
   PieceType getType() const;
 
+  bool operator==(const PlayerPiece& rhs) const;
+
 private:
   Color m_color;
   PieceType m_type;

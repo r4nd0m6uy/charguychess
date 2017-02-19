@@ -16,6 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <cassert>
+
 #include "../../../logging/LogMacros.hpp"
 #include "../BitBoard.hpp"
 #include "HardwareStatePlayerThinking.hpp"
@@ -51,6 +53,7 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 
   mask.getChangedSquares(bv, changedSquares);
 
+  // One square has changed on the board
   if(changedSquares.count() == 1)
   {
     LegalSquares ls(changedSquares.getSquares().front());
@@ -75,6 +78,7 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
     return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
   }
 
+  // Two squares have changed on the board
   else if(changedSquares.count() == 2)
   {
     LegalSquares ls1(changedSquares.getSquares().front());
@@ -82,13 +86,35 @@ IHardwareState& HardwareStatePlayerThinking::execute(BoardValue bv)
 
     m_gl.getLegalSquares(ls1);
     m_gl.getLegalSquares(ls2);
-    if(ls1.count() != 0 || ls2.count() != 0)
-      return m_statesPool.enterState(IHardwareStatePool::PLAYER_LIFTED_PIECE, bv);
-    else
+
+    // No valid move
+    if(ls1.count() == 0 && ls2.count() == 0)
       LOGWA() << "No legal move from " << ls1.getFrom() << " neither " << ls2.getFrom();
+
+    // Two pieces of the same color lifted
+    else if(ls1.count() > 0 && ls2.count() > 0)
+      LOGWA() << "Two possible moves from " << ls1.getFrom() << " or " << ls2.getFrom();
+
+    // Legal move done at once
+    else
+    {
+      Move m(ls1.getFrom(), ls2.getFrom());
+
+      if(ls1.count() == 0)
+        m = Move(ls2.getFrom(), ls1.getFrom());
+
+      LOGIN() << m_gl.getTurn() << " plays " << m << " on the hardware";;
+      assert(m_gl.applyMove(m));
+
+      // Next player thinking
+      return m_statesPool.enterState(IHardwareStatePool::PLAYER_THINKING, bv);
+    }
   }
 
-  LOGWA() << "Too many squares have changed at the same time!";
+  // Too many changes at once
+  else
+    LOGWA() << "Too many squares have changed at the same time!";
+
   return m_statesPool.enterState(IHardwareStatePool::PANIC, bv);
 }
 
