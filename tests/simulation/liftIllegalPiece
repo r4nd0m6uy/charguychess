@@ -1,0 +1,3 @@
+0xFFFF00000000FFFF  // Start pos
+0xFFFF00000000F7FF  // Lift black piece
+0xFFFF00000000FFFF  // Go back

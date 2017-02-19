@@ -1,0 +1,4 @@
+0xFFFF00000000FFFF  // Start pos
+0xFFFF00100000FFFF  // Add a piece
+0xFFFF00000000FFFF  // Go back
+
