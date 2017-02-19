@@ -16,53 +16,68 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <algorithm>
 
-#include "SquaresList.hpp"
+#include "chess/SquaresList.hpp"
 
-namespace cgc {
+#include <CppUTest/TestHarness.h>
+
+
+using namespace cgc;
 
 //--------------------------------------------------------------------------------------------
-SquaresList::SquaresList()
+TEST_GROUP(SquaresListTest)
 {
+  TEST_SETUP()
+  {
+  }
+
+  TEST_TEARDOWN()
+  {
+  }
+};
+
+//--------------------------------------------------------------------------------------------
+TEST(SquaresListTest, addTwiceTheSame)
+{
+  SquaresList sl;
+  Square s(A, TWO);
+
+  sl.add(s);
+  sl.add(s);
+
+  CHECK_EQUAL(1, sl.count());
+  CHECK(sl.contains(s));
 }
 
 //--------------------------------------------------------------------------------------------
-SquaresList::~SquaresList()
+TEST(SquaresListTest, doesntContainAfterClear)
 {
+  SquaresList sl;
+  Square s(A, TWO);
+
+  sl.add(s);
+  sl.clear();
+
+  CHECK_EQUAL(0, sl.count());
+  CHECK_FALSE(sl.contains(s));
 }
 
 //--------------------------------------------------------------------------------------------
-void SquaresList::clear()
+TEST(SquaresListTest, containsAfterAdd)
 {
-  m_squaresList.clear();
+  SquaresList sl;
+  Square s(A, TWO);
+
+  sl.add(s);
+
+  CHECK_EQUAL(1, sl.count());
+  CHECK(sl.contains(s));
 }
 
 //--------------------------------------------------------------------------------------------
-void SquaresList::add(const Square& s)
+TEST(SquaresListTest, defaultConstructor)
 {
-  if(contains(s))
-    return;
+  SquaresList sl;
 
-  m_squaresList.push_back(s);
+  CHECK_EQUAL(0, sl.count());
 }
-
-//--------------------------------------------------------------------------------------------
-bool SquaresList::contains(const Square& s)
-{
-  return std::find(m_squaresList.begin(), m_squaresList.end(), s) != m_squaresList.end();
-}
-
-//--------------------------------------------------------------------------------------------
-int SquaresList::count() const
-{
-  return m_squaresList.size();
-}
-
-//--------------------------------------------------------------------------------------------
-const std::list<Square>& SquaresList::getSquares()
-{
-  return m_squaresList;
-}
-
-}       // namespace

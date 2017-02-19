@@ -20,6 +20,7 @@ set(TEST_SOURCES
     BoardTest.cpp
     SquareTest.cpp
     MoveTest.cpp
+    SquaresListTest.cpp
     LegalSquaresTest.cpp
     GameLogicTest.cpp
     DispatchedBoardInputEventTest.cpp
@@ -35,4 +36,4 @@ link_directories(${CPPUTEST_LIBRARIES})
 add_executable(${TEST_APP_NAME} ${TEST_SOURCES})
 target_link_libraries(${TEST_APP_NAME} ${APP_LIB_NAME} ${CPPUTEST_LDFLAGS})
 
-#add_custom_command(TARGET ${TEST_APP_NAME} COMMAND ./${TEST_APP_NAME} POST_BUILD)
+add_custom_command(TARGET ${TEST_APP_NAME} COMMAND ./${TEST_APP_NAME} POST_BUILD)

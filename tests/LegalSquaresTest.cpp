@@ -37,27 +37,6 @@ TEST_GROUP(LegalMovesTest)
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(LegalMovesTest, doesntContainAfterClear)
-{
-  LegalSquares lm(Square(A, ONE));
-  Square ls(A, TWO);
-
-  lm.add(ls);
-  lm.clear();
-  CHECK_FALSE(lm.contains(ls));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(LegalMovesTest, containsAfterAdd)
-{
-  LegalSquares lm(Square(A, ONE));
-  Square ls(A, TWO);
-
-  lm.add(ls);
-  CHECK(lm.contains(ls));
-}
-
-//--------------------------------------------------------------------------------------------
 TEST(LegalMovesTest, defaultConstructor)
 {
   Square from(A, ONE);
