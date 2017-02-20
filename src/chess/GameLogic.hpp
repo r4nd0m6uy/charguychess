@@ -45,7 +45,7 @@ public:
   void setBoard(const Board& board);
   void registerBoardObserver(IBoardObserver& observer);
   void newGame();
-  void getLegalSquares(LegalSquares& legalSquares) const;
+  void getLegalSquares(LegalSquares& ls) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
   const std::list<PlayerPiece>& getCapturedWhitePieces() const;
@@ -67,6 +67,7 @@ private:
   void getRookSquares(LegalSquares& ls, bool isControlled) const;
   void getQueenSquares(LegalSquares& ls, bool isControlled) const;
   void getKnightSquares(LegalSquares& ls, bool isControlled) const;
+  void getKingSquares(LegalSquares& ls, bool isControlled) const;
   void raiseBoardChanged();
 };
 

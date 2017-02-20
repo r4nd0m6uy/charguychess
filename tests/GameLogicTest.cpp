@@ -41,37 +41,103 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
-IGNORE_TEST(GameLogicTest, getControlledSquareStartPos)
+TEST(GameLogicTest, controlledSquaresKingOnE4PawnOnE5)
 {
+  Square from(E, FOUR);
   Board b;
-  GameLogic gl;
   SquaresList ctrlBlack;
   SquaresList ctrlWhite;
+  GameLogic gl;
 
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FIVE));
   gl.setBoard(b);
 
   gl.getControlledSquares(WHITE, ctrlWhite);
   gl.getControlledSquares(BLACK, ctrlBlack);
 
-  CHECK_EQUAL(8, ctrlWhite.count());
-  CHECK(ctrlWhite.contains(Square(A, THREE)));
-  CHECK(ctrlWhite.contains(Square(B, THREE)));
-  CHECK(ctrlWhite.contains(Square(C, THREE)));
+  //CHECK_EQUAL(10, ctrlWhite.count());
+  CHECK(ctrlWhite.contains(Square(D, FIVE)));
+  CHECK(ctrlWhite.contains(Square(F, FIVE)));
+  CHECK(ctrlWhite.contains(Square(D, FOUR)));
+  CHECK(ctrlWhite.contains(Square(F, FOUR)));
   CHECK(ctrlWhite.contains(Square(D, THREE)));
   CHECK(ctrlWhite.contains(Square(E, THREE)));
   CHECK(ctrlWhite.contains(Square(F, THREE)));
-  CHECK(ctrlWhite.contains(Square(G, THREE)));
-  CHECK(ctrlWhite.contains(Square(H, THREE)));
+  CHECK(ctrlWhite.contains(Square(D, SIX)));
+  CHECK(ctrlWhite.contains(Square(F, SIX)));
+  CHECK_EQUAL(0, ctrlBlack.count());
+}
 
-  CHECK_EQUAL(8, ctrlBlack.count());
-  CHECK(ctrlBlack.contains(Square(A, SIX)));
-  CHECK(ctrlBlack.contains(Square(B, SIX)));
-  CHECK(ctrlBlack.contains(Square(C, SIX)));
-  CHECK(ctrlBlack.contains(Square(D, SIX)));
-  CHECK(ctrlBlack.contains(Square(E, SIX)));
-  CHECK(ctrlBlack.contains(Square(F, SIX)));
-  CHECK(ctrlBlack.contains(Square(G, SIX)));
-  CHECK(ctrlBlack.contains(Square(H, SIX)));
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKingOnE4PawnOnE5)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(E, FIVE));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(7, ls.count());
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(F, FIVE)));
+  CHECK(ls.contains(Square(D, FOUR)));
+  CHECK(ls.contains(Square(F, FOUR)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(F, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKingOnA1)
+{
+  Square from(A, ONE);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(A, TWO)));
+  CHECK(ls.contains(Square(B, ONE)));
+  CHECK(ls.contains(Square(B, TWO)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKingOnE4)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(8, ls.count());
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(E, FIVE)));
+  CHECK(ls.contains(Square(F, FIVE)));
+  CHECK(ls.contains(Square(D, FOUR)));
+  CHECK(ls.contains(Square(F, FOUR)));
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(F, THREE)));
 }
 
 //--------------------------------------------------------------------------------------------

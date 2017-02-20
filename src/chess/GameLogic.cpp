@@ -79,24 +79,26 @@ void GameLogic::newGame()
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
+void GameLogic::getLegalSquares(LegalSquares& ls) const
 {
-  PieceType t = m_board.getPieceType(legalSquares.getFrom());
+  PieceType t = m_board.getPieceType(ls.getFrom());
 
-  legalSquares.clear();
+  ls.clear();
 
-  if(m_board.getPieceColor(legalSquares.getFrom()) != m_turn)
+  if(m_board.getPieceColor(ls.getFrom()) != m_turn)
     return;
   else if(t == PAWN)
-    this->getPawnLegalSquares(legalSquares);
+    this->getPawnLegalSquares(ls);
   else if(t == BISHOP)
-    this->getBishopSquares(legalSquares, false);
+    this->getBishopSquares(ls, false);
   else if(t == ROOK)
-    this->getRookSquares(legalSquares, false);
+    this->getRookSquares(ls, false);
   else if(t == QUEEN)
-    this->getQueenSquares(legalSquares, false);
+    this->getQueenSquares(ls, false);
   else if(t == KNIGHT)
-    this->getKnightSquares(legalSquares, false);
+    this->getKnightSquares(ls, false);
+  else if(t == KING)
+    this->getKingSquares(ls, false);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -189,6 +191,8 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
           this->getQueenSquares(ls, true);
         else if(t == KNIGHT)
           this->getKnightSquares(ls, true);
+        else if(t == KING)
+          this->getKingSquares(ls, true);
 
         sl.append(ls.getSquaresList());
       }
@@ -399,6 +403,29 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
           ls.add(s);
         }
       }
+    }
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
+{
+  for(int vDir = -1 ; vDir < 2 ; ++vDir)
+  {
+    for(int hDir = -1 ; hDir < 2 ; ++hDir)
+    {
+      Square s(ls.getFrom().getFile() + vDir, ls.getFrom().getRank() + hDir);
+
+      if(!s.isValid() || s == ls.getFrom())
+        continue;
+
+      // Piece of the same color is on target square
+      if(!m_board.isEmpty(s) &&
+          m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()) &&
+          !isControlled)
+        continue;
+
+      ls.add(s);
     }
   }
 }
