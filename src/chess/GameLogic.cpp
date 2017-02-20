@@ -90,7 +90,7 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
   else if(t == PAWN)
     this->getPawnLegalSquares(legalSquares);
   else if(t == BISHOP)
-    this->getBishopLegalSquares(legalSquares);
+    this->getBishopSquares(legalSquares, false);
   else if(t == ROOK)
     this->getRookLegalSquares(legalSquares);
   else if(t == QUEEN)
@@ -180,7 +180,7 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
         if(t == PAWN)
           this->getPawnControlledSquares(ls);
         else if(t == BISHOP)
-          this->getBishopLegalSquares(ls);
+          this->getBishopSquares(ls, true);
         else if(t == ROOK)
           this->getRookLegalSquares(ls);
         else if(t == QUEEN)
@@ -260,7 +260,7 @@ void GameLogic::getPawnControlledSquares(LegalSquares& legalSquares) const
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getBishopLegalSquares(LegalSquares& ls) const
+void GameLogic::getBishopSquares(LegalSquares& ls, bool isControlled) const
 {
   for(int vDir = -1 ; vDir <= 1 ; vDir += 2)
   {
@@ -277,7 +277,11 @@ void GameLogic::getBishopLegalSquares(LegalSquares& ls) const
           // Piece of the same color is blocking the way
           if(!m_board.isEmpty(s) &&
               m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
+          {
+            if(isControlled)
+              ls.add(s);
             break;
+          }
 
           ls.add(s);
 
@@ -352,7 +356,7 @@ void GameLogic::getRookLegalSquares(LegalSquares& ls) const
 //--------------------------------------------------------------------------------------------
 void GameLogic::getQueenLegalSquares(LegalSquares& legalSquares) const
 {
-  this->getBishopLegalSquares(legalSquares);
+  this->getBishopSquares(legalSquares, false);
   this->getRookLegalSquares(legalSquares);
 }
 
