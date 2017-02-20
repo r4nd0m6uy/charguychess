@@ -94,7 +94,7 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
   else if(t == ROOK)
     this->getRookSquares(legalSquares, false);
   else if(t == QUEEN)
-    this->getQueenLegalSquares(legalSquares);
+    this->getQueenLegalSquares(legalSquares, false);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -184,7 +184,7 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
         else if(t == ROOK)
           this->getRookSquares(ls, true);
         else if(t == QUEEN)
-          this->getQueenLegalSquares(ls);
+          this->getQueenLegalSquares(ls, true);
 
         sl.append(ls.getSquaresList());
       }
@@ -362,10 +362,10 @@ void GameLogic::getRookSquares(LegalSquares& ls, bool isControlled) const
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getQueenLegalSquares(LegalSquares& legalSquares) const
+void GameLogic::getQueenLegalSquares(LegalSquares& legalSquares, bool isControlled) const
 {
-  this->getBishopSquares(legalSquares, false);
-  this->getRookSquares(legalSquares, false);
+  this->getBishopSquares(legalSquares, isControlled);
+  this->getRookSquares(legalSquares, isControlled);
 }
 
 //--------------------------------------------------------------------------------------------
