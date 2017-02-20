@@ -300,7 +300,7 @@ void ConsoleUI::displayCtrlSquares()
       else
         std::cout << " ";
 
-      std::cout << m_gl.getBoard().getPiece(s);
+      std::cout << " ";
 
       if(blackLs.contains(s))
         std::cout << "b";
