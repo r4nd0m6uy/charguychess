@@ -23,13 +23,15 @@ namespace cgc {
 
 //--------------------------------------------------------------------------------------------
 Move::Move():
-    m_who(NO_PIECE)
+    m_who(NO_PIECE),
+    m_isCheck(false)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 Move::Move(const std::string& str):
-    m_who(NO_PIECE)
+    m_who(NO_PIECE),
+    m_isCheck(false)
 {
   if(str.size() >= 4)
   {
@@ -43,7 +45,8 @@ Move::Move(const Square& from, const Square& to):
     m_from(from),
     m_to(to),
     m_who(NO_PIECE),
-    m_isCapture(false)
+    m_isCapture(false),
+    m_isCheck(false)
 {
 }
 
@@ -52,7 +55,8 @@ Move::Move(PieceType who, const Square& from, const Square& to):
   m_from(from),
   m_to(to),
   m_who(who),
-  m_isCapture(false)
+  m_isCapture(false),
+  m_isCheck(false)
 {
 }
 
@@ -106,6 +110,18 @@ void Move::setIsCapture(bool isCapture)
 }
 
 //--------------------------------------------------------------------------------------------
+bool Move::isCheck() const
+{
+  return m_isCheck;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setCheck(bool isCheck)
+{
+  m_isCheck = isCheck;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
@@ -119,6 +135,9 @@ std::string Move::toString() const
     ss << "x";
 
   ss << this->getTo();
+
+  if(m_isCheck)
+    ss << "+";
 
   return ss.str();
 }

@@ -43,12 +43,15 @@ public:
   std::string toString() const;
   bool isCapture() const;
   void setIsCapture(bool isCapture);
+  bool isCheck() const;
+  void setCheck(bool isCheck);
 
 private:
   Square m_from;
   Square m_to;
   PieceType m_who;
   bool m_isCapture;
+  bool m_isCheck;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

@@ -197,6 +197,7 @@ bool GameLogic::applyMove(const Move& m)
     m_turn = WHITE;
   else
     m_turn = BLACK;
+  mHist.setCheck(this->isChecked(m_turn));
 
   m_gh.addMove(mHist);
 
