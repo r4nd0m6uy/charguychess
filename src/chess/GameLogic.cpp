@@ -193,7 +193,8 @@ bool GameLogic::applyMove(const Move& m)
   else
     m_turn = BLACK;
 
-  m_gh.addMove(m);  // TODO TDD
+  Move mHist(m_board.getPieceType(m.getTo()), m.getFrom(), m.getTo());
+  m_gh.addMove(mHist);
 
   raiseBoardChanged();
 

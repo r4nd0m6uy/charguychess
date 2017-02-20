@@ -16,17 +16,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <sstream>
 #include "Move.hpp"
 
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-Move::Move()
+Move::Move():
+    m_who(NO_PIECE)
 {
 }
 
 //--------------------------------------------------------------------------------------------
-Move::Move(const std::string& str)
+Move::Move(const std::string& str):
+    m_who(NO_PIECE)
 {
   if(str.size() >= 4)
   {
@@ -38,7 +41,16 @@ Move::Move(const std::string& str)
 //--------------------------------------------------------------------------------------------
 Move::Move(const Square& from, const Square& to):
     m_from(from),
-    m_to(to)
+    m_to(to),
+    m_who(NO_PIECE)
+{
+}
+
+//--------------------------------------------------------------------------------------------
+Move::Move(PieceType who, const Square& from, const Square& to):
+  m_from(from),
+  m_to(to),
+  m_who(who)
 {
 }
 
@@ -60,6 +72,18 @@ const Square& Move::getTo() const
 }
 
 //--------------------------------------------------------------------------------------------
+PieceType Move::getWho() const
+{
+  return m_who;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setWho(PieceType who)
+{
+  m_who = who;
+}
+
+//--------------------------------------------------------------------------------------------
 bool Move::isValid() const
 {
   return m_from.isValid() &&
@@ -68,9 +92,24 @@ bool Move::isValid() const
 }
 
 //--------------------------------------------------------------------------------------------
+std::string Move::toString() const
+{
+  std::stringstream ss;
+
+  if(m_who == NO_PIECE)
+    ss << this->getFrom();
+  else if(m_who != PAWN)
+    ss << m_who;
+
+  ss << this->getTo();
+
+  return ss.str();
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {
-  os << m.getFrom() << m.getTo();
+  os << m.toString();
   return os;
 }
 

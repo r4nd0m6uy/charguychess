@@ -40,6 +40,41 @@ TEST_GROUP(GameLogicTest)
   }
 };
 
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalMoveInHistory)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, THREE);
+  Move m(from, to);
+  GameTurn firstTurn;
+
+  CHECK(gl.applyMove(m));
+
+  firstTurn = gl.getGameHistory().getTurns().front();
+  CHECK(firstTurn.getWhiteMove().isValid());
+  CHECK(firstTurn.getWhiteMove().getFrom() == from);
+  CHECK(firstTurn.getWhiteMove().getTo() == to);
+  CHECK(firstTurn.getWhiteMove().getWho() == PAWN);
+  CHECK_FALSE(firstTurn.getBlackMove().isValid());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, illegalMoveNOtInHistory)
+{
+  GameLogic gl;
+  Square from(A, TWO);
+  Square to(A, EIGHT);
+  Move m(from, to);
+  GameTurn firstTurn;
+
+  CHECK_FALSE(gl.applyMove(m));
+
+  firstTurn = gl.getGameHistory().getTurns().front();
+  CHECK_FALSE(firstTurn.getWhiteMove().isValid());
+}
+
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, isMatedWhiteMate)
 {

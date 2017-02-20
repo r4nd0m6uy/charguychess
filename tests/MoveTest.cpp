@@ -36,6 +36,70 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithKnight)
+{
+  std::string strMove = "Nc3";
+  Move m(KNIGHT, Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithBishop)
+{
+  std::string strMove = "Bc3";
+  Move m(BISHOP, Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithRook)
+{
+  std::string strMove = "Rc3";
+  Move m(ROOK, Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithQueen)
+{
+  std::string strMove = "Qc3";
+  Move m(QUEEN, Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithKing)
+{
+  std::string strMove = "Kc3";
+  Move m(KING, Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringMoveWithPawn)
+{
+  std::string strMove = "c3";
+  Move m(Square(C, TWO), Square(C, THREE));
+
+  m.setWho(PAWN);
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringBareMove)
+{
+  std::string strMove = "c2c3";
+  Move m(Square(C, TWO), Square(C, THREE));
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, fromValidString)
 {
   Move m("a1a2");

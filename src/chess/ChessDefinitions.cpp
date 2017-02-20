@@ -188,4 +188,27 @@ std::ostream& operator<<(std::ostream& os, const Color& c)
   return os;
 }
 
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const PieceType& pt)
+{
+  if(pt == NO_PIECE)
+    os << "NOPIECE";
+  else if(pt == KING)
+    os << "K";
+  else if(pt == QUEEN)
+    os << "Q";
+  else if(pt == ROOK)
+    os << "R";
+  else if(pt == BISHOP)
+    os << "B";
+  else if(pt == KNIGHT)
+    os << "N";
+  else if(pt == PAWN)
+    os << "P";
+  else
+    os << "UNKNOWN PIECE";
+
+  return os;
+}
+
 }       // namespace

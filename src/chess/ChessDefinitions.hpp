@@ -79,6 +79,7 @@ enum PieceType
   PAWN,
   NO_PIECE
 };
+std::ostream& operator<<(std::ostream& os, const PieceType& pt);
 
 }       // namespace
 #endif  // _CGC_CHESS_DEFINITION_HPP_

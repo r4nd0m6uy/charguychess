@@ -32,15 +32,20 @@ public:
   Move();
   Move(const std::string& str);
   Move(const Square& from, const Square& to);
+  Move(PieceType who, const Square& from, const Square& to);
   ~Move();
 
   const Square& getFrom() const;
   const Square& getTo() const;
+  PieceType getWho() const;
+  void setWho(PieceType who);
   bool isValid() const;
+  std::string toString() const;
 
 private:
   Square m_from;
   Square m_to;
+  PieceType m_who;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);
