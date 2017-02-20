@@ -1038,6 +1038,20 @@ TEST(GameLogicTest, legalSquaresBishopOnE4)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, newGameGameHistoryCleared)
+{
+  Move m(Square(E, TWO), Square(E, THREE));
+  Board b;
+  GameLogic gl;
+
+  CHECK(gl.applyMove(m));
+  gl.newGame();
+
+  GameTurn firstTurn = gl.getGameHistory().getTurns().front();
+  CHECK_FALSE(firstTurn.getWhiteMove().isValid());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, blackCapturedPiecesClearedAfterNew)
 {
   Square to(D, THREE);
@@ -1050,6 +1064,7 @@ TEST(GameLogicTest, blackCapturedPiecesClearedAfterNew)
 
   CHECK(gl.applyMove(m));
   gl.newGame();
+
   CHECK_EQUAL(0, gl.getCapturedBlackPieces().size());
 }
 

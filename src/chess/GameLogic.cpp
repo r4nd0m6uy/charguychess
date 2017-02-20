@@ -77,6 +77,7 @@ void GameLogic::newGame()
   m_board.initialPosition();
   m_capPiecesWhite.clear();
   m_capPiecesBlack.clear();
+  m_gh.clear();
   raiseBoardChanged();
 }
 
