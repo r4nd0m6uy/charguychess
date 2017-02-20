@@ -130,6 +130,8 @@ std::string Move::toString() const
     ss << this->getFrom();
   else if(m_who != PAWN)
     ss << m_who;
+  else if(m_who == PAWN && m_isCapture)
+    ss << getFrom().getFile();
 
   if(m_isCapture)
     ss << "x";

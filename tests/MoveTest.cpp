@@ -46,6 +46,16 @@ TEST(MoveTest, toStringKnightCheck)
   STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
 }
 
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringPawnCapture)
+{
+  std::string strMove = "cxd3";
+  Move m(PAWN, Square(C, TWO), Square(D, THREE));
+
+  m.setIsCapture(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
 
 //--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringKnightCapture)
