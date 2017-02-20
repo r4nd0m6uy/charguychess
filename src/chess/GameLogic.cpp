@@ -379,7 +379,7 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
       else
         hDir2 = -1;
 
-      while(hDir2 <= 1 && vDir2 <= 1)
+      while(hDir2 < 2 && vDir2 < 2)
       {
         Square s(jump1.getFile() + hDir2, jump1.getRank() + vDir2);
 
@@ -390,14 +390,11 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
 
         if(s.isValid())
         {
-          // Piece of the same color is blocking the way
+          // Piece of the same color is on target square
           if(!m_board.isEmpty(s) &&
-              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
-          {
-            if(isControlled)
-              ls.add(s);
+              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()) &&
+              !isControlled)
             continue;
-          }
 
           ls.add(s);
         }
