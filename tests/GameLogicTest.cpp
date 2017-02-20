@@ -166,6 +166,40 @@ TEST(GameLogicTest, queenOnE4LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, controlledSquareWhiteRookOnB2WhitPawnOnB4AndD2)
+{
+  Board b;
+  SquaresList whiteSquares;
+  SquaresList blackSquares;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, ROOK), Square(B, TWO));
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(B, FOUR));
+  b.setPiece(PlayerPiece(WHITE, PAWN), Square(D, TWO));
+  gl.setBoard(b);
+
+  gl.getControlledSquares(WHITE, whiteSquares);
+  gl.getControlledSquares(BLACK, blackSquares);
+
+  CHECK_EQUAL(10, whiteSquares.count());
+  // Rook
+  CHECK(whiteSquares.contains(Square(A, TWO)));
+  CHECK(whiteSquares.contains(Square(C, TWO)));
+  CHECK(whiteSquares.contains(Square(D, TWO)));
+  CHECK(whiteSquares.contains(Square(B, ONE)));
+  CHECK(whiteSquares.contains(Square(B, THREE)));
+  CHECK(whiteSquares.contains(Square(B, FOUR)));
+  // b4 pawn
+  CHECK(whiteSquares.contains(Square(A, FIVE)));
+  CHECK(whiteSquares.contains(Square(C, FIVE)));
+  // D2 pawn
+  CHECK(whiteSquares.contains(Square(C, THREE)));
+  CHECK(whiteSquares.contains(Square(E, THREE)));
+  CHECK_EQUAL(0, blackSquares.count());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, controlledSquareWROnA1)
 {
   Board b;
@@ -199,7 +233,7 @@ TEST(GameLogicTest, controlledSquareWROnA1)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4BlackWhiteOnG4LegalSquares)
+TEST(GameLogicTest, rookOnE4BWhitePawnOnG4LegalSquares)
 {
   Square from(E, FOUR);
   Board b;
