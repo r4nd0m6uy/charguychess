@@ -24,14 +24,18 @@ namespace cgc {
 //--------------------------------------------------------------------------------------------
 Move::Move():
     m_who(NO_PIECE),
-    m_isCheck(false)
+    m_isCapture(false),
+    m_isCheck(false),
+    m_isMate(false)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 Move::Move(const std::string& str):
     m_who(NO_PIECE),
-    m_isCheck(false)
+    m_isCapture(false),
+    m_isCheck(false),
+    m_isMate(false)
 {
   if(str.size() >= 4)
   {
@@ -46,17 +50,19 @@ Move::Move(const Square& from, const Square& to):
     m_to(to),
     m_who(NO_PIECE),
     m_isCapture(false),
-    m_isCheck(false)
+    m_isCheck(false),
+    m_isMate(false)
 {
 }
 
 //--------------------------------------------------------------------------------------------
 Move::Move(PieceType who, const Square& from, const Square& to):
-  m_from(from),
-  m_to(to),
-  m_who(who),
-  m_isCapture(false),
-  m_isCheck(false)
+    m_from(from),
+    m_to(to),
+    m_who(who),
+    m_isCapture(false),
+    m_isCheck(false),
+    m_isMate(false)
 {
 }
 
@@ -122,6 +128,18 @@ void Move::setCheck(bool isCheck)
 }
 
 //--------------------------------------------------------------------------------------------
+bool Move::isMate() const
+{
+  return m_isMate;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setMate(bool isMate)
+{
+  m_isMate = isMate;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
@@ -138,8 +156,10 @@ std::string Move::toString() const
 
   ss << this->getTo();
 
-  if(m_isCheck)
+  if(m_isCheck && !m_isMate)
     ss << "+";
+  else if(m_isMate)
+    ss << "#";
 
   return ss.str();
 }

@@ -45,6 +45,8 @@ public:
   void setIsCapture(bool isCapture);
   bool isCheck() const;
   void setCheck(bool isCheck);
+  bool isMate() const;
+  void setMate(bool isMate);
 
 private:
   Square m_from;
@@ -52,6 +54,7 @@ private:
   PieceType m_who;
   bool m_isCapture;
   bool m_isCheck;
+  bool m_isMate;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

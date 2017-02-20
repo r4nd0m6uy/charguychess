@@ -36,6 +36,29 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringKnightCheckMate)
+{
+  std::string strMove = "Nc3#";
+  Move m(KNIGHT, Square(C, TWO), Square(C, THREE));
+
+  m.setMate(true);
+  m.setCheck(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringKnightMate)
+{
+  std::string strMove = "Nc3#";
+  Move m(KNIGHT, Square(C, TWO), Square(C, THREE));
+
+  m.setMate(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringKnightCheck)
 {
   std::string strMove = "Nc3+";

@@ -41,6 +41,27 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveMateInHistory)
+{
+  GameLogic gl;
+  Square from(F, SIX);
+  Square to(F, SEVEN);
+  Move m(from, to);
+  Board b;
+  GameTurn firstTurn;
+
+  b.setPiece(PlayerPiece(WHITE, QUEEN), from);
+  b.setPiece(PlayerPiece(WHITE, ROOK), Square(F, THREE));
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK(gl.isMated(BLACK));
+
+  firstTurn = gl.getGameHistory().getTurns().front();
+  CHECK(firstTurn.getWhiteMove().isMate());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveCheckInHistory)
 {
   GameLogic gl;
@@ -98,6 +119,7 @@ TEST(GameLogicTest, applyMovelegalMoveInHistory)
   CHECK_FALSE(firstTurn.getWhiteMove().isCapture());
   CHECK_FALSE(firstTurn.getWhiteMove().isCheck());
   CHECK_FALSE(firstTurn.getBlackMove().isValid());
+  CHECK_FALSE(firstTurn.getWhiteMove().isMate());
 }
 
 //--------------------------------------------------------------------------------------------
