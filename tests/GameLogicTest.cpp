@@ -75,17 +75,40 @@ IGNORE_TEST(GameLogicTest, getControlledSquareStartPos)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, queenOnE4ControlledWhitPawnsBlocking)
+IGNORE_TEST(GameLogicTest, legalSquaresKnightOnE4)
 {
-  Square from(B, THREE);
+  Square from(E, FOUR);
   Board b;
   LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KNIGHT), from);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(8, ls.count());
+  CHECK(ls.contains(Square(C, THREE)));
+  CHECK(ls.contains(Square(C, FIVE)));
+  CHECK(ls.contains(Square(D, TWO)));
+  CHECK(ls.contains(Square(D, SIX)));
+  CHECK(ls.contains(Square(F, TWO)));
+  CHECK(ls.contains(Square(F, SIX)));
+  CHECK(ls.contains(Square(G, THREE)));
+  CHECK(ls.contains(Square(G, FIVE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, controlledSquareQueenOnE4WhitePawnsBlocking)
+{
+  Board b;
   SquaresList ctrlBlack;
   SquaresList ctrlWhite;
   GameLogic gl;
 
   b.clear();
-  b.setPiece(PlayerPiece(WHITE, QUEEN), from);
+  b.setPiece(PlayerPiece(WHITE, QUEEN), Square(B, THREE));
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(A, FOUR));
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(B, FOUR));
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(C, FOUR));
@@ -96,7 +119,6 @@ TEST(GameLogicTest, queenOnE4ControlledWhitPawnsBlocking)
   b.setPiece(PlayerPiece(WHITE, PAWN), Square(C, TWO));
   gl.setBoard(b);
 
-  gl.getLegalSquares(ls);
   gl.getControlledSquares(WHITE, ctrlWhite);
   gl.getControlledSquares(BLACK, ctrlBlack);
 
@@ -121,7 +143,7 @@ TEST(GameLogicTest, queenOnE4ControlledWhitPawnsBlocking)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, queenOnE4ControlledSquares)
+TEST(GameLogicTest, queenOnE4LegalSquares)
 {
   Square from(E, FOUR);
   Board b;
@@ -165,7 +187,7 @@ TEST(GameLogicTest, queenOnE4ControlledSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, queenOnE4LegalSquares)
+TEST(GameLogicTest, controlledSquareQueenOnE4)
 {
   Square from(E, FOUR);
   Board b;
@@ -279,7 +301,7 @@ TEST(GameLogicTest, controlledSquareWROnA1)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4BWhitePawnOnG4LegalSquares)
+TEST(GameLogicTest, legalSquaresRookOnE4BWhitePawnOnG4)
 {
   Square from(E, FOUR);
   Board b;
@@ -309,7 +331,7 @@ TEST(GameLogicTest, rookOnE4BWhitePawnOnG4LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4BlackPawnOnG4LegalSquares)
+TEST(GameLogicTest, legalSquaresRookOnE4BlackPawnOnG4)
 {
   Square from(E, FOUR);
   Board b;
@@ -340,7 +362,7 @@ TEST(GameLogicTest, rookOnE4BlackPawnOnG4LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4WithPawnOnE6LegalSquares)
+TEST(GameLogicTest, legalSquaresRookOnE4WithPawnOnE6)
 {
   Square from(E, FOUR);
   Board b;
@@ -369,7 +391,7 @@ TEST(GameLogicTest, rookOnE4WithPawnOnE6LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4BlackPawnOnE6LegalSquares)
+TEST(GameLogicTest, legalSquaresrookOnE4BlackPawnOnE6)
 {
   Square from(E, FOUR);
   Board b;
@@ -399,7 +421,7 @@ TEST(GameLogicTest, rookOnE4BlackPawnOnE6LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, rookOnE4LegalSquares)
+TEST(GameLogicTest, legalSquaresRookOnE4)
 {
   Square from(E, FOUR);
   Board b;
@@ -430,7 +452,7 @@ TEST(GameLogicTest, rookOnE4LegalSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, getWBishopOnB2CrlSquareWithWhitePawnOnC3)
+TEST(GameLogicTest, controlledSquaresWhiteBishopOnB2WithWhitePawnOnC3)
 {
   Board b;
   GameLogic gl;
@@ -456,7 +478,7 @@ TEST(GameLogicTest, getWBishopOnB2CrlSquareWithWhitePawnOnC3)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, getControlledSquareOneWhiteBishop)
+TEST(GameLogicTest, controlledSquareOneWhiteBishop)
 {
   Board b;
   GameLogic gl;
@@ -482,7 +504,7 @@ TEST(GameLogicTest, getControlledSquareOneWhiteBishop)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, getControlledSquareOneBlackPawn)
+TEST(GameLogicTest, controlledSquareOneBlackPawn)
 {
   Board b;
   GameLogic gl;
@@ -503,7 +525,7 @@ TEST(GameLogicTest, getControlledSquareOneBlackPawn)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, getControlledSquareOneWhitePawn)
+TEST(GameLogicTest, controlledSquareOneWhitePawn)
 {
   Board b;
   GameLogic gl;
@@ -524,7 +546,7 @@ TEST(GameLogicTest, getControlledSquareOneWhitePawn)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, getControlledSquareEmptyBoardButFilledSquares)
+TEST(GameLogicTest, controlledSquareEmptyBoardButFilledSquares)
 {
   Board b;
   GameLogic gl;
@@ -544,7 +566,7 @@ TEST(GameLogicTest, getControlledSquareEmptyBoardButFilledSquares)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, bishopMovesOnEmptyBoardOnF1)
+TEST(GameLogicTest, legalSquareBishopOnF1)
 {
   Square from(F, ONE);
   Board b;
@@ -568,7 +590,7 @@ TEST(GameLogicTest, bishopMovesOnEmptyBoardOnF1)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, bishopMovesOnEmptyBoardWhitePawnG6)
+TEST(GameLogicTest, legalSquareBbishopE4WhitePawnG6)
 {
   Square from(E, FOUR);
   Board b;
@@ -597,7 +619,7 @@ TEST(GameLogicTest, bishopMovesOnEmptyBoardWhitePawnG6)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, bishopMovesOnEmptyBoardBlackPawnG6)
+TEST(GameLogicTest, legalSquarebishopE4BoardBlackPawnG6)
 {
   Square from(E, FOUR);
   Board b;
@@ -627,7 +649,7 @@ TEST(GameLogicTest, bishopMovesOnEmptyBoardBlackPawnG6)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, bishopMovesOnEmptyBoard)
+TEST(GameLogicTest, legalSquaresBishopOnE4)
 {
   Square from(E, FOUR);
   Board b;
