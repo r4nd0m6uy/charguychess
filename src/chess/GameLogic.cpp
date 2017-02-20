@@ -72,7 +72,7 @@ void GameLogic::registerBoardObserver(IBoardObserver& observer)
 void GameLogic::newGame()
 {
   m_turn = WHITE;
-  m_board = Board();
+  m_board.initialPosition();
   m_capPiecesWhite.clear();
   m_capPiecesBlack.clear();
   raiseBoardChanged();
@@ -268,32 +268,32 @@ void GameLogic::getBishopSquares(LegalSquares& ls, bool isControlled) const
     {
       Rank r = ls.getFrom().getRank() + hDir;
 
-      if(r != INVALID_RANK)
+      if(r == INVALID_RANK)
+        continue;
+
+      for(File f = ls.getFrom().getFile() + vDir ; f != INVALID_FILE ; f += vDir)
       {
-        for(File f = ls.getFrom().getFile() + vDir ; f != INVALID_FILE ; f += vDir)
+        Square s(f, r);
+
+        // Piece of the same color is blocking the way
+        if(!m_board.isEmpty(s) &&
+            m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
         {
-          Square s(f, r);
-
-          // Piece of the same color is blocking the way
-          if(!m_board.isEmpty(s) &&
-              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
-          {
-            if(isControlled)
-              ls.add(s);
-            break;
-          }
-
-          ls.add(s);
-
-          // Piece of opposite color is blocking the way
-          if(!m_board.isEmpty(s) &&
-              m_board.getPieceColor(s) != m_board.getPieceColor(ls.getFrom()))
-            break;
-
-          r = r + hDir;
-          if(r == INVALID_RANK)
-            break;
+          if(isControlled)
+            ls.add(s);
+          break;
         }
+
+        ls.add(s);
+
+        // Piece of opposite color is blocking the way
+        if(!m_board.isEmpty(s) &&
+            m_board.getPieceColor(s) != m_board.getPieceColor(ls.getFrom()))
+          break;
+
+        r = r + hDir;
+        if(r == INVALID_RANK)
+          break;
       }
     }
   }

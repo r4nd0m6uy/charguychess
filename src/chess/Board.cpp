@@ -22,8 +22,7 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-Board::Board():
-    m_boardPieces(LAST_FILE + 1, std::vector<PlayerPiece>(LAST_RANK + 1))
+Board::Board()
 {
   initialPosition();
 }
@@ -44,6 +43,48 @@ void Board::clear()
 void Board::clear(const Square& s)
 {
   setPiece(PlayerPiece(NO_COLOR, NO_PIECE), s);
+}
+
+//--------------------------------------------------------------------------------------------
+void Board::initialPosition()
+{
+  clear();
+
+  // White player initial position
+  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(A, ONE));
+  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(B, ONE));
+  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(C, ONE));
+  this->setPiece(PlayerPiece(WHITE, QUEEN),   Square(D, ONE));
+  this->setPiece(PlayerPiece(WHITE, KING),    Square(E, ONE));
+  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(F, ONE));
+  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(G, ONE));
+  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(H, ONE));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(A, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(B, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(C, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(D, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(E, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(F, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(G, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(H, TWO));
+
+  // Black player initial position
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(A, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(B, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(C, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(D, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(E, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(F, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(G, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(H, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(A, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(B, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(C, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, QUEEN),   Square(D, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KING),    Square(E, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(F, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(G, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(H, EIGHT));
 }
 
 //--------------------------------------------------------------------------------------------
@@ -87,46 +128,6 @@ Color Board::getPieceColor(const Square& s) const
 PieceType Board::getPieceType(const Square& s) const
 {
   return this->getPiece(s).getType();
-}
-
-//--------------------------------------------------------------------------------------------
-void Board::initialPosition()
-{
-  // White player initial position
-  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(A, ONE));
-  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(B, ONE));
-  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(C, ONE));
-  this->setPiece(PlayerPiece(WHITE, QUEEN),   Square(D, ONE));
-  this->setPiece(PlayerPiece(WHITE, KING),    Square(E, ONE));
-  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(F, ONE));
-  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(G, ONE));
-  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(H, ONE));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(A, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(B, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(C, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(D, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(E, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(F, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(G, TWO));
-  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(H, TWO));
-
-  // Black player initial position
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(A, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(B, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(C, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(D, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(E, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(F, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(G, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(H, SEVEN));
-  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(A, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(B, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(C, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, QUEEN),   Square(D, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, KING),    Square(E, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(F, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(G, EIGHT));
-  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(H, EIGHT));
 }
 
 }       // namespace
