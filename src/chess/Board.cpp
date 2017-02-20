@@ -25,41 +25,7 @@ namespace cgc {
 Board::Board():
     m_boardPieces(LAST_FILE + 1, std::vector<PlayerPiece>(LAST_RANK + 1))
 {
-  // White player initial position
-  m_boardPieces[ONE][A] = PlayerPiece(WHITE, ROOK);
-  m_boardPieces[ONE][B] = PlayerPiece(WHITE, KNIGHT);
-  m_boardPieces[ONE][C] = PlayerPiece(WHITE, BISHOP);
-  m_boardPieces[ONE][D] = PlayerPiece(WHITE, QUEEN);
-  m_boardPieces[ONE][E] = PlayerPiece(WHITE, KING);
-  m_boardPieces[ONE][F] = PlayerPiece(WHITE, BISHOP);
-  m_boardPieces[ONE][G] = PlayerPiece(WHITE, KNIGHT);
-  m_boardPieces[ONE][H] = PlayerPiece(WHITE, ROOK);
-  m_boardPieces[TWO][A] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][B] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][C] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][D] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][E] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][F] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][G] = PlayerPiece(WHITE, PAWN);
-  m_boardPieces[TWO][H] = PlayerPiece(WHITE, PAWN);
-
-  // Black player initial position
-  m_boardPieces[SEVEN][A] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][B] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][C] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][D] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][E] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][F] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][G] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[SEVEN][H] = PlayerPiece(BLACK, PAWN);
-  m_boardPieces[EIGHT][A] = PlayerPiece(BLACK, ROOK);
-  m_boardPieces[EIGHT][B] = PlayerPiece(BLACK, KNIGHT);
-  m_boardPieces[EIGHT][C] = PlayerPiece(BLACK, BISHOP);
-  m_boardPieces[EIGHT][D] = PlayerPiece(BLACK, QUEEN);
-  m_boardPieces[EIGHT][E] = PlayerPiece(BLACK, KING);
-  m_boardPieces[EIGHT][F] = PlayerPiece(BLACK, BISHOP);
-  m_boardPieces[EIGHT][G] = PlayerPiece(BLACK, KNIGHT);
-  m_boardPieces[EIGHT][H] = PlayerPiece(BLACK, ROOK);
+  initialPosition();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -90,7 +56,7 @@ const PlayerPiece& Board::getPiece(const Square& s) const
     return m_invalidPiece;
   }
 
-  return m_boardPieces[s.getRank()][s.getFile()];
+  return m_boardPieces[s.getFile()][s.getRank()];
 }
 
 //--------------------------------------------------------------------------------------------
@@ -102,7 +68,7 @@ void Board::setPiece(const PlayerPiece& p, const Square& s)
     return;
   }
 
-  m_boardPieces[s.getRank()][s.getFile()] = p;
+  m_boardPieces[s.getFile()][s.getRank()] = p;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -121,6 +87,46 @@ Color Board::getPieceColor(const Square& s) const
 PieceType Board::getPieceType(const Square& s) const
 {
   return this->getPiece(s).getType();
+}
+
+//--------------------------------------------------------------------------------------------
+void Board::initialPosition()
+{
+  // White player initial position
+  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(A, ONE));
+  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(B, ONE));
+  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(C, ONE));
+  this->setPiece(PlayerPiece(WHITE, QUEEN),   Square(D, ONE));
+  this->setPiece(PlayerPiece(WHITE, KING),    Square(E, ONE));
+  this->setPiece(PlayerPiece(WHITE, BISHOP),  Square(F, ONE));
+  this->setPiece(PlayerPiece(WHITE, KNIGHT),  Square(G, ONE));
+  this->setPiece(PlayerPiece(WHITE, ROOK),    Square(H, ONE));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(A, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(B, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(C, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(D, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(E, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(F, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(G, TWO));
+  this->setPiece(PlayerPiece(WHITE, PAWN),    Square(H, TWO));
+
+  // Black player initial position
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(A, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(B, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(C, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(D, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(E, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(F, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(G, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, PAWN),    Square(H, SEVEN));
+  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(A, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(B, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(C, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, QUEEN),   Square(D, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KING),    Square(E, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, BISHOP),  Square(F, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, KNIGHT),  Square(G, EIGHT));
+  this->setPiece(PlayerPiece(BLACK, ROOK),    Square(H, EIGHT));
 }
 
 }       // namespace
