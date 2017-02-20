@@ -108,29 +108,11 @@ bool GameLogic::isChecked(Color c) const
 {
   SquaresList ctrlSquares;
   PlayerPiece pKing(c, KING);
-  Square sKing;
+  Square sKing = this->getKingLocation(c);
 
-  // Look for king
-  for(File f = A ; f != INVALID_FILE ; ++f)
-  {
-    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
-    {
-      Square s(f, r);
-
-      if(m_board.getPiece(s) == pKing)
-      {
-        sKing = s;
-        break;
-      }
-    }
-  }
-
-  // Only allowed in unit testing
+  // No king found
   if(!sKing.isValid())
-  {
-    LOGER() << c << " king not found on board, cannot check if checked!";
     return false;
-  }
 
   if(c == WHITE)
     this->getControlledSquares(BLACK, ctrlSquares);
@@ -240,9 +222,9 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl) const
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
+void GameLogic::getPawnLegalSquares(LegalSquares& ls) const
 {
-  const Square& from = legalSquares.getFrom();
+  const Square& from = ls.getFrom();
   PlayerPiece movedPawn = m_board.getPiece(from);
   int forwardDirection;
 
@@ -255,14 +237,15 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
   Square s(from.getFile(), from.getRank() + forwardDirection);
   if(m_board.isEmpty(s))
   {
-    legalSquares.add(s);
+    if(!this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+      ls.add(s);
 
     if( (movedPawn.getColor() == WHITE && from.getRank() == TWO) ||
         (movedPawn.getColor() == BLACK && from.getRank() == SEVEN) )
     {
       s = Square(from.getFile(), s.getRank() + forwardDirection);
-      if(m_board.isEmpty(s))
-        legalSquares.add(s);
+      if(m_board.isEmpty(s) && !this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+        ls.add(s);
     }
   }
 
@@ -270,16 +253,20 @@ void GameLogic::getPawnLegalSquares(LegalSquares& legalSquares) const
   if(from.getFile() != H)
   {
     s = Square(from.getFile() + 1, from.getRank() + forwardDirection);
-    if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalSquares.add(s);
+    if(!m_board.isEmpty(s) &&
+        m_board.getPieceColor(s) != m_turn &&
+        !this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+      ls.add(s);
   }
 
   // Capture left
   if(from.getFile() != A)
   {
     s = Square(from.getFile() - 1, from.getRank() + forwardDirection);
-    if(!m_board.isEmpty(s) && m_board.getPieceColor(s) != m_turn)
-      legalSquares.add(s);
+    if(!m_board.isEmpty(s) &&
+        m_board.getPieceColor(s) != m_turn &&
+        !this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+      ls.add(s);
   }
 }
 
@@ -331,6 +318,10 @@ void GameLogic::getBishopSquares(LegalSquares& ls, bool isControlled) const
           break;
         }
 
+        // Check that the move doesn't create any check situation for legal moves
+        if(!isControlled && this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+          continue;
+
         ls.add(s);
 
         // Piece of opposite color is blocking the way
@@ -369,10 +360,15 @@ void GameLogic::getRookSquares(LegalSquares& ls, bool isControlled) const
         if(!m_board.isEmpty(s) &&
             m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
         {
+          // ... but the square is still under control
           if(isControlled)
             ls.add(s);
           break;
         }
+
+        // Check that the move doesn't create any check situation for legal moves
+        if(!isControlled && this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+          break;
 
         ls.add(s);
 
@@ -439,6 +435,10 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
               !isControlled)
             continue;
 
+          // Check that the move doesn't create any check situation for legal moves
+          if(!isControlled && this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+            continue;
+
           ls.add(s);
         }
       }
@@ -484,6 +484,40 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
       ls.add(s);
     }
   }
+}
+
+//--------------------------------------------------------------------------------------------
+Square GameLogic::getKingLocation(Color c) const
+{
+  PlayerPiece pKing(c, KING);
+
+  for(File f = A ; f != INVALID_FILE ; ++f)
+  {
+    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
+    {
+      Square s(f, r);
+
+      if(m_board.getPiece(s) == pKing)
+        return s;
+    }
+  }
+
+  LOGER() << c << " king not found on board, cannot check if checked!";
+  return Square();
+}
+
+//--------------------------------------------------------------------------------------------
+bool GameLogic::doesMoveMakeCheck(const Move& m) const
+{
+  GameLogic gl;
+  PlayerPiece p = m_board.getPiece(m.getFrom());
+  Board bNext = m_board;
+
+  bNext.clear(m.getFrom());
+  bNext.setPiece(p, m.getTo());
+  gl.setBoard(bNext);
+
+  return gl.isChecked(m_turn);
 }
 
 //--------------------------------------------------------------------------------------------

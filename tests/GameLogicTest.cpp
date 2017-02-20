@@ -41,6 +41,132 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresQueenDiscoveredCheckHori)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, QUEEN), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(E, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(E, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(E, FIVE)));
+  CHECK(ls.contains(Square(E, SIX)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresQueenDiscoveredCheckDiag)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, QUEEN), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(G, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(C, SIX)));
+  CHECK(ls.contains(Square(F, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresPawnDiscoveredCheck)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(G, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(0, ls.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresBishopDiscoveredCheck)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, BISHOP), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(G, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(C, SIX)));
+  CHECK(ls.contains(Square(F, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKnightDiscoveredCheck)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KNIGHT), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(E, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(E, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(0, ls.count());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalRookDiscoveredCheck)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, ROOK), from);
+  b.setPiece(PlayerPiece(WHITE, KING), Square(E, TWO));
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(E, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(E, THREE)));
+  CHECK(ls.contains(Square(E, FIVE)));
+  CHECK(ls.contains(Square(E, SIX)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalSquaresKingOnE4BlackQueenOnF6NoCheckedMove)
 {
   Square from(E, FOUR);
