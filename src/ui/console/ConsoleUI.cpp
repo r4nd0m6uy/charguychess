@@ -159,7 +159,9 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
     std::cout << "     ";
   std::cout << WHITE;
 
-  if(m_gl.isChecked(WHITE))
+  if(m_gl.isMated(WHITE))
+    std::cout << " MATE!";
+  else if(m_gl.isChecked(WHITE))
     std::cout << " CHECK!";
   std::cout << std::endl;
 
@@ -181,7 +183,9 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
 
       std::cout << BLACK;
 
-      if(m_gl.isChecked(BLACK))
+      if(m_gl.isMated(BLACK))
+        std::cout << " MATE!";
+      else if(m_gl.isChecked(BLACK))
         std::cout <<" CHECK!";
     }
 
