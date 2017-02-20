@@ -19,6 +19,7 @@
 #include <cmath>
 #include <algorithm>
 
+#include "../logging/LogMacros.hpp"
 #include "GameLogic.hpp"
 
 namespace cgc {
@@ -102,6 +103,43 @@ void GameLogic::getLegalSquares(LegalSquares& ls) const
 }
 
 //--------------------------------------------------------------------------------------------
+bool GameLogic::isChecked(Color c) const
+{
+  SquaresList ctrlSquares;
+  PlayerPiece pKing(c, KING);
+  Square sKing;
+
+  // Look for king
+  for(File f = A ; f != INVALID_FILE ; ++f)
+  {
+    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
+    {
+      Square s(f, r);
+
+      if(m_board.getPiece(s) == pKing)
+      {
+        sKing = s;
+        break;
+      }
+    }
+  }
+
+  // Only allowed in unit testing
+  if(!sKing.isValid())
+  {
+    LOGER() << c << " king not found on board, cannot check if checked!";
+    return false;
+  }
+
+  if(c == WHITE)
+    this->getControlledSquares(BLACK, ctrlSquares);
+  else
+    this->getControlledSquares(WHITE, ctrlSquares);
+
+  return ctrlSquares.contains(sKing);
+}
+
+//--------------------------------------------------------------------------------------------
 bool GameLogic::isMoveLegal(const Move& m) const
 {
   LegalSquares ls(m.getFrom());
@@ -166,7 +204,7 @@ const GameHistory& GameLogic::getGameHistory() const
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getControlledSquares(Color c, SquaresList& sl)
+void GameLogic::getControlledSquares(Color c, SquaresList& sl) const
 {
   sl.clear();
 

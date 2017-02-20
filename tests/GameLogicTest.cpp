@@ -41,6 +41,29 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isCheckedInitialPosBlackQueenOnE2)
+{
+  Board b;
+  GameLogic gl;
+
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(E, TWO));
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isChecked(BLACK));
+  CHECK(gl.isChecked(WHITE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isCheckedInitialPosition)
+{
+  Board b;
+  GameLogic gl;
+
+  CHECK_FALSE(gl.isChecked(BLACK));
+  CHECK_FALSE(gl.isChecked(WHITE));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, controlledSquaresKingOnE4PawnOnE5)
 {
   Square from(E, FOUR);

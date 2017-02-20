@@ -46,12 +46,13 @@ public:
   void registerBoardObserver(IBoardObserver& observer);
   void newGame();
   void getLegalSquares(LegalSquares& ls) const;
+  bool isChecked(Color c) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
   const std::list<PlayerPiece>& getCapturedWhitePieces() const;
   const std::list<PlayerPiece>& getCapturedBlackPieces() const;
   const GameHistory& getGameHistory() const;
-  void getControlledSquares(Color c, SquaresList& sl);
+  void getControlledSquares(Color c, SquaresList& sl) const;
 
 private:
   Board m_board;
