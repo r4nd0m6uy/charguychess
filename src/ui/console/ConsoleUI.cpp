@@ -157,7 +157,11 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
     std::cout << "   * ";
   else
     std::cout << "     ";
-  std::cout << WHITE << std::endl;
+  std::cout << WHITE;
+
+  if(m_gl.isChecked(WHITE))
+    std::cout << " CHECK!";
+  std::cout << std::endl;
 
   // Show each rank
   for(Rank r = EIGHT ; r != INVALID_RANK ; --r)
@@ -176,6 +180,9 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
         std::cout << "     ";
 
       std::cout << BLACK;
+
+      if(m_gl.isChecked(BLACK))
+        std::cout <<" CHECK!";
     }
 
     std::cout << std::endl << RANK_SEPARATOR << std::endl;

@@ -47,6 +47,7 @@ public:
   void newGame();
   void getLegalSquares(LegalSquares& ls) const;
   bool isChecked(Color c) const;
+  bool isMated(Color c) const;
   bool isMoveLegal(const Move& m) const;
   bool applyMove(const Move& m);
   const std::list<PlayerPiece>& getCapturedWhitePieces() const;

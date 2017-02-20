@@ -123,6 +123,38 @@ bool GameLogic::isChecked(Color c) const
 }
 
 //--------------------------------------------------------------------------------------------
+bool GameLogic::isMated(Color c) const
+{
+  GameLogic gl;
+
+  // Cannot be mated without king ...
+  if(!getKingLocation(c).isValid())
+    return false;
+
+  // Set the current turn and board to check legal moves
+  gl.setTurn(c);
+  gl.setBoard(m_board);
+
+  for(File f = A ; f != INVALID_FILE ; ++f)
+  {
+    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
+    {
+      LegalSquares ls(Square(f, r));
+
+      if(m_board.getPieceColor(ls.getFrom()) != c)
+        continue;
+
+      gl.getLegalSquares(ls);
+      if(ls.count() > 0)
+        return false;
+    }
+  }
+
+  // No legal move found for this player
+  return true;
+}
+
+//--------------------------------------------------------------------------------------------
 bool GameLogic::isMoveLegal(const Move& m) const
 {
   LegalSquares ls(m.getFrom());

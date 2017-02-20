@@ -41,6 +41,31 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isMatedWhiteMate)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(BLACK, ROOK), Square(A, EIGHT));
+  b.setPiece(PlayerPiece(BLACK, ROOK), Square(B, EIGHT));
+  b.setPiece(PlayerPiece(WHITE, KING), Square(A, ONE));
+  gl.setBoard(b);
+
+  CHECK(gl.isMated(WHITE));
+  CHECK_FALSE(gl.isMated(BLACK));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isMatedInitialPosition)
+{
+  GameLogic gl;
+
+  CHECK_FALSE(gl.isMated(WHITE));
+  CHECK_FALSE(gl.isMated(BLACK));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalSquaresQueenDiscoveredCheckHori)
 {
   Board b;
