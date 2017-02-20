@@ -36,6 +36,17 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringKnightCapture)
+{
+  std::string strMove = "Nxc3";
+  Move m(KNIGHT, Square(C, TWO), Square(C, THREE));
+
+  m.setIsCapture(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringMoveWithKnight)
 {
   std::string strMove = "Nc3";

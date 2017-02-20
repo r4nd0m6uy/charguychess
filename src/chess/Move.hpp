@@ -41,11 +41,14 @@ public:
   void setWho(PieceType who);
   bool isValid() const;
   std::string toString() const;
+  bool isCapture() const;
+  void setIsCapture(bool isCapture);
 
 private:
   Square m_from;
   Square m_to;
   PieceType m_who;
+  bool m_isCapture;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

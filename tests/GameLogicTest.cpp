@@ -40,9 +40,28 @@ TEST_GROUP(GameLogicTest)
   }
 };
 
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveCaptureInHistory)
+{
+  GameLogic gl;
+  Square from(E, FOUR);
+  Square to(D, FIVE);
+  Move m(from, to);
+  Board b;
+  GameTurn firstTurn;
+
+  b.setPiece(PlayerPiece(BLACK, PAWN), to);
+  b.setPiece(PlayerPiece(WHITE, PAWN), from);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+
+  firstTurn = gl.getGameHistory().getTurns().front();
+  CHECK(firstTurn.getWhiteMove().isCapture());
+}
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, legalMoveInHistory)
+TEST(GameLogicTest, applyMovelegalMoveInHistory)
 {
   GameLogic gl;
   Square from(A, TWO);
@@ -57,11 +76,12 @@ TEST(GameLogicTest, legalMoveInHistory)
   CHECK(firstTurn.getWhiteMove().getFrom() == from);
   CHECK(firstTurn.getWhiteMove().getTo() == to);
   CHECK(firstTurn.getWhiteMove().getWho() == PAWN);
+  CHECK_FALSE(firstTurn.getWhiteMove().isCapture());
   CHECK_FALSE(firstTurn.getBlackMove().isValid());
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, illegalMoveNOtInHistory)
+TEST(GameLogicTest, applyMoveillegalMoveNOtInHistory)
 {
   GameLogic gl;
   Square from(A, TWO);

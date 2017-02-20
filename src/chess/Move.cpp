@@ -42,7 +42,8 @@ Move::Move(const std::string& str):
 Move::Move(const Square& from, const Square& to):
     m_from(from),
     m_to(to),
-    m_who(NO_PIECE)
+    m_who(NO_PIECE),
+    m_isCapture(false)
 {
 }
 
@@ -50,7 +51,8 @@ Move::Move(const Square& from, const Square& to):
 Move::Move(PieceType who, const Square& from, const Square& to):
   m_from(from),
   m_to(to),
-  m_who(who)
+  m_who(who),
+  m_isCapture(false)
 {
 }
 
@@ -92,6 +94,18 @@ bool Move::isValid() const
 }
 
 //--------------------------------------------------------------------------------------------
+bool Move::isCapture() const
+{
+  return m_isCapture;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setIsCapture(bool isCapture)
+{
+  m_isCapture = isCapture;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
@@ -100,6 +114,9 @@ std::string Move::toString() const
     ss << this->getFrom();
   else if(m_who != PAWN)
     ss << m_who;
+
+  if(m_isCapture)
+    ss << "x";
 
   ss << this->getTo();
 

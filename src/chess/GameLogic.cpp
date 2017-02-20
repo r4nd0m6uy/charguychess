@@ -184,6 +184,10 @@ bool GameLogic::applyMove(const Move& m)
       m_capPiecesWhite.push_back(m_board.getPiece(m.getTo()));
   }
 
+  // Save move for history
+  Move mHist(m_board.getPieceType(m.getFrom()), m.getFrom(), m.getTo());
+  mHist.setIsCapture(m_board.getPieceType(m.getTo()) != NO_PIECE);
+
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
   m_board.setPiece(PlayerPiece(), m.getFrom());
@@ -194,7 +198,6 @@ bool GameLogic::applyMove(const Move& m)
   else
     m_turn = BLACK;
 
-  Move mHist(m_board.getPieceType(m.getTo()), m.getFrom(), m.getTo());
   m_gh.addMove(mHist);
 
   raiseBoardChanged();
