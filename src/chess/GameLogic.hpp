@@ -61,11 +61,12 @@ private:
   std::list<PlayerPiece> m_capPiecesBlack;
   std::list<PlayerPiece> m_capPiecesWhite;
 
-  void getPawnLegalSquares(LegalSquares& legalSquares) const;
-  void getPawnControlledSquares(LegalSquares& legalSquares) const;
-  void getBishopSquares(LegalSquares& legalSquares, bool isControlled) const;
-  void getRookSquares(LegalSquares& legalSquares, bool isControlled) const;
-  void getQueenLegalSquares(LegalSquares& legalSquares, bool isControlled) const;
+  void getPawnLegalSquares(LegalSquares& ls) const;
+  void getPawnControlledSquares(LegalSquares& ls) const;
+  void getBishopSquares(LegalSquares& ls, bool isControlled) const;
+  void getRookSquares(LegalSquares& ls, bool isControlled) const;
+  void getQueenSquares(LegalSquares& ls, bool isControlled) const;
+  void getKnightSquares(LegalSquares& ls, bool isControlled) const;
   void raiseBoardChanged();
 };
 

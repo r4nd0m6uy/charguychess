@@ -94,7 +94,9 @@ void GameLogic::getLegalSquares(LegalSquares& legalSquares) const
   else if(t == ROOK)
     this->getRookSquares(legalSquares, false);
   else if(t == QUEEN)
-    this->getQueenLegalSquares(legalSquares, false);
+    this->getQueenSquares(legalSquares, false);
+  else if(t == KNIGHT)
+    this->getKnightSquares(legalSquares, false);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -184,7 +186,9 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl)
         else if(t == ROOK)
           this->getRookSquares(ls, true);
         else if(t == QUEEN)
-          this->getQueenLegalSquares(ls, true);
+          this->getQueenSquares(ls, true);
+        else if(t == KNIGHT)
+          this->getKnightSquares(ls, true);
 
         sl.append(ls.getSquaresList());
       }
@@ -342,10 +346,64 @@ void GameLogic::getRookSquares(LegalSquares& ls, bool isControlled) const
 }
 
 //--------------------------------------------------------------------------------------------
-void GameLogic::getQueenLegalSquares(LegalSquares& legalSquares, bool isControlled) const
+void GameLogic::getQueenSquares(LegalSquares& legalSquares, bool isControlled) const
 {
   this->getBishopSquares(legalSquares, isControlled);
   this->getRookSquares(legalSquares, isControlled);
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
+{
+  for(int vDir = -2 ; vDir <= 2 ; vDir += 2)
+  {
+    for(int hDir = -2 ; hDir <= 2 ; hDir += 2)
+    {
+      int vDir2 = 0;
+      int hDir2 = 0;
+
+      // Only vertical and horizontal moves
+      if( (vDir == 0 && hDir == 0) ||
+          (vDir != 0 && hDir != 0) )
+        continue;
+
+      // First jump that is two square horizontal or vertical
+      Square jump1(ls.getFrom().getFile() + hDir, ls.getFrom().getRank() + vDir);
+
+      if(!jump1.isValid())
+        continue;
+
+      // Next jump opposite direction
+      if(vDir == 0)
+        vDir2 = -1;
+      else
+        hDir2 = -1;
+
+      while(hDir2 <= 1 && vDir2 <= 1)
+      {
+        Square s(jump1.getFile() + hDir2, jump1.getRank() + vDir2);
+
+        if(vDir2 != 0)
+          vDir2 += 2;
+        else
+          hDir2 += 2;
+
+        if(s.isValid())
+        {
+          // Piece of the same color is blocking the way
+          if(!m_board.isEmpty(s) &&
+              m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()))
+          {
+            if(isControlled)
+              ls.add(s);
+            continue;
+          }
+
+          ls.add(s);
+        }
+      }
+    }
+  }
 }
 
 //--------------------------------------------------------------------------------------------
