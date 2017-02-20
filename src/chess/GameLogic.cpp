@@ -16,7 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <cmath>
+#include <cassert>
+
 #include <algorithm>
 
 #include "../logging/LogMacros.hpp"
@@ -448,16 +449,33 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
 //--------------------------------------------------------------------------------------------
 void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
 {
+  SquaresList notAllowedSquares;
+
+  // Get the list of not allowed square when checking legal squares
+  if(!isControlled)
+  {
+    PlayerPiece pKing = m_board.getPiece(ls.getFrom());
+
+    assert(pKing.getColor() != NO_COLOR);
+    assert(pKing.getType() == KING);
+
+    if(pKing.getColor() == WHITE)
+      this->getControlledSquares(BLACK, notAllowedSquares);
+    else
+      this->getControlledSquares(WHITE, notAllowedSquares);
+  }
+
+  // Check each possible move
   for(int vDir = -1 ; vDir < 2 ; ++vDir)
   {
     for(int hDir = -1 ; hDir < 2 ; ++hDir)
     {
       Square s(ls.getFrom().getFile() + vDir, ls.getFrom().getRank() + hDir);
 
-      if(!s.isValid() || s == ls.getFrom())
+      if(!s.isValid() || s == ls.getFrom() || notAllowedSquares.contains(s))
         continue;
 
-      // Piece of the same color is on target square
+      // Piece of the same color is on target square or controlled by the opponent
       if(!m_board.isEmpty(s) &&
           m_board.getPieceColor(s) == m_board.getPieceColor(ls.getFrom()) &&
           !isControlled)

@@ -41,6 +41,27 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKingOnE4BlackQueenOnF6NoCheckedMove)
+{
+  Square from(E, FOUR);
+  Board b;
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  b.setPiece(PlayerPiece(BLACK, QUEEN), Square(F, SIX));
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(3, ls.count());
+  CHECK(ls.contains(Square(D, THREE)));
+  CHECK(ls.contains(Square(D, FIVE)));
+  CHECK(ls.contains(Square(E, THREE)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, isCheckedInitialPosBlackQueenOnE2)
 {
   Board b;
