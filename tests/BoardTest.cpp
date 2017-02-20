@@ -38,7 +38,7 @@ TEST_GROUP(BoardTest)
 //--------------------------------------------------------------------------------------------
 TEST(BoardTest, clearSquare)
 {
-  Square s;
+  Square s(B, THREE);
   Board b;
 
   b.setPiece(PlayerPiece(BLACK, QUEEN), s);
@@ -58,27 +58,6 @@ TEST(BoardTest, clear)
   for(File f = A ; f <= LAST_FILE ; ++f)
     for(Rank r = ONE ; r <= LAST_RANK ; ++r)
       CHECK(b.isEmpty(Square(f, r)));
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(BoardTest, setInivalidSquare)
-{
-  Square s;
-  PlayerPiece pp(WHITE, BISHOP);
-  Board b;
-
-  b.setPiece(pp, s);
-}
-
-//--------------------------------------------------------------------------------------------
-TEST(BoardTest, getInivalidSquare)
-{
-  Square s;
-  Board b;
-  const PlayerPiece& pp =  b.getPiece(s);
-
-  CHECK_EQUAL(NO_COLOR, pp.getColor());
-  CHECK_EQUAL(NO_PIECE, pp.getType());
 }
 
 //--------------------------------------------------------------------------------------------
