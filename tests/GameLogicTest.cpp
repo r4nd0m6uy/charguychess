@@ -373,7 +373,7 @@ TEST(GameLogicTest, controlledSquaresKingOnE4PawnOnE5)
   gl.getControlledSquares(WHITE, ctrlWhite);
   gl.getControlledSquares(BLACK, ctrlBlack);
 
-  //CHECK_EQUAL(10, ctrlWhite.count());
+  CHECK_EQUAL(10, ctrlWhite.count());
   CHECK(ctrlWhite.contains(Square(D, FIVE)));
   CHECK(ctrlWhite.contains(Square(F, FIVE)));
   CHECK(ctrlWhite.contains(Square(D, FOUR)));
