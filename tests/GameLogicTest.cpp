@@ -163,6 +163,30 @@ TEST(GameLogicTest, isMatedInitialPosition)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresKingCheckedByQueen)
+{
+  Board b;
+  Square from(E, FOUR);
+  LegalSquares ls(from);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(PlayerPiece(WHITE, KING), from);
+  b.setPiece(BLACK, QUEEN, A, FOUR);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(6, ls.count());
+  CHECK(ls.contains(D, FIVE));
+  CHECK(ls.contains(E, FIVE));
+  CHECK(ls.contains(F, FIVE));
+  CHECK(ls.contains(D, THREE));
+  CHECK(ls.contains(E, THREE));
+  CHECK(ls.contains(F, THREE));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalSquaresQueenDiscoveredCheckHori)
 {
   Board b;

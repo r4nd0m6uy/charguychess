@@ -117,6 +117,12 @@ void Board::setPiece(const PlayerPiece& p, const Square& s)
 }
 
 //--------------------------------------------------------------------------------------------
+void Board::setPiece(Color c, PieceType p, File f, Rank r)
+{
+  this->setPiece(PlayerPiece(c, p), Square(f, r));
+}
+
+//--------------------------------------------------------------------------------------------
 bool Board::isEmpty(const Square& s) const
 {
   return this->getPieceColor(s) == NO_COLOR;

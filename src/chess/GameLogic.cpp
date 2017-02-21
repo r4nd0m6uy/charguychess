@@ -499,15 +499,16 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
   // Get the list of not allowed square when checking legal squares
   if(!isControlled)
   {
-    PlayerPiece pKing = m_board.getPiece(ls.getFrom());
+    Board bNoKing = m_board;
+    GameLogic gl;
 
-    assert(pKing.getColor() != NO_COLOR);
-    assert(pKing.getType() == KING);
+    bNoKing.clear(getKingLocation(m_turn));
+    gl.setBoard(bNoKing);
 
-    if(pKing.getColor() == WHITE)
-      this->getControlledSquares(BLACK, notAllowedSquares);
+    if(m_turn == WHITE)
+      gl.getControlledSquares(BLACK, notAllowedSquares);
     else
-      this->getControlledSquares(WHITE, notAllowedSquares);
+      gl.getControlledSquares(WHITE, notAllowedSquares);
   }
 
   // Check each possible move

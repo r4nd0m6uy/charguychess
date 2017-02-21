@@ -38,6 +38,7 @@ public:
   void clear();
   void add(const Square& square);
   bool contains(const Square& square);
+  bool contains(File f, Rank r);
   int count() const;
   const SquaresList& getSquaresList();
 

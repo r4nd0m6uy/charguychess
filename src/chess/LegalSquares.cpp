@@ -58,6 +58,12 @@ bool LegalSquares::contains(const Square& square)
 }
 
 //--------------------------------------------------------------------------------------------
+bool LegalSquares::contains(File f, Rank r)
+{
+  return this->contains(Square(f, r));
+}
+
+//--------------------------------------------------------------------------------------------
 int LegalSquares::count() const
 {
   return m_legalSquares.count();

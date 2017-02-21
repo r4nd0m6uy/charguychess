@@ -41,6 +41,7 @@ public:
   void initialPosition();
   const PlayerPiece& getPiece(const Square& s) const;
   void setPiece(const PlayerPiece& p, const Square& s);
+  void setPiece(Color c, PieceType p, File f, Rank r);
   bool isEmpty(const Square& s) const;
   Color getPieceColor(const Square& s) const;
   PieceType getPieceType(const Square& s) const;
