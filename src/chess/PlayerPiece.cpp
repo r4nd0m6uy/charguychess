@@ -61,7 +61,7 @@ bool PlayerPiece::operator==(const PlayerPiece& rhs) const
 //--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const PlayerPiece& playerPiece)
 {
-  char p;
+  char p = ' ';
   PieceType t = playerPiece.getType();
 
   if(t != NO_PIECE)
