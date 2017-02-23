@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/r4nd0m6uy/charguychess.svg?branch=master)](https://travis-ci.org/r4nd0m6uy/charguychess)
+
 The software for the DIY chess hardware we want to build with my father.
 
 # Prerequists
