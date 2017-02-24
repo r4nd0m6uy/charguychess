@@ -21,6 +21,7 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
+#include "utils/BoardValueComparator.hpp"
 #include "mocks/IHardwareStatePoolMock.hpp"
 #include "mocks/IHardwareStateMock.hpp"
 #include "ui/hardware/states/HardwareStatePieceLifted.hpp"
@@ -34,10 +35,12 @@ TEST_GROUP(HardwareStatePieceLiftedTest)
 {
   TEST_SETUP()
   {
+    mock().installComparator("BoardValue", m_bvComp);
   }
 
   TEST_TEARDOWN()
   {
+    mock().removeAllComparatorsAndCopiers();
     mock().clear();
   }
 
@@ -58,6 +61,7 @@ TEST_GROUP(HardwareStatePieceLiftedTest)
   }
 
 private:
+  BoardValueComparator m_bvComp;
   IHardwareStatePoolMock m_hsp;
   GameLogic m_gl;
 };
@@ -79,7 +83,7 @@ TEST(HardwareStatePieceLiftedTest, executeTwoBitsChangedTwoPiecesLiftedForCaptur
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_CAPTURE).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -99,7 +103,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateLegalMove)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_THINKING).
-      withParameter("bv", bvExecute).
+      withParameterOfType("BoardValue", "bv", &bvExecute).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bvExecute));
@@ -123,7 +127,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateIllegalMove)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -143,7 +147,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateTwoPlayerPieces)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -163,7 +167,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateBackToGameStatus)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_THINKING).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -183,7 +187,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateOnePieceLifted)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_LIFTED_PIECE).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -203,7 +207,7 @@ TEST(HardwareStatePieceLiftedTest, executeStateTooManyPiecesLifted)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));

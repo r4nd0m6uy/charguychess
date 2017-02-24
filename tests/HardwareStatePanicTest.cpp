@@ -21,6 +21,7 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
+#include "utils/BoardValueComparator.hpp"
 #include "mocks/IHardwareStatePoolMock.hpp"
 #include "mocks/IHardwareStateMock.hpp"
 #include "ui/hardware/states/HardwareStatePanic.hpp"
@@ -34,10 +35,12 @@ TEST_GROUP(HardwareStatePanicTest)
 {
   TEST_SETUP()
   {
+    mock().installComparator("BoardValue", m_bvComp);
   }
 
   TEST_TEARDOWN()
   {
+    mock().removeAllComparatorsAndCopiers();
     mock().clear();
   }
 
@@ -57,6 +60,7 @@ TEST_GROUP(HardwareStatePanicTest)
   }
 
 private:
+  BoardValueComparator m_bvComp;
   IHardwareStatePoolMock m_hsp;
   GameLogic m_gl;
 };
@@ -67,10 +71,11 @@ TEST(HardwareStatePanicTest, executeEntersThinkingOnExpectedValue)
   BitBoard bb(getGl().getBoard());
   IHardwareStateMock nextState;
   std::unique_ptr<HardwareStatePanic> state = buildHwState();
+  BoardValue bv = bb.getBoardValue();
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_THINKING).
-      withParameter("bv", bb.getBoardValue()).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bb.getBoardValue()));

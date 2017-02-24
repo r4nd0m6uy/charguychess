@@ -21,6 +21,7 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
+#include "utils/BoardValueComparator.hpp"
 #include "mocks/IHardwareStatePoolMock.hpp"
 #include "mocks/IHardwareStateMock.hpp"
 #include "ui/hardware/states/HardwareStatePlayerThinking.hpp"
@@ -35,10 +36,12 @@ TEST_GROUP(HardwareStatePlayerThinkingTest)
   TEST_SETUP()
   {
     m_gl.newGame();
+    mock().installComparator("BoardValue", m_bvComp);
   }
 
   TEST_TEARDOWN()
   {
+    mock().removeAllComparatorsAndCopiers();
     mock().clear();
   }
 
@@ -59,6 +62,7 @@ TEST_GROUP(HardwareStatePlayerThinkingTest)
   }
 
 private:
+  BoardValueComparator m_bvComp;
   IHardwareStatePoolMock m_hsp;
   GameLogic m_gl;
 };
@@ -72,10 +76,10 @@ TEST(HardwareStatePlayerThinkingTest, executeTwoBitsChangedLegalMove)
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PLAYER_LIFTED_PIECE).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
   mock().expectOneCall("execute").onObject(&nextState).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bv));
@@ -94,10 +98,11 @@ TEST(HardwareStatePlayerThinkingTest, executeOnePieceLiftedWrongPlayer)
   getGl().setBoard(b);
   b.clear(liftedSquare);
   BitBoard bb(b);
+  BoardValue bv = bb.getBoardValue();
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bb.getBoardValue()).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bb.getBoardValue()));
@@ -114,10 +119,11 @@ TEST(HardwareStatePlayerThinkingTest, executeTooManyPieces)
 
   b.setPiece(PlayerPiece(BLACK, QUEEN), Square(C, FIVE));
   BitBoard bb(b);
+  BoardValue bv = bb.getBoardValue();
 
   mock().expectOneCall("enterState").onObject(&getHwStatePool()).
       withParameter("which", IHardwareStatePool::PANIC).
-      withParameter("bv", bb.getBoardValue()).
+      withParameterOfType("BoardValue", "bv", &bv).
       andReturnValue(&nextState);
 
   POINTERS_EQUAL(&nextState, &state->execute(bb.getBoardValue()));

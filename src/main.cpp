@@ -102,6 +102,10 @@ int main(int argc, char* argv[])
   std::unique_ptr<cgc::ChessHardware> hw(nullptr);
   int ret;
 
+  cgc::BoardValue bv;
+
+  std::cout << "sizeof of boardbalue :" << sizeof(bv) << std::endl;
+
   if(parseArgs(argc, argv, ret) != 0)
     return ret;
 

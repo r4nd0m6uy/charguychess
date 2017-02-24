@@ -37,14 +37,14 @@ IHardwareStateMock::~IHardwareStateMock()
 void IHardwareStateMock::enter(BoardValue bv)
 {
   mock().actualCall(__func__).onObject(this).
-      withParameter("bv", bv);
+      withParameterOfType("BoardValue", "bv", &bv);
 }
 
 //--------------------------------------------------------------------------------------------
 IHardwareState& IHardwareStateMock::execute(BoardValue bv)
 {
   return *((IHardwareState*)mock().actualCall(__func__).onObject(this).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       returnPointerValue());
 }
 

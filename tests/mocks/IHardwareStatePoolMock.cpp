@@ -39,7 +39,7 @@ IHardwareState& IHardwareStatePoolMock::enterState(IHardwareStatePool::State whi
 {
   return *((IHardwareState*)mock().actualCall(__func__).onObject(this).
       withParameter("which", which).
-      withParameter("bv", bv).
+      withParameterOfType("BoardValue", "bv", &bv).
       returnPointerValue());
 }
 

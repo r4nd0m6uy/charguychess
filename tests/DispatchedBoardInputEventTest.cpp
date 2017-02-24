@@ -19,6 +19,7 @@
 #include <CppUTest/TestHarness.h>
 #include <CppUTestExt/MockSupport.h>
 
+#include "utils/BoardValueComparator.hpp"
 #include "mocks/IBoardInputObserverMock.hpp"
 #include "ui/hardware/DispatchedBoardInputEvent.hpp"
 
@@ -30,12 +31,17 @@ TEST_GROUP(DispatchedBoardInputEventTest)
 {
   TEST_SETUP()
   {
+    mock().installComparator("BoardValue", m_bvComp);
   }
 
   TEST_TEARDOWN()
   {
+    mock().removeAllComparatorsAndCopiers();
     mock().clear();
   }
+
+private:
+  BoardValueComparator m_bvComp;
 };
 
 //--------------------------------------------------------------------------------------------
@@ -48,7 +54,7 @@ TEST(DispatchedBoardInputEventTest, twiceSameValueOneCallback)
   dbie.registerObserver(bio);
 
   mock().expectOneCall("boardValueChanged").onObject(&bio).
-      withParameter("bv", bv);
+      withParameterOfType("BoardValue", "bv", &bv);
 
   dbie.raiseBoardChanged(bv);
   dbie.raiseBoardChanged(bv);
@@ -66,7 +72,7 @@ TEST(DispatchedBoardInputEventTest, observerCallback)
   dbie.registerObserver(bio);
 
   mock().expectOneCall("boardValueChanged").onObject(&bio).
-      withParameter("bv", bv);
+      withParameterOfType("BoardValue", "bv", &bv);
 
   dbie.raiseBoardChanged(bv);
 

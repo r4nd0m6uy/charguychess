@@ -16,27 +16,40 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <CppUTestExt/MockSupport.h>
+#ifndef _CGC_BOARD_VALUE_COMPARATOR_HPP_
+#define _CGC_BOARD_VALUE_COMPARATOR_HPP_
 
-#include "IBoardInputObserverMock.hpp"
+#include <sstream>
 
-namespace cgc {
+#include "ui/hardware/BoardValue.hpp"
+
+namespace cgc{
 namespace tests {
 
-//--------------------------------------------------------------------------------------------
-IBoardInputObserverMock::IBoardInputObserverMock()
+/**
+ * \brief Mocks an IBoardObserver
+ */
+class BoardValueComparator:
+    public MockNamedValueComparator
 {
-}
+public:
+    virtual bool isEqual(const void* object1, const void* object2)
+    {
+      BoardValue bv1 = *((BoardValue*)object1);
+      BoardValue bv2 = *((BoardValue*)object2);
 
-//--------------------------------------------------------------------------------------------
-IBoardInputObserverMock::~IBoardInputObserverMock()
-{
-}
-//--------------------------------------------------------------------------------------------
-void IBoardInputObserverMock::boardValueChanged(BoardValue bv)
-{
-  mock().actualCall(__func__).onObject(this).
-      withParameterOfType("BoardValue", "bv", &bv);
-}
+      return bv1 == bv2;
+    }
+    virtual SimpleString valueToString(const void* object)
+    {
+      std::stringstream ss;
+
+      ss << *((BoardValue*)object) << std::endl;
+
+      return ss.str().c_str();
+    }
+};
 
 }}      // namespace
+#endif  // _CGC_BOARD_VALUE_COMPARATOR_HPP_
+
