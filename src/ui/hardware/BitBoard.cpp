@@ -65,9 +65,9 @@ void BitBoard::setBoardValue(BoardValue bv)
 void BitBoard::setBoardValue(const std::string& value)
 {
   if(value[0] == '0' && value[1] == 'x')
-    m_bVal = ::strtoul(&value.c_str()[2], nullptr, 16);
+    m_bVal = ::strtoull(&value.c_str()[2], nullptr, 16);
   else
-    m_bVal = ::strtoul(value.c_str(), nullptr, 10);
+    m_bVal = ::strtoull(value.c_str(), nullptr, 10);
 }
 
 //--------------------------------------------------------------------------------------------
