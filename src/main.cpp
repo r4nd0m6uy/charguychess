@@ -25,14 +25,31 @@
 #include "ui/console/ConsoleUI.hpp"
 #include "ui/hardware/ChessHardwareFactory.hpp"
 #include "logging/LogMacros.hpp"
+#include "version.hpp"
 
 /* local variables */
 std::string hardwareArg = "none";
 
 //--------------------------------------------------------------------------------------------
+void printVersion()
+{
+  std::cout <<"charguychess " << cgc::VERSION_MAJOR << "." << cgc::VERSION_MINOR << "."  <<
+      cgc::VERSION_BUGFIX << " (built on " << cgc::VERSION_BUILD_TIME << ")" << std::endl;
+  std::cout << "git version: "  << cgc::VERSION_GIT<< std::endl << std::endl;
+
+  std::cout << "Copyright (C) 2017 Charly and R4nd0m6uy" << std::endl;
+  std::cout << "License GPLv3+: GNU GPL version 3 or later " <<
+      "http://gnu.org/licenses/gpl.html>." << std::endl;
+  std::cout << "This is free software: you are free to change and redistribute it." <<
+      std::endl;
+  std::cout << "There is NO WARRANTY, to the extent permitted by law." << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
 void printHelp(char* appName)
 {
   std::cout << appName << " [OPTIONS]:" << std::endl;
+  std::cout << "-v|--version    Show version information" << std::endl;
   std::cout << "-h|--help       Show this help message" << std::endl;
   std::cout << "-H|--hardware   Hardware to use" << std::endl;
   std::cout << "                  * none: No hardware" << std::endl;
@@ -51,6 +68,7 @@ int parseArgs(int argc, char* argv[], int& retCode)
   static struct option long_options[] =
   {
     {"help",      no_argument,        0,    'h'},
+    {"version",   no_argument,        0,    'v'},
     {"hardware",  required_argument,  0,    'H'},
     {"loglevel",  required_argument,  0,    'l'},
     {0, 0, 0, 0}
@@ -58,13 +76,18 @@ int parseArgs(int argc, char* argv[], int& retCode)
 
   while(1)
   {
-    c = getopt_long(argc, argv, "hH:l:", long_options, 0);
+    c = getopt_long(argc, argv, "vhH:l:", long_options, 0);
 
     if(c == -1)
       break;
 
     switch(c)
     {
+    case 'v':
+      printVersion();
+      retCode = 0;
+      return -1;
+      break;
     case 'h':
       printHelp(argv[0]);
       retCode = 0;
