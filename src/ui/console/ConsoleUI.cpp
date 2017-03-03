@@ -116,7 +116,7 @@ void ConsoleUI::readReady()
   else if(cmd.find("ctrlSquares") == 0)
     displayCtrlSquares();
   else if(cmd.find("move") == 0)
-    readMove(cmd.substr(5, 4));
+    readMove(cmd.substr(5));
   else if(cmd.find("new") == 0)
     m_gl.newGame();
   else if(cmd.find("hwAutoDsp") == 0)
@@ -241,10 +241,10 @@ void ConsoleUI::readMove(const std::string& move)
     return;
   }
 
-  Move m(move);
-  if(!m.isValid())
+  Move m;
+  if(!m.parseString(move))
   {
-    std::cout << "Invalid move " << move << std::endl;
+    std::cout << "Cannot parse " << move << std::endl;
     return;
   }
 
