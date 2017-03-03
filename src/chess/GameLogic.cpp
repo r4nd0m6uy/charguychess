@@ -161,23 +161,40 @@ bool GameLogic::isMoveLegal(const Move& m) const
   LegalSquares ls(m.getFrom());
 
   if(m_board.getPieceColor(m.getFrom()) != m_turn)
+  {
+    if(m_board.getPieceColor(m.getFrom()) == NO_COLOR)
+      LOGER() << "No piece on " << m.getFrom();
+    else
+      LOGER() << "It's not " << m_board.getPieceColor(m.getFrom()) << " to play";
+
     return false;
+  }
 
   this->getLegalSquares(ls);
 
   if(!ls.contains(m.getTo()))
+  {
+    LOGER() << m_board.getPiece(m.getFrom()) << " cannot move to " << m.getTo();
     return false;
+  }
 
   // Check that promotional moves contains promotion information
   const PlayerPiece& pSrc = m_board.getPiece(m.getFrom());
   if(pSrc.getType() == PAWN && !m.hasPromotion())
   {
+    bool isPromo = false;
     if(m_turn == WHITE &&
         m.getFrom().getRank() == SEVEN)
-      return false;
+      isPromo = true;
     else if(m_turn == BLACK &&
         m.getFrom().getRank() == TWO)
+      isPromo = true;
+
+    if(isPromo)
+    {
+      LOGER() << "Promotion information is missing";
       return false;
+    }
   }
 
   return true;
