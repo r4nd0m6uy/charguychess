@@ -165,7 +165,22 @@ bool GameLogic::isMoveLegal(const Move& m) const
 
   this->getLegalSquares(ls);
 
-  return ls.contains(m.getTo());
+  if(!ls.contains(m.getTo()))
+    return false;
+
+  // Check that promotional moves contains promotion information
+  const PlayerPiece& pSrc = m_board.getPiece(m.getFrom());
+  if(pSrc.getType() == PAWN && !m.hasPromotion())
+  {
+    if(m_turn == WHITE &&
+        m.getFrom().getRank() == SEVEN)
+      return false;
+    else if(m_turn == BLACK &&
+        m.getFrom().getRank() == TWO)
+      return false;
+  }
+
+  return true;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -190,7 +205,11 @@ bool GameLogic::applyMove(const Move& m)
 
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
-  m_board.setPiece(PlayerPiece(), m.getFrom());
+  m_board.clear(m.getFrom());
+
+  // Apply promotional move
+  if(m.hasPromotion())
+    m_board.setPiece(PlayerPiece(m_turn, m.getPromotion()), m.getTo());
 
   // Next player turn
   if(m_turn == BLACK)

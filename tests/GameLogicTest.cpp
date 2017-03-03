@@ -41,6 +41,53 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhitePromotesToBishop)
+{
+  Board b;
+  Square to(C, EIGHT);
+  Move m(Square(C, SEVEN), to);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, PAWN, C, SEVEN);
+  gl.setBoard(b);
+  m.setPromotion(BISHOP);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(WHITE, gl.getBoard().getPieceColor(to));
+  CHECK_EQUAL(BISHOP, gl.getBoard().getPieceType(to));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isLegalBlackPawntMoveWhenMissingPromotion)
+{
+  Board b;
+  Move m(Square(B, TWO), Square(B, ONE));
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(BLACK, PAWN, B, TWO);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, isLegalWhiePawntMoveWhenMissingPromotion)
+{
+  Board b;
+  Move m(Square(C, SEVEN), Square(C, EIGHT));
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, PAWN, C, SEVEN);
+  gl.setBoard(b);
+
+  CHECK_FALSE(gl.isMoveLegal(m));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveMateInHistory)
 {
   GameLogic gl;
