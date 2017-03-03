@@ -36,6 +36,47 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseStringBishopPromotional)
+{
+  std::string strMove = "e2e1=B";
+  Move m;
+
+  CHECK(m.parseString(strMove));
+  CHECK_EQUAL(BISHOP, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseStringKnightPromotional)
+{
+  std::string strMove = "e2e1=N";
+  Move m;
+
+  CHECK(m.parseString(strMove));
+  CHECK_EQUAL(KNIGHT, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseStringRookPromotional)
+{
+  std::string strMove = "e2e1=R";
+  Move m;
+
+  CHECK(m.parseString(strMove));
+  CHECK_EQUAL(ROOK, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseStringQueenPromotional)
+{
+  std::string strMove = "e2e1=Q";
+  Move m;
+
+  CHECK(m.parseString(strMove));
+  CHECK(m.hasPromotion());
+  CHECK_EQUAL(QUEEN, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringKnightPromotion)
 {
   std::string strMove = "c8=N";

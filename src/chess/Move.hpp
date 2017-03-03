@@ -35,6 +35,7 @@ public:
   Move(PieceType who, const Square& from, const Square& to);
   ~Move();
 
+  bool parseString(const std::string& s);
   const Square& getFrom() const;
   const Square& getTo() const;
   PieceType getWho() const;

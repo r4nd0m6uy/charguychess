@@ -217,6 +217,7 @@ bool GameLogic::applyMove(const Move& m)
   else
     m_turn = BLACK;
 
+  // Add check information in move history
   if(this->isChecked(m_turn))
   {
     if(this->isMated(m_turn))
@@ -224,7 +225,6 @@ bool GameLogic::applyMove(const Move& m)
     else
       mHist.setCheck(true);
   }
-
   m_gh.addMove(mHist);
 
   raiseBoardChanged();

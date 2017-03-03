@@ -39,11 +39,7 @@ Move::Move(const std::string& str):
     m_isMate(false),
     m_promotion(NO_PIECE)
 {
-  if(str.size() >= 4)
-  {
-    m_from = Square(str.substr(0, 2));
-    m_to = Square(str.substr(2, 2));
-  }
+  parseString(str);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -73,6 +69,36 @@ Move::Move(PieceType who, const Square& from, const Square& to):
 //--------------------------------------------------------------------------------------------
 Move::~Move()
 {
+}
+
+//--------------------------------------------------------------------------------------------
+bool Move::parseString(const std::string& s)
+{
+  if(s.size() >= 4)
+  {
+    m_from = Square(s.substr(0, 2));
+    m_to = Square(s.substr(2, 2));
+
+    // Check for promotion information
+    if(s.size() >= 6)
+    {
+      if(s[4] != '=')
+        return false;
+
+      if(s[5] == 'Q')
+        m_promotion = QUEEN;
+      else if(s[5] == 'R')
+        m_promotion = ROOK;
+      else if(s[5] == 'N')
+        m_promotion = KNIGHT;
+      else if(s[5] == 'B')
+        m_promotion = BISHOP;
+      else
+        return false;
+    }
+  }
+
+  return true;
 }
 
 //--------------------------------------------------------------------------------------------
