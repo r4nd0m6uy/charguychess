@@ -36,6 +36,67 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringKnightPromotion)
+{
+  std::string strMove = "c8=N";
+  Move m(PAWN, Square(C, SEVEN), Square(C, EIGHT));
+
+  m.setPromotion(KNIGHT);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, setPawnPromotion)
+{
+  Move m;
+
+  m.setPromotion(PAWN);
+
+  CHECK_FALSE(m.hasPromotion());
+  CHECK_EQUAL(NO_PIECE, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, setKingPromotion)
+{
+  Move m;
+
+  m.setPromotion(KING);
+
+  CHECK_FALSE(m.hasPromotion());
+  CHECK_EQUAL(NO_PIECE, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, getQueenPromotion)
+{
+  Move m;
+
+  m.setPromotion(QUEEN);
+
+  CHECK_EQUAL(QUEEN, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, setRookPromotion)
+{
+  Move m;
+
+  m.setPromotion(ROOK);
+
+  CHECK(m.hasPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, defaultConstructorNotPromotion)
+{
+  Move m;
+
+  CHECK_FALSE(m.hasPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringKnightCheckMate)
 {
   std::string strMove = "Nc3#";

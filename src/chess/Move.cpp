@@ -26,7 +26,8 @@ Move::Move():
     m_who(NO_PIECE),
     m_isCapture(false),
     m_isCheck(false),
-    m_isMate(false)
+    m_isMate(false),
+    m_promotion(NO_PIECE)
 {
 }
 
@@ -35,7 +36,8 @@ Move::Move(const std::string& str):
     m_who(NO_PIECE),
     m_isCapture(false),
     m_isCheck(false),
-    m_isMate(false)
+    m_isMate(false),
+    m_promotion(NO_PIECE)
 {
   if(str.size() >= 4)
   {
@@ -51,7 +53,8 @@ Move::Move(const Square& from, const Square& to):
     m_who(NO_PIECE),
     m_isCapture(false),
     m_isCheck(false),
-    m_isMate(false)
+    m_isMate(false),
+    m_promotion(NO_PIECE)
 {
 }
 
@@ -62,7 +65,8 @@ Move::Move(PieceType who, const Square& from, const Square& to):
     m_who(who),
     m_isCapture(false),
     m_isCheck(false),
-    m_isMate(false)
+    m_isMate(false),
+    m_promotion(NO_PIECE)
 {
 }
 
@@ -140,10 +144,33 @@ void Move::setMate(bool isMate)
 }
 
 //--------------------------------------------------------------------------------------------
+bool Move::hasPromotion() const
+{
+  return m_promotion != NO_PIECE;
+}
+
+//--------------------------------------------------------------------------------------------
+PieceType Move::getPromotion() const
+{
+  return m_promotion;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setPromotion(PieceType p)
+{
+  if(p == KING ||
+      p == PAWN)
+    return;
+
+  m_promotion = p;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
 
+  // Source piece
   if(m_who == NO_PIECE)
     ss << this->getFrom();
   else if(m_who != PAWN)
@@ -151,11 +178,18 @@ std::string Move::toString() const
   else if(m_who == PAWN && m_isCapture)
     ss << getFrom().getFile();
 
+  // Capture
   if(m_isCapture)
     ss << "x";
 
+  // Destination square
   ss << this->getTo();
 
+  // Promotion
+  if(this->hasPromotion())
+    ss << "=" << this->getPromotion();
+
+  // Check / mate
   if(m_isCheck && !m_isMate)
     ss << "+";
   else if(m_isMate)

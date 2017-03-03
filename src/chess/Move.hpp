@@ -47,6 +47,9 @@ public:
   void setCheck(bool isCheck);
   bool isMate() const;
   void setMate(bool isMate);
+  bool hasPromotion() const;
+  PieceType getPromotion() const;
+  void setPromotion(PieceType p);
 
 private:
   Square m_from;
@@ -55,6 +58,7 @@ private:
   bool m_isCapture;
   bool m_isCheck;
   bool m_isMate;
+  PieceType m_promotion;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);
