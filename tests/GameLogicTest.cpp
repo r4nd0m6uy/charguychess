@@ -41,6 +41,25 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhitePromotionInHistory)
+{
+  Board b;
+  Square to(C, EIGHT);
+  Move m(Square(C, SEVEN), to);
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, PAWN, C, SEVEN);
+  gl.setBoard(b);
+  m.setPromotion(ROOK);
+
+  CHECK(gl.applyMove(m));
+  Move mH= gl.getGameHistory().getTurns().front().getWhiteMove();
+  CHECK(mH.hasPromotion());
+  CHECK_EQUAL(ROOK, mH.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveWhitePromotesToBishop)
 {
   Board b;
@@ -51,11 +70,11 @@ TEST(GameLogicTest, applyMoveWhitePromotesToBishop)
   b.clear();
   b.setPiece(WHITE, PAWN, C, SEVEN);
   gl.setBoard(b);
-  m.setPromotion(BISHOP);
+  m.setPromotion(ROOK);
 
   CHECK(gl.applyMove(m));
   CHECK_EQUAL(WHITE, gl.getBoard().getPieceColor(to));
-  CHECK_EQUAL(BISHOP, gl.getBoard().getPieceType(to));
+  CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(to));
 }
 
 //--------------------------------------------------------------------------------------------

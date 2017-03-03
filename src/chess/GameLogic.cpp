@@ -226,7 +226,10 @@ bool GameLogic::applyMove(const Move& m)
 
   // Apply promotional move
   if(m.hasPromotion())
+  {
     m_board.setPiece(PlayerPiece(m_turn, m.getPromotion()), m.getTo());
+    mHist.setPromotion(m.getPromotion());
+  }
 
   // Next player turn
   if(m_turn == BLACK)
