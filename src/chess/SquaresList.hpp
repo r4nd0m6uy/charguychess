@@ -37,6 +37,7 @@ public:
   void clear();
   void add(const Square& s);
   bool contains(const Square& s);
+  bool contains(File f, Rank r);
   int count() const;
   void append(const SquaresList& sl);
   const std::list<Square>& getSquares() const;

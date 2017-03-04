@@ -41,6 +41,100 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getLegalSquareBlackKingCanCastleButChecked)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  b.clear(E, SEVEN);
+  b.setPiece(WHITE, QUEEN, E, FIVE);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(2, ls.count());
+  CHECK(ls.contains(D, EIGHT));
+  CHECK(ls.contains(F, EIGHT));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getLegalSquareBlackKingCanCastle)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(4, ls.count());
+  CHECK(ls.contains(C, EIGHT));
+  CHECK(ls.contains(D, EIGHT));
+  CHECK(ls.contains(F, EIGHT));
+  CHECK(ls.contains(G, EIGHT));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getLegalSquareWhiteKingCanCastleButChecked)
+{
+  LegalSquares ls(E, ONE);
+  Board b;
+  GameLogic gl;
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  b.clear(E, TWO);
+  b.setPiece(BLACK, QUEEN, E, THREE);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(2, ls.count());
+  CHECK(ls.contains(D, ONE));
+  CHECK(ls.contains(F, ONE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, getLegalSquareWhiteKingCanCastle)
+{
+  LegalSquares ls(E, ONE);
+  Board b;
+  GameLogic gl;
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(ls);
+
+  CHECK_EQUAL(4, ls.count());
+  CHECK(ls.contains(C, ONE));
+  CHECK(ls.contains(D, ONE));
+  CHECK(ls.contains(F, ONE));
+  CHECK(ls.contains(G, ONE));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveWhitePromotionInHistory)
 {
   Board b;

@@ -38,12 +38,14 @@ public:
 
   void clear();
   void clear(const Square& s);
+  void clear(File f, Rank r);
   void initialPosition();
   const PlayerPiece& getPiece(const Square& s) const;
   void setPiece(const PlayerPiece& p, const Square& s);
   void setPiece(Color c, PieceType p, File f, Rank r);
   bool isEmpty(const Square& s) const;
   Color getPieceColor(const Square& s) const;
+  Color getPieceColor(File f, Rank r) const;
   PieceType getPieceType(const Square& s) const;
 
 private:

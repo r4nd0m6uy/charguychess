@@ -557,9 +557,9 @@ void GameLogic::getKnightSquares(LegalSquares& ls, bool isControlled) const
 //--------------------------------------------------------------------------------------------
 void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
 {
-  SquaresList notAllowedSquares;
+  SquaresList checkedSquares;
 
-  // Get the list of not allowed square when checking legal squares
+  // Get the list of checked squares when getgting legal squares
   if(!isControlled)
   {
     Board bNoKing = m_board;
@@ -569,9 +569,9 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
     gl.setBoard(bNoKing);
 
     if(m_turn == WHITE)
-      gl.getControlledSquares(BLACK, notAllowedSquares);
+      gl.getControlledSquares(BLACK, checkedSquares);
     else
-      gl.getControlledSquares(WHITE, notAllowedSquares);
+      gl.getControlledSquares(WHITE, checkedSquares);
   }
 
   // Check each possible move
@@ -581,7 +581,7 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
     {
       Square s(ls.getFrom().getFile() + vDir, ls.getFrom().getRank() + hDir);
 
-      if(!s.isValid() || s == ls.getFrom() || notAllowedSquares.contains(s))
+      if(!s.isValid() || s == ls.getFrom() || checkedSquares.contains(s))
         continue;
 
       // Piece of the same color is on target square or controlled by the opponent
@@ -592,6 +592,54 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
 
       ls.add(s);
     }
+  }
+
+  // Check white king castling moves
+  if(m_turn == WHITE &&
+      ls.getFrom() == Square(E, ONE) &&
+      !checkedSquares.contains(E, ONE))
+  {
+    // King side
+    if(m_whiteCastleStatus.canCastleKingSide() &&
+        m_board.getPieceColor(F, ONE) == NO_COLOR &&
+        m_board.getPieceColor(G, ONE) == NO_COLOR &&
+        !checkedSquares.contains(F, ONE) &&
+        !checkedSquares.contains(G, ONE))
+      ls.add(G, ONE);
+
+    // Queen side
+    if(m_whiteCastleStatus.canCastleKingSide() &&
+        m_board.getPieceColor(B, ONE) == NO_COLOR &&
+        m_board.getPieceColor(C, ONE) == NO_COLOR &&
+        m_board.getPieceColor(D, ONE) == NO_COLOR &&
+        !checkedSquares.contains(B, ONE) &&
+        !checkedSquares.contains(C, ONE) &&
+        !checkedSquares.contains(D, ONE))
+      ls.add(C, ONE);
+  }
+
+  // Check black king castling moves
+  else if(m_turn == BLACK &&
+      ls.getFrom() == Square(E, EIGHT) &&
+      !checkedSquares.contains(E, EIGHT))
+  {
+    // King side
+    if(m_blackCastleStatus.canCastleKingSide() &&
+        m_board.getPieceColor(F, EIGHT) == NO_COLOR &&
+        m_board.getPieceColor(G, EIGHT) == NO_COLOR &&
+        !checkedSquares.contains(F, EIGHT) &&
+        !checkedSquares.contains(G, EIGHT))
+      ls.add(G, EIGHT);
+
+    // Queen side
+    if(m_whiteCastleStatus.canCastleKingSide() &&
+        m_board.getPieceColor(B, EIGHT) == NO_COLOR &&
+        m_board.getPieceColor(C, EIGHT) == NO_COLOR &&
+        m_board.getPieceColor(D, EIGHT) == NO_COLOR &&
+        !checkedSquares.contains(B, EIGHT) &&
+        !checkedSquares.contains(C, EIGHT) &&
+        !checkedSquares.contains(D, EIGHT))
+      ls.add(C, EIGHT);
   }
 }
 

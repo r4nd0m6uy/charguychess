@@ -54,6 +54,12 @@ bool SquaresList::contains(const Square& s)
 }
 
 //--------------------------------------------------------------------------------------------
+bool SquaresList::contains(File f, Rank r)
+{
+  return this->contains(Square(f, r));
+}
+
+//--------------------------------------------------------------------------------------------
 int SquaresList::count() const
 {
   return m_squaresList.size();

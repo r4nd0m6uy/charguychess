@@ -48,6 +48,12 @@ void Board::clear(const Square& s)
 }
 
 //--------------------------------------------------------------------------------------------
+void Board::clear(File f, Rank r)
+{
+  this->clear(Square(f, r));
+}
+
+//--------------------------------------------------------------------------------------------
 void Board::initialPosition()
 {
   clear();
@@ -132,6 +138,12 @@ bool Board::isEmpty(const Square& s) const
 Color Board::getPieceColor(const Square& s) const
 {
   return this->getPiece(s).getColor();
+}
+
+//--------------------------------------------------------------------------------------------
+Color Board::getPieceColor(File f, Rank r) const
+{
+  return this->getPieceColor(Square(f, r));
 }
 
 //--------------------------------------------------------------------------------------------

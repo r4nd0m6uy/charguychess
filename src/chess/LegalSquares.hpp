@@ -32,11 +32,13 @@ class LegalSquares
 {
 public:
   LegalSquares(const Square& from);
+  LegalSquares(File f, Rank r);
   ~LegalSquares();
 
   const Square& getFrom() const;
   void clear();
   void add(const Square& square);
+  void add(File f, Rank r);
   bool contains(const Square& square);
   bool contains(File f, Rank r);
   int count() const;

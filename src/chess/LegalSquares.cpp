@@ -29,6 +29,12 @@ LegalSquares::LegalSquares(const Square& from):
 }
 
 //--------------------------------------------------------------------------------------------
+LegalSquares::LegalSquares(File f, Rank r):
+    m_from(f, r)
+{
+}
+
+//--------------------------------------------------------------------------------------------
 LegalSquares::~LegalSquares()
 {
 }
@@ -49,6 +55,12 @@ void LegalSquares::clear()
 void LegalSquares::add(const Square& square)
 {
   m_legalSquares.add(square);
+}
+
+//--------------------------------------------------------------------------------------------
+void LegalSquares::add(File f, Rank r)
+{
+  this->add(Square(f, r));
 }
 
 //--------------------------------------------------------------------------------------------
