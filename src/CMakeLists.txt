@@ -14,6 +14,7 @@ set(APP_SOURCES
   chess/IBoardObserver.cpp
   chess/GameTurn.cpp
   chess/GameHistory.cpp
+  chess/CastleStatus.cpp
   logging/ILogger.cpp
   logging/ILogSink.cpp
   logging/Logger.cpp

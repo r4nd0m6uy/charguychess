@@ -306,6 +306,30 @@ void GameLogic::getControlledSquares(Color c, SquaresList& sl) const
 }
 
 //--------------------------------------------------------------------------------------------
+const CastleStatus& GameLogic::getWhiteCastleStatus() const
+{
+  return m_whiteCastleStatus;
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::setWhiteCastleStatus(const CastleStatus& cs)
+{
+  m_whiteCastleStatus = cs;
+}
+
+//--------------------------------------------------------------------------------------------
+const CastleStatus& GameLogic::getBlackCastleStatus() const
+{
+  return m_blackCastleStatus;
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::setBlackCastleStatus(const CastleStatus& cs)
+{
+  m_blackCastleStatus = cs;
+}
+
+//--------------------------------------------------------------------------------------------
 void GameLogic::getPawnLegalSquares(LegalSquares& ls) const
 {
   const Square& from = ls.getFrom();

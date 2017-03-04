@@ -27,6 +27,7 @@
 #include "LegalSquares.hpp"
 #include "IBoardObserver.hpp"
 #include "GameHistory.hpp"
+#include "CastleStatus.hpp"
 
 namespace cgc {
 
@@ -54,6 +55,10 @@ public:
   const std::list<PlayerPiece>& getCapturedBlackPieces() const;
   const GameHistory& getGameHistory() const;
   void getControlledSquares(Color c, SquaresList& sl) const;
+  const CastleStatus& getWhiteCastleStatus() const;
+  void setWhiteCastleStatus(const CastleStatus& cs);
+  const CastleStatus& getBlackCastleStatus() const;
+  void setBlackCastleStatus(const CastleStatus& cs);
 
 private:
   Board m_board;
@@ -62,6 +67,8 @@ private:
   std::list<std::reference_wrapper<IBoardObserver> > m_boardObservers;
   std::list<PlayerPiece> m_capPiecesBlack;
   std::list<PlayerPiece> m_capPiecesWhite;
+  CastleStatus m_whiteCastleStatus;
+  CastleStatus m_blackCastleStatus;
 
   void getPawnLegalSquares(LegalSquares& ls) const;
   void getPawnControlledSquares(LegalSquares& ls) const;
