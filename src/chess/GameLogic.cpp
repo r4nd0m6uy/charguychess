@@ -241,12 +241,14 @@ bool GameLogic::applyMove(const Move& m)
     {
       m_board.clear(H, ONE);
       m_board.setPiece(WHITE, ROOK, F, ONE);
+      mHist.setKingSideCastling(true);
     }
     // Queen side
     else if(m.getTo() == Square(C, ONE))
     {
       m_board.clear(A, ONE);
       m_board.setPiece(WHITE, ROOK, D, ONE);
+      mHist.setQueenSideCastling(true);
     }
 
     // Once white king has moved, white cannot castle
@@ -263,12 +265,14 @@ bool GameLogic::applyMove(const Move& m)
     {
       m_board.clear(H, EIGHT);
       m_board.setPiece(BLACK, ROOK, F, EIGHT);
+      mHist.setKingSideCastling(true);
     }
     // Queen side
     else if(m.getTo() == Square(C, EIGHT))
     {
       m_board.clear(A, EIGHT);
       m_board.setPiece(BLACK, ROOK, D, EIGHT);
+      mHist.setQueenSideCastling(true);
     }
 
     // Once black king has moved, black cannot castle

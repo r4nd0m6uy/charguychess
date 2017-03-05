@@ -41,6 +41,92 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveBlackKingCastleQueenSideInHistory)
+{
+  Board b;
+  GameLogic gl;
+  Move m(E, EIGHT, G, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+
+  Move mH = gl.getGameHistory().getTurns().front().getWhiteMove();
+
+  CHECK(mH.isKingSideCastling());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveBlackKingCastleKingSideInHistory)
+{
+  Board b;
+  GameLogic gl;
+  Move m(E, EIGHT, C, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+
+  Move mH = gl.getGameHistory().getTurns().front().getWhiteMove();
+
+  CHECK(mH.isQueenSideCastling());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSideInHistory)
+{
+  Board b;
+  GameLogic gl;
+  Move m(E, ONE, G, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+
+  Move mH = gl.getGameHistory().getTurns().front().getWhiteMove();
+
+  CHECK(mH.isKingSideCastling());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteKingCastleKingSideInHistory)
+{
+  Board b;
+  GameLogic gl;
+  Move m(E, ONE, C, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+
+  Move mH = gl.getGameHistory().getTurns().front().getWhiteMove();
+
+  CHECK(mH.isQueenSideCastling());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveBlackCannotCastleQueenSideAfterMovingRook)
 {
   Board b;
