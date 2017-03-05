@@ -42,7 +42,6 @@ public:
   PieceType getWho() const;
   void setWho(PieceType who);
   bool isValid() const;
-  std::string toString() const;
   bool isCapture() const;
   void setIsCapture(bool isCapture);
   bool isCheck() const;
@@ -52,6 +51,11 @@ public:
   bool hasPromotion() const;
   PieceType getPromotion() const;
   void setPromotion(PieceType p);
+  bool isKingSideCastling() const;
+  void setKingSideCastling(bool isCastling);
+  bool isQueenSideCastling() const;
+  void setQueenSideCastling(bool isCastling);
+  std::string toString() const;
 
 private:
   Square m_from;
@@ -61,6 +65,8 @@ private:
   bool m_isCheck;
   bool m_isMate;
   PieceType m_promotion;
+  bool m_isKingSideCastling;
+  bool m_isQueenSideCastling;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

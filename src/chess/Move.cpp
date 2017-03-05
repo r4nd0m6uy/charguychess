@@ -27,7 +27,9 @@ Move::Move():
     m_isCapture(false),
     m_isCheck(false),
     m_isMate(false),
-    m_promotion(NO_PIECE)
+    m_promotion(NO_PIECE),
+    m_isKingSideCastling(false),
+    m_isQueenSideCastling(false)
 {
 }
 
@@ -37,7 +39,9 @@ Move::Move(const std::string& str):
     m_isCapture(false),
     m_isCheck(false),
     m_isMate(false),
-    m_promotion(NO_PIECE)
+    m_promotion(NO_PIECE),
+    m_isKingSideCastling(false),
+    m_isQueenSideCastling(false)
 {
   parseString(str);
 }
@@ -50,7 +54,9 @@ Move::Move(const Square& from, const Square& to):
     m_isCapture(false),
     m_isCheck(false),
     m_isMate(false),
-    m_promotion(NO_PIECE)
+    m_promotion(NO_PIECE),
+    m_isKingSideCastling(false),
+    m_isQueenSideCastling(false)
 {
 }
 
@@ -62,7 +68,9 @@ Move::Move(File fFrom, Rank rFrom, File fTo, Rank rTo):
     m_isCapture(false),
     m_isCheck(false),
     m_isMate(false),
-    m_promotion(NO_PIECE)
+    m_promotion(NO_PIECE),
+    m_isKingSideCastling(false),
+    m_isQueenSideCastling(false)
 {
 }
 
@@ -74,7 +82,9 @@ Move::Move(PieceType who, const Square& from, const Square& to):
     m_isCapture(false),
     m_isCheck(false),
     m_isMate(false),
-    m_promotion(NO_PIECE)
+    m_promotion(NO_PIECE),
+    m_isKingSideCastling(false),
+    m_isQueenSideCastling(false)
 {
 }
 
@@ -204,9 +214,38 @@ void Move::setPromotion(PieceType p)
 }
 
 //--------------------------------------------------------------------------------------------
+bool Move::isKingSideCastling() const
+{
+  return m_isKingSideCastling;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setKingSideCastling(bool isCastling)
+{
+  m_isKingSideCastling = isCastling;
+}
+
+//--------------------------------------------------------------------------------------------
+bool Move::isQueenSideCastling() const
+{
+  return m_isQueenSideCastling;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setQueenSideCastling(bool isCastling)
+{
+  m_isQueenSideCastling = isCastling;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
+
+  if(m_isKingSideCastling)
+    return "O-O";
+  else if(m_isQueenSideCastling)
+    return "O-O-O";
 
   // Source piece
   if(m_who == NO_PIECE)

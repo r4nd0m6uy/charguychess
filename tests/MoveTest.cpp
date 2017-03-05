@@ -36,6 +36,28 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringQueenSideCastling)
+{
+  std::string strMove = "O-O-O";
+  Move m;
+
+  m.setQueenSideCastling(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringKingSideCastling)
+{
+  std::string strMove = "O-O";
+  Move m;
+
+  m.setKingSideCastling(true);
+
+  STRCMP_EQUAL(strMove.c_str(), m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, parseStringBishopPromotional)
 {
   std::string strMove = "e2e1=B";
