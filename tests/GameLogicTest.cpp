@@ -43,7 +43,6 @@ TEST_GROUP(GameLogicTest)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveBlackCannotCastleQueenSideAfterMovingRook)
 {
-  LegalSquares ls(E, EIGHT);
   Board b;
   GameLogic gl;
   Move m(A, EIGHT, B, EIGHT);
@@ -64,7 +63,6 @@ TEST(GameLogicTest, applyMoveBlackCannotCastleQueenSideAfterMovingRook)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveBlackCannotCastleKingSideAfterMovingRook)
 {
-  LegalSquares ls(E, EIGHT);
   Board b;
   GameLogic gl;
   Move m(H, EIGHT, F, EIGHT);
@@ -85,7 +83,6 @@ TEST(GameLogicTest, applyMoveBlackCannotCastleKingSideAfterMovingRook)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveBlackCannotCastleAfterMovingKing)
 {
-  LegalSquares ls(E, EIGHT);
   Board b;
   GameLogic gl;
   Move m(E, EIGHT, F, EIGHT);
@@ -104,9 +101,65 @@ TEST(GameLogicTest, applyMoveBlackCannotCastleAfterMovingKing)
 }
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteCannotCastleQueenSideAfterMovingRook)
+{
+  Board b;
+  GameLogic gl;
+  Move m(A, ONE, B, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK(gl.getWhiteCastleStatus().canCastleKingSide());
+  CHECK_FALSE(gl.getWhiteCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteCannotCastleKingSideAfterMovingRook)
+{
+  Board b;
+  GameLogic gl;
+  Move m(H, ONE, F, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK_FALSE(gl.getWhiteCastleStatus().canCastleKingSide());
+  CHECK(gl.getWhiteCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteCannotCastleAfterMovingKing)
+{
+  Board b;
+  GameLogic gl;
+  Move m(E, ONE, F, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK_FALSE(gl.getWhiteCastleStatus().canCastleKingSide());
+  CHECK_FALSE(gl.getWhiteCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMOveBlackKingCastleQueenSide)
 {
-  LegalSquares ls(E, EIGHT);
   Board b;
   GameLogic gl;
   Move m(E, EIGHT, C, EIGHT);
@@ -128,7 +181,6 @@ TEST(GameLogicTest, applyMOveBlackKingCastleQueenSide)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMOveBlackKingCastleKingSide)
 {
-  LegalSquares ls(E, EIGHT);
   Board b;
   GameLogic gl;
   Move m(E, EIGHT, G, EIGHT);
@@ -150,7 +202,6 @@ TEST(GameLogicTest, applyMOveBlackKingCastleKingSide)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSide)
 {
-  LegalSquares ls(E, ONE);
   Board b;
   GameLogic gl;
   Move m(E, ONE, C, ONE);
@@ -171,7 +222,6 @@ TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSide)
 //--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveWhiteKingCastleKingSide)
 {
-  LegalSquares ls(E, ONE);
   Board b;
   GameLogic gl;
   Move m(E, ONE, G, ONE);

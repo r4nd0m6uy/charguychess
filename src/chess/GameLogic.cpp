@@ -248,6 +248,10 @@ bool GameLogic::applyMove(const Move& m)
       m_board.clear(A, ONE);
       m_board.setPiece(WHITE, ROOK, D, ONE);
     }
+
+    // Once white king has moved, white cannot castle
+    m_whiteCastleStatus.setCanCastleKingSide(false);
+    m_whiteCastleStatus.setCanCastleQueenSide(false);
   }
   // Black castling move
   else if(m_turn == BLACK &&
@@ -280,6 +284,14 @@ bool GameLogic::applyMove(const Move& m)
       m_blackCastleStatus.setCanCastleKingSide(false);
     else if(m.getFrom() == Square(A, EIGHT))
       m_blackCastleStatus.setCanCastleQueenSide(false);
+  }
+  else if(m_turn == WHITE &&
+      m_board.getPieceType(m.getTo()) == ROOK)
+  {
+    if(m.getFrom() == Square(H, ONE))
+      m_whiteCastleStatus.setCanCastleKingSide(false);
+    else if(m.getFrom() == Square(A, ONE))
+      m_whiteCastleStatus.setCanCastleQueenSide(false);
   }
 
   // Next player turn
