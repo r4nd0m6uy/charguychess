@@ -36,6 +36,14 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseInvalideMove)
+{
+  Move m;
+
+  CHECK_FALSE(m.parseString("v2b3"));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, isValidQueenSideCastling)
 {
   Move m;

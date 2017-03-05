@@ -120,7 +120,7 @@ bool Move::parseString(const std::string& s)
     }
   }
 
-  return true;
+  return this->isValid();
 }
 
 //--------------------------------------------------------------------------------------------
