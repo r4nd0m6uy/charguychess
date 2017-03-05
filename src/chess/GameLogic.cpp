@@ -78,6 +78,8 @@ void GameLogic::newGame()
   m_capPiecesWhite.clear();
   m_capPiecesBlack.clear();
   m_gh.clear();
+  m_whiteCastleStatus = CastleStatus();
+  m_blackCastleStatus = CastleStatus();
   raiseBoardChanged();
 }
 

@@ -41,6 +41,25 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, newGameCanCastleAgain)
+{
+  CastleStatus cs;
+  GameLogic gl;
+
+  cs.setCanCastleKingSide(false);
+  cs.setCanCastleQueenSide(false);
+  gl.setWhiteCastleStatus(cs);
+  gl.setBlackCastleStatus(cs);
+
+  gl.newGame();
+
+  CHECK(gl.getBlackCastleStatus().canCastleKingSide());
+  CHECK(gl.getBlackCastleStatus().canCastleQueenSide());
+  CHECK(gl.getWhiteCastleStatus().canCastleKingSide());
+  CHECK(gl.getWhiteCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveBlackKingCastleQueenSideInHistory)
 {
   Board b;
