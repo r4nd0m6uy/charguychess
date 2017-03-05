@@ -47,6 +47,7 @@ public:
   Color getPieceColor(const Square& s) const;
   Color getPieceColor(File f, Rank r) const;
   PieceType getPieceType(const Square& s) const;
+  PieceType getPieceType(File f, Rank r) const;
 
 private:
   typedef std::vector< std::vector<PlayerPiece> > BoardPieces;

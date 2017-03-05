@@ -55,6 +55,18 @@ Move::Move(const Square& from, const Square& to):
 }
 
 //--------------------------------------------------------------------------------------------
+Move::Move(File fFrom, Rank rFrom, File fTo, Rank rTo):
+    m_from(fFrom, rFrom),
+    m_to(fTo, rTo),
+    m_who(NO_PIECE),
+    m_isCapture(false),
+    m_isCheck(false),
+    m_isMate(false),
+    m_promotion(NO_PIECE)
+{
+}
+
+//--------------------------------------------------------------------------------------------
 Move::Move(PieceType who, const Square& from, const Square& to):
     m_from(from),
     m_to(to),

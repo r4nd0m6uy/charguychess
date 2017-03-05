@@ -41,6 +41,46 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSide)
+{
+  LegalSquares ls(E, ONE);
+  Board b;
+  GameLogic gl;
+  Move m(E, ONE, C, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(D, ONE));
+  CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(A, ONE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteKingCastleKingSide)
+{
+  LegalSquares ls(E, ONE);
+  Board b;
+  GameLogic gl;
+  Move m(E, ONE, G, ONE);
+
+  b.clear(B, ONE);
+  b.clear(C, ONE);
+  b.clear(D, ONE);
+  b.clear(F, ONE);
+  b.clear(G, ONE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(F, ONE));
+  CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(H, ONE));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, getLegalSquareBlackKingCanCastleButChecked)
 {
   LegalSquares ls(E, EIGHT);

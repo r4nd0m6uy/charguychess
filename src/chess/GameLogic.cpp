@@ -231,6 +231,25 @@ bool GameLogic::applyMove(const Move& m)
     mHist.setPromotion(m.getPromotion());
   }
 
+  // White king castling move
+  if(m_turn == WHITE &&
+      m_board.getPieceType(m.getTo()) == KING &&
+      m.getFrom() == Square(E, ONE))
+  {
+    // King side
+    if(m.getTo() == Square(G, ONE))
+    {
+      m_board.clear(H, ONE);
+      m_board.setPiece(WHITE, ROOK, F, ONE);
+    }
+    // Queen side
+    if(m.getTo() == Square(C, ONE))
+    {
+      m_board.clear(A, ONE);
+      m_board.setPiece(WHITE, ROOK, D, ONE);
+    }
+  }
+
   // Next player turn
   if(m_turn == BLACK)
     m_turn = WHITE;

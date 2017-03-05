@@ -152,4 +152,10 @@ PieceType Board::getPieceType(const Square& s) const
   return this->getPiece(s).getType();
 }
 
+//--------------------------------------------------------------------------------------------
+PieceType Board::getPieceType(File f, Rank r) const
+{
+  return this->getPiece(Square(f, r)).getType();
+}
+
 }       // namespace

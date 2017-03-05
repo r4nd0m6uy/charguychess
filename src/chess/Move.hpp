@@ -32,6 +32,7 @@ public:
   Move();
   Move(const std::string& str);
   Move(const Square& from, const Square& to);
+  Move(File fFrom, Rank rFrom, File fTo, Rank rTo);
   Move(PieceType who, const Square& from, const Square& to);
   ~Move();
 
