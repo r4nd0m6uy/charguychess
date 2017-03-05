@@ -150,6 +150,10 @@ void Move::setWho(PieceType who)
 //--------------------------------------------------------------------------------------------
 bool Move::isValid() const
 {
+  if(m_isQueenSideCastling ||
+      m_isKingSideCastling)
+    return true;
+
   return m_from.isValid() &&
       m_to.isValid() &&
       m_from != m_to;

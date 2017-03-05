@@ -36,6 +36,26 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, isValidQueenSideCastling)
+{
+  Move m;
+
+  m.setQueenSideCastling(true);
+
+  CHECK(m.isValid());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, isValidKingSideCastling)
+{
+  Move m;
+
+  m.setKingSideCastling(true);
+
+  CHECK(m.isValid());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringQueenSideCastling)
 {
   std::string strMove = "O-O-O";
