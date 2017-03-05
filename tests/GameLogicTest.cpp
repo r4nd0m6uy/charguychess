@@ -41,6 +41,50 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMOveBlackKingCastleQueenSide)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+  Move m(E, EIGHT, C, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(D, EIGHT));
+  CHECK_EQUAL(BLACK, gl.getBoard().getPieceColor(D, EIGHT));
+  CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(A, EIGHT));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMOveBlackKingCastleKingSide)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+  Move m(E, EIGHT, G, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(F, EIGHT));
+  CHECK_EQUAL(BLACK, gl.getBoard().getPieceColor(F, EIGHT));
+  CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(H, EIGHT));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSide)
 {
   LegalSquares ls(E, ONE);
@@ -57,6 +101,7 @@ TEST(GameLogicTest, applyMoveWhiteKingCastleQueenSide)
 
   CHECK(gl.applyMove(m));
   CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(D, ONE));
+  CHECK_EQUAL(WHITE, gl.getBoard().getPieceColor(D, ONE));
   CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(A, ONE));
 }
 
@@ -77,6 +122,7 @@ TEST(GameLogicTest, applyMoveWhiteKingCastleKingSide)
 
   CHECK(gl.applyMove(m));
   CHECK_EQUAL(ROOK, gl.getBoard().getPieceType(F, ONE));
+  CHECK_EQUAL(WHITE, gl.getBoard().getPieceColor(F, ONE));
   CHECK_EQUAL(NO_PIECE, gl.getBoard().getPieceType(H, ONE));
 }
 
