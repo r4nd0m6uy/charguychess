@@ -41,6 +41,69 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveBlackCannotCastleQueenSideAfterMovingRook)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+  Move m(A, EIGHT, B, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK(gl.getBlackCastleStatus().canCastleKingSide());
+  CHECK_FALSE(gl.getBlackCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveBlackCannotCastleKingSideAfterMovingRook)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+  Move m(H, EIGHT, F, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK_FALSE(gl.getBlackCastleStatus().canCastleKingSide());
+  CHECK(gl.getBlackCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveBlackCannotCastleAfterMovingKing)
+{
+  LegalSquares ls(E, EIGHT);
+  Board b;
+  GameLogic gl;
+  Move m(E, EIGHT, F, EIGHT);
+
+  b.clear(B, EIGHT);
+  b.clear(C, EIGHT);
+  b.clear(D, EIGHT);
+  b.clear(F, EIGHT);
+  b.clear(G, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(m));
+  CHECK_FALSE(gl.getBlackCastleStatus().canCastleKingSide());
+  CHECK_FALSE(gl.getBlackCastleStatus().canCastleQueenSide());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMOveBlackKingCastleQueenSide)
 {
   LegalSquares ls(E, EIGHT);

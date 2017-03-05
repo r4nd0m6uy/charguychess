@@ -253,21 +253,34 @@ bool GameLogic::applyMove(const Move& m)
   else if(m_turn == BLACK &&
         m_board.getPieceType(m.getTo()) == KING &&
         m.getFrom() == Square(E, EIGHT))
+  {
+    // King side
+    if(m.getTo() == Square(G, EIGHT))
     {
-      // King side
-      if(m.getTo() == Square(G, EIGHT))
-      {
-        m_board.clear(H, EIGHT);
-        m_board.setPiece(BLACK, ROOK, F, EIGHT);
-      }
-      // Queen side
-      else if(m.getTo() == Square(C, EIGHT))
-      {
-        m_board.clear(A, EIGHT);
-        m_board.setPiece(BLACK, ROOK, D, EIGHT);
-      }
+      m_board.clear(H, EIGHT);
+      m_board.setPiece(BLACK, ROOK, F, EIGHT);
+    }
+    // Queen side
+    else if(m.getTo() == Square(C, EIGHT))
+    {
+      m_board.clear(A, EIGHT);
+      m_board.setPiece(BLACK, ROOK, D, EIGHT);
     }
 
+    // Once black king has moved, black cannot castle
+    m_blackCastleStatus.setCanCastleKingSide(false);
+    m_blackCastleStatus.setCanCastleQueenSide(false);
+  }
+
+  // Update casltling information after moving the rook
+  if(m_turn == BLACK &&
+      m_board.getPieceType(m.getTo()) == ROOK)
+  {
+    if(m.getFrom() == Square(H, EIGHT))
+      m_blackCastleStatus.setCanCastleKingSide(false);
+    else if(m.getFrom() == Square(A, EIGHT))
+      m_blackCastleStatus.setCanCastleQueenSide(false);
+  }
 
   // Next player turn
   if(m_turn == BLACK)
