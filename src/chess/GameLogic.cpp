@@ -701,7 +701,7 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
       ls.add(G, EIGHT);
 
     // Queen side
-    if(m_whiteCastleStatus.canCastleKingSide() &&
+    if(m_blackCastleStatus.canCastleQueenSide() &&
         m_board.getPieceColor(B, EIGHT) == NO_COLOR &&
         m_board.getPieceColor(C, EIGHT) == NO_COLOR &&
         m_board.getPieceColor(D, EIGHT) == NO_COLOR &&

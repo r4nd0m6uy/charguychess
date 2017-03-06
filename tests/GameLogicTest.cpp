@@ -41,6 +41,24 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveTestGameBothSidesCastle)
+{
+  GameLogic gl;
+
+  // A bug I've found while playing
+  CHECK(gl.applyMove(Move(E, TWO, E, FOUR)));
+  CHECK(gl.applyMove(Move(D, SEVEN, D, FIVE)));
+  CHECK(gl.applyMove(Move(F, ONE, D, THREE)));
+  CHECK(gl.applyMove(Move(C, EIGHT, E, SIX)));
+  CHECK(gl.applyMove(Move(G, ONE, F, THREE)));
+  CHECK(gl.applyMove(Move(D, EIGHT, D, SEVEN)));
+  CHECK(gl.applyMove(Move(A, TWO, A, THREE)));
+  CHECK(gl.applyMove(Move(B, EIGHT, A, SIX)));
+  CHECK(gl.applyMove(Move(E, ONE, G, ONE)));
+  CHECK(gl.applyMove(Move(E, EIGHT, C, EIGHT)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, newGameCanCastleAgain)
 {
   CastleStatus cs;
