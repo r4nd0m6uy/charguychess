@@ -28,12 +28,12 @@ namespace cgc {
 
 //--------------------------------------------------------------------------------------------
 Pgn::Pgn():
-    m_event("Casual game"),
-    m_site("Fribourg, Fribourg Switzerland"),
-    m_date("??"),
-    m_round("1"),
-    m_whiteName("White player"),
-    m_blackName("Black player"),
+    m_event("?"),
+    m_site("?"),
+    m_date("?"),
+    m_round("?"),
+    m_whiteName("?"),
+    m_blackName("?"),
     m_result("*"),
     m_filePath("game.pgn")
 {
