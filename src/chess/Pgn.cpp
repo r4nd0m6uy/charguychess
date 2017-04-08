@@ -16,6 +16,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <string.h>
+#include <errno.h>
+
+#include <fstream>
+
+#include "../logging/LogMacros.hpp"
 #include "Pgn.hpp"
 
 namespace cgc {
@@ -41,6 +47,29 @@ Pgn::~Pgn()
 //--------------------------------------------------------------------------------------------
 int Pgn::savePgn(const GameHistory& gh) const
 {
+  std::fstream f;
+
+  f.open(m_filePath, std::ios::out | std::ios::trunc);
+  if(!f.is_open())
+  {
+    LOGER() << "Cannot open " << m_filePath << ": " << strerror(errno);
+    return -1;
+  }
+
+  f << "[Event \"" << m_event << "\"]" << std::endl;
+  f << "[Site \"" << m_site << "\"]" << std::endl;
+  f << "[Date \"" << m_date << "\"]" << std::endl;
+  f << "[Round \"" << m_round << "\"]" << std::endl;
+  f << "[White \"" << m_whiteName << "\"]" << std::endl;
+  f << "[Black \"" << m_blackName << "\"]" << std::endl;
+  f << "[Result \"" << m_result << "\"]" << std::endl;
+  f << std::endl;
+  f << gh << std::endl;
+
+  f.close();
+
+  // FXME: stream error?
+
   return 0;
 }
 

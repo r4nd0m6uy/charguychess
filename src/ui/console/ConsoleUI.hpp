@@ -21,6 +21,7 @@
 
 #include "../../event-loop/EventLoop.hpp"
 #include "../../chess/GameLogic.hpp"
+#include "../../chess/Pgn.hpp"
 #include "../hardware/IBoardInputObserver.hpp"
 namespace cgc {
 
@@ -50,6 +51,7 @@ public:
   virtual void boardValueChanged(BoardValue bv) override;
 
 private:
+  Pgn m_pgn;
   GameLogic& m_gl;
   EventLoop& m_eventLoop;
   bool m_isMoveEnabled;
@@ -62,6 +64,7 @@ private:
   void readMove(const std::string& move);
   void showLegalSquare(const std::string& square);
   void displayCtrlSquares();
+  void savePgn();
 };
 
 }       // namespace
