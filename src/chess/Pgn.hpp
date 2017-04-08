@@ -33,6 +33,13 @@ public:
   ~Pgn();
 
   int savePgn(const GameHistory& gh) const;
+  const std::string& getEvent() const;
+  const std::string& getSite() const;
+  const std::string& getDate() const;
+  const std::string& getRound() const;
+  const std::string& getWhiteName() const;
+  const std::string& getBlackName() const;
+  const std::string& getResult() const;
 
 private:
   std::string m_event;
@@ -44,6 +51,8 @@ private:
   std::string m_result;
   std::string m_filePath;
 };
+
+std::ostream& operator<<(std::ostream& os, const Pgn& pgn);
 
 }       // namespace
 #endif  // _CGC_PGN_HPP_

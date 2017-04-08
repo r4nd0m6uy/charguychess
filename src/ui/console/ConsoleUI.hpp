@@ -65,6 +65,7 @@ private:
   void showLegalSquare(const std::string& square);
   void displayCtrlSquares();
   void savePgn();
+  void showPgnInfo();
 };
 
 }       // namespace

@@ -56,13 +56,7 @@ int Pgn::savePgn(const GameHistory& gh) const
     return -1;
   }
 
-  f << "[Event \"" << m_event << "\"]" << std::endl;
-  f << "[Site \"" << m_site << "\"]" << std::endl;
-  f << "[Date \"" << m_date << "\"]" << std::endl;
-  f << "[Round \"" << m_round << "\"]" << std::endl;
-  f << "[White \"" << m_whiteName << "\"]" << std::endl;
-  f << "[Black \"" << m_blackName << "\"]" << std::endl;
-  f << "[Result \"" << m_result << "\"]" << std::endl;
+  f << *this << std::endl;
   f << std::endl;
   f << gh << std::endl;
 
@@ -71,6 +65,62 @@ int Pgn::savePgn(const GameHistory& gh) const
   // FXME: stream error?
 
   return 0;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getEvent() const
+{
+  return m_event;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getSite() const
+{
+  return m_site;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getDate() const
+{
+  return m_date;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getRound() const
+{
+  return m_round;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getWhiteName() const
+{
+  return m_whiteName;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getBlackName() const
+{
+  return m_blackName;
+}
+
+//--------------------------------------------------------------------------------------------
+const std::string& Pgn::getResult() const
+{
+  return m_result;
+}
+
+//--------------------------------------------------------------------------------------------
+std::ostream& operator<<(std::ostream& os, const Pgn& pgn)
+{
+  os << "[Event \"" << pgn.getEvent() << "\"]" << std::endl;
+  os << "[Site \"" << pgn.getSite() << "\"]" << std::endl;
+  os << "[Date \"" << pgn.getDate() << "\"]" << std::endl;
+  os << "[Round \"" << pgn.getRound() << "\"]" << std::endl;
+  os << "[White \"" << pgn.getWhiteName() << "\"]" << std::endl;
+  os << "[Black \"" << pgn. getBlackName() << "\"]" << std::endl;
+  os << "[Result \"" << pgn.getResult() << "\"]";
+
+  return os;
 }
 
 }       // namespace

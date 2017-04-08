@@ -123,6 +123,8 @@ void ConsoleUI::readReady()
     m_isDriverBbEnabled = cmd[10] == '1';
   else if(cmd.find("pgn save") == 0)
     savePgn();
+  else if(cmd.find("pgn info") == 0)
+    showPgnInfo();
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -232,6 +234,7 @@ void ConsoleUI::printHelp()
   std::cout << "new               Start a new game" << std::endl;
   std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware" << std::endl;
   std::cout << "pgn save          Save game to PGN" << std::endl;
+  std::cout << "pgn info          Show PGN info" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 
@@ -336,6 +339,12 @@ void ConsoleUI::displayCtrlSquares()
 void ConsoleUI::savePgn()
 {
   m_pgn.savePgn(m_gl.getGameHistory());
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::showPgnInfo()
+{
+  std::cout << m_pgn << std::endl;
 }
 
 }       // namespace
