@@ -29,16 +29,30 @@ namespace cgc {
 class Pgn
 {
 public:
+  static const std::string TAG_EVENT;
+  static const std::string TAG_SITE;
+  static const std::string TAG_DATE;
+  static const std::string TAG_ROUND;
+  static const std::string TAG_WHITE;
+  static const std::string TAG_BLACK;
+  static const std::string TAG_RESULT;
+
   Pgn();
   ~Pgn();
 
   int savePgn(const GameHistory& gh) const;
   const std::string& getEvent() const;
+  void setEvent(const std::string& e);
   const std::string& getSite() const;
+  void setSite(const std::string& s);
   const std::string& getDate() const;
+  void setDate(const std::string& d);
   const std::string& getRound() const;
+  void setRound(const std::string& r);
   const std::string& getWhiteName() const;
+  void setWhiteName(const std::string& w);
   const std::string& getBlackName() const;
+  void setBlackName(const std::string& b);
   const std::string& getResult() const;
 
 private:

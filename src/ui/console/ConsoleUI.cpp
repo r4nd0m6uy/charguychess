@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include <iostream>
+#include <algorithm>
 
 #include "../../logging/LogMacros.hpp"
 #include "../hardware/BitBoard.hpp"
@@ -125,6 +126,8 @@ void ConsoleUI::readReady()
     savePgn();
   else if(cmd.find("pgn info") == 0)
     showPgnInfo();
+  else if(cmd.find("pgn set") == 0)
+    setPgnTag(cmd.substr(8));
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -235,6 +238,7 @@ void ConsoleUI::printHelp()
   std::cout << "hwAutoDsp <0|1>   Enable/disable auto display hardware" << std::endl;
   std::cout << "pgn save          Save game to PGN" << std::endl;
   std::cout << "pgn info          Show PGN info" << std::endl;
+  std::cout << "pgn set <t> <v>   Set a value to the PGN tag" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 
@@ -345,6 +349,46 @@ void ConsoleUI::savePgn()
 void ConsoleUI::showPgnInfo()
 {
   std::cout << m_pgn << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::setPgnTag(const std::string& args)
+{
+  std::string tag;
+  std::string tagCased;
+  std::string value;
+  std::string::size_type argpos;
+
+  argpos = args.find(" ");
+  tag = args.substr(0, argpos);
+  argpos += 1;
+  value = args.substr(argpos, args.size() - argpos - 1);
+
+  if(tag == "" || value == "")
+  {
+    std::cout << "Parameter missing" << std::endl;
+    return;
+  }
+
+  tagCased = tag;
+  std::transform(tag.begin(), tag.end(), tagCased.begin(),
+      [](unsigned char c){ return std::tolower(c); });
+  tagCased[0] = std::toupper(tagCased[0]);
+
+  if(tagCased == Pgn::TAG_EVENT)
+    m_pgn.setEvent(value);
+  else if(tagCased == Pgn::TAG_SITE)
+    m_pgn.setSite(value);
+  else if(tagCased == Pgn::TAG_DATE)
+    m_pgn.setDate(value);
+  else if(tagCased == Pgn::TAG_ROUND)
+    m_pgn.setRound(value);
+  else if(tagCased == Pgn::TAG_WHITE)
+    m_pgn.setWhiteName(value);
+  else if(tagCased == Pgn::TAG_BLACK)
+    m_pgn.setBlackName(value);
+  else
+    std::cout << "Unkown tag /" << tag << "/" << tagCased << std::endl;
 }
 
 }       // namespace

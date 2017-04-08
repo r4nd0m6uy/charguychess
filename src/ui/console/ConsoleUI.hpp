@@ -66,6 +66,7 @@ private:
   void displayCtrlSquares();
   void savePgn();
   void showPgnInfo();
+  void setPgnTag(const std::string& args);
 };
 
 }       // namespace

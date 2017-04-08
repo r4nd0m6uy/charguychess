@@ -26,6 +26,14 @@
 
 namespace cgc {
 
+const std::string Pgn::TAG_EVENT  = "Event";
+const std::string Pgn::TAG_SITE   = "Site";
+const std::string Pgn::TAG_DATE   = "Date";
+const std::string Pgn::TAG_ROUND  = "Round";
+const std::string Pgn::TAG_WHITE  = "White";
+const std::string Pgn::TAG_BLACK  = "Black";
+const std::string Pgn::TAG_RESULT = "Result";
+
 //--------------------------------------------------------------------------------------------
 Pgn::Pgn():
     m_event("?"),
@@ -74,9 +82,21 @@ const std::string& Pgn::getEvent() const
 }
 
 //--------------------------------------------------------------------------------------------
+void Pgn::setEvent(const std::string& e)
+{
+  m_event = e;
+}
+
+//--------------------------------------------------------------------------------------------
 const std::string& Pgn::getSite() const
 {
   return m_site;
+}
+
+//--------------------------------------------------------------------------------------------
+void Pgn::setSite(const std::string& s)
+{
+  m_site = s;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -86,9 +106,22 @@ const std::string& Pgn::getDate() const
 }
 
 //--------------------------------------------------------------------------------------------
+void Pgn::setDate(const std::string& d)
+{
+  // XXX Validation?
+  m_date = d;
+}
+
+//--------------------------------------------------------------------------------------------
 const std::string& Pgn::getRound() const
 {
   return m_round;
+}
+
+//--------------------------------------------------------------------------------------------
+void Pgn::setRound(const std::string& r)
+{
+  m_round = r;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -98,11 +131,22 @@ const std::string& Pgn::getWhiteName() const
 }
 
 //--------------------------------------------------------------------------------------------
+void Pgn::setWhiteName(const std::string& w)
+{
+  m_whiteName = w;
+}
+
+//--------------------------------------------------------------------------------------------
 const std::string& Pgn::getBlackName() const
 {
   return m_blackName;
 }
 
+//--------------------------------------------------------------------------------------------
+void Pgn::setBlackName(const std::string& b)
+{
+  m_blackName = b;
+}
 //--------------------------------------------------------------------------------------------
 const std::string& Pgn::getResult() const
 {
@@ -112,13 +156,13 @@ const std::string& Pgn::getResult() const
 //--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Pgn& pgn)
 {
-  os << "[Event \"" << pgn.getEvent() << "\"]" << std::endl;
-  os << "[Site \"" << pgn.getSite() << "\"]" << std::endl;
-  os << "[Date \"" << pgn.getDate() << "\"]" << std::endl;
-  os << "[Round \"" << pgn.getRound() << "\"]" << std::endl;
-  os << "[White \"" << pgn.getWhiteName() << "\"]" << std::endl;
-  os << "[Black \"" << pgn. getBlackName() << "\"]" << std::endl;
-  os << "[Result \"" << pgn.getResult() << "\"]";
+  os << "[" << Pgn::TAG_EVENT << " \"" << pgn.getEvent() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_SITE << " \"" << pgn.getSite() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_DATE << " \"" << pgn.getDate() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_ROUND << " \"" << pgn.getRound() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_WHITE << " \"" << pgn.getWhiteName() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_BLACK << " \"" << pgn. getBlackName() << "\"]" << std::endl;
+  os << "[" << Pgn::TAG_RESULT << " \"" << pgn.getResult() << "\"]";
 
   return os;
 }
