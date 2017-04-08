@@ -58,7 +58,7 @@ int Pgn::savePgn(const GameHistory& gh) const
 
   f << *this << std::endl;
   f << std::endl;
-  f << gh << std::endl;
+  f << gh << " " << m_result << std::endl;
 
   f.close();
 
