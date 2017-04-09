@@ -121,7 +121,8 @@ int main(int argc, char* argv[])
   cgc::EventLoop el;
   cgc::HandledQuitSignal quitSignal(el);
   cgc::GameLogic gl;
-  cgc::ConsoleUI cUi(gl, el);
+  cgc::UciEngine uciEngine(std::unique_ptr<cgc::Process>(new cgc::Process("", el)));
+  cgc::ConsoleUI cUi(gl, el, uciEngine);
   std::unique_ptr<cgc::ChessHardware> hw(nullptr);
   int ret;
 

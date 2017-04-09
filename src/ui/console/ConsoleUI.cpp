@@ -35,9 +35,10 @@ static const std::string BOTTOM_LABEL =   "   A   B   C   D   E   F   G   H";
 static const std::string PROMPT = "charguychess> ";
 
 //--------------------------------------------------------------------------------------------
-ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop):
+ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop, UciEngine& uciEngine):
     m_gl(gl),
     m_eventLoop(eventLoop),
+    m_uciEngine(uciEngine),
     m_isMoveEnabled(true),
     m_isDriverBbEnabled(false)
 {
@@ -57,6 +58,7 @@ int ConsoleUI::init()
     return -1;
 
   m_gl.registerBoardObserver(*this);
+  m_uciEngine.registerEngineListener(*this);
 
   printGreeting();
   printPrompt();
@@ -130,6 +132,8 @@ void ConsoleUI::readReady()
     setPgnTag(cmd.substr(8));
   else if(cmd.find("pgn path") == 0)
     setPgnPath(cmd.substr(9));
+  else if(cmd.find("bestmove") == 0)
+    computeBestMove();
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -148,6 +152,12 @@ void ConsoleUI::boardValueChanged(BoardValue bv)
     std::cout << std::endl << "New hardware position:" << std::endl;
     std::cout << bb.toBoardString() << std::endl;
   }
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::onMoveComputed(const Move& m)
+{
+  LOGIN() << "New engine move" << m << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -242,6 +252,7 @@ void ConsoleUI::printHelp()
   std::cout << "pgn info          Show PGN info" << std::endl;
   std::cout << "pgn set <t> <v>   Set a value to the PGN tag" << std::endl;
   std::cout << "pgn path <p>      Set the PGN path" << std::endl;
+  std::cout << "bestmove          Compute best move" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 
@@ -399,6 +410,12 @@ void ConsoleUI::setPgnTag(const std::string& args)
 void ConsoleUI::setPgnPath(const std::string& args)
 {
   m_pgn.setPath(args.substr(0, args.size() - 1));
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::computeBestMove()
+{
+  m_uciEngine.computeBestMove(m_gl.getGameHistory());
 }
 
 }       // namespace

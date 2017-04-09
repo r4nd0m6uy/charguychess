@@ -16,6 +16,10 @@ set(APP_SOURCES
   chess/GameHistory.cpp
   chess/CastleStatus.cpp
   chess/Pgn.cpp
+  chess/uci/IProcessIoListener.cpp
+  chess/uci/Process.cpp
+  chess/uci/UciEngine.cpp
+  chess/uci/IUciEngineListener.cpp
   logging/ILogger.cpp
   logging/ILogSink.cpp
   logging/Logger.cpp

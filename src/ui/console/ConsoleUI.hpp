@@ -22,6 +22,7 @@
 #include "../../event-loop/EventLoop.hpp"
 #include "../../chess/GameLogic.hpp"
 #include "../../chess/Pgn.hpp"
+#include "../../chess/uci/UciEngine.hpp"
 #include "../hardware/IBoardInputObserver.hpp"
 namespace cgc {
 
@@ -31,10 +32,11 @@ namespace cgc {
 class ConsoleUI:
     public IBoardObserver,
     public IHandledIo,
-    public IBoardInputObserver
+    public IBoardInputObserver,
+    public IUciEngineListener
 {
 public:
-  ConsoleUI(GameLogic& gl, EventLoop& eventLoop);
+  ConsoleUI(GameLogic& gl, EventLoop& eventLoop, UciEngine& uciEngine);
   virtual ~ConsoleUI();
 
   int init();
@@ -50,10 +52,14 @@ public:
   // IBoardInputObserver
   virtual void boardValueChanged(BoardValue bv) override;
 
+  // IUciEngineListener
+  virtual void onMoveComputed(const Move& m) override;
+
 private:
   Pgn m_pgn;
   GameLogic& m_gl;
   EventLoop& m_eventLoop;
+  UciEngine& m_uciEngine;
   bool m_isMoveEnabled;
   bool m_isDriverBbEnabled;
 
@@ -68,6 +74,7 @@ private:
   void showPgnInfo();
   void setPgnTag(const std::string& args);
   void setPgnPath(const std::string& args);
+  void computeBestMove();
 };
 
 }       // namespace
