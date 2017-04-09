@@ -157,7 +157,8 @@ void ConsoleUI::boardValueChanged(BoardValue bv)
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::onMoveComputed(const Move& m)
 {
-  LOGIN() << "New engine move" << m << std::endl;
+  std::cout << std::endl << "Chess engine suggests " << m << std::endl;
+  printPrompt();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -415,7 +416,10 @@ void ConsoleUI::setPgnPath(const std::string& args)
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::computeBestMove()
 {
-  m_uciEngine.computeBestMove(m_gl.getGameHistory());
+  if(m_uciEngine.computeBestMove(m_gl.getGameHistory()) == 0)
+    std::cout << "Computing best move ..." << std::endl;
+  else
+    std::cout << "Error requesting best move to UCI engine!" << std::endl;
 }
 
 }       // namespace

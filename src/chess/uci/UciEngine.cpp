@@ -41,6 +41,7 @@ UciEngine::~UciEngine()
 //--------------------------------------------------------------------------------------------
 void UciEngine::registerEngineListener(IUciEngineListener& listener)
 {
+  m_uciListeners.push_back(&listener);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ int UciEngine::computeBestMove(const GameHistory& gh)
 
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
   uciCmd.clear();
-  uciCmd << "go depth 10" << std::endl;
+  uciCmd << "go depth 1" << std::endl;
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
 
   return 0;
@@ -102,8 +103,11 @@ void UciEngine::onStdout(const std::string& out)
 
       moveStart = line.find(" ");
       moveEnd = line.find(" ", moveStart + 1);
-      move = line.substr(moveStart + 1, moveEnd - moveStart - 1);
-      LOGDB() << "UCI best move " << move;
+      Move m(line.substr(moveStart + 1, moveEnd - moveStart - 1));
+
+      LOGDB() << "Parsed UCI best move " << m;
+      for(auto& uciListener : m_uciListeners)
+        uciListener->onMoveComputed(m);
     }
   }
 }
