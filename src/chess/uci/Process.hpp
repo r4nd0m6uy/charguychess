@@ -27,7 +27,8 @@ namespace cgc {
 /**
  * \brief Represent a backgroung process
  */
-class Process
+class Process:
+    public IHandledIo
 {
 public:
   Process(const std::string& command, EventLoop& el);
@@ -36,11 +37,21 @@ public:
   bool isRunning();
   int start();
   int stop();
+  int stdinWrite(const char* data, int size);
   void registerIoListener(IProcessIoListener& listener);
+
+  // IHandledIo
+  virtual IoHandle getHandle() override;
+  virtual void readReady() override;
 
 private:
   std::string m_command;
   EventLoop& m_el;
+  pid_t m_pid;
+  int m_inputPipe[2];
+  int m_outputPipe[2];
+
+  void closePipes();
 };
 
 }       // namespace

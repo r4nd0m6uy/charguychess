@@ -40,13 +40,27 @@ void UciEngine::registerEngineListener(IUciEngineListener& listener)
 //--------------------------------------------------------------------------------------------
 int UciEngine::computeBestMove(const GameHistory& gh)
 {
+  if(!m_uciProcess->isRunning())
+  {
+    if(m_uciProcess->start() != 0)
+      return -1;
+
+    m_uciProcess->registerIoListener(*this);
+  }
+
   LOGIN() << "Computing best move not implemented yet!";
+
+//  // Testing
+//  std::string uciCmd = "go infinite\n";
+//  m_uciProcess->stdinWrite(uciCmd.c_str(), uciCmd.size());
+
   return 0;
 }
 
 //--------------------------------------------------------------------------------------------
 void UciEngine::onStdout(const std::string& out)
 {
+  LOGDB() << "UCI output: " << out;
 }
 
 }       // namespace
