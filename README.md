@@ -51,13 +51,14 @@ are available in *tests/simulation*, for example:
 
 # Missing features
 To do so it is playable:
-* Castling
-* Promotion
 * En passant
 
 Nice feature for the future:
-* Generate PGN
 * Read from PGN
 * FEN notation
-* Play with computer with UCI engine (Stockfish)
 
+# TODO
+To do list so I know where I was when a dig into the project again:
+* Deregister from event loop (process)
+* Handle unexpected process termination (uci)
+* Add configuration class / file (libconfig)
