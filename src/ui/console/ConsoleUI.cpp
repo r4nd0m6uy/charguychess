@@ -128,6 +128,8 @@ void ConsoleUI::readReady()
     showPgnInfo();
   else if(cmd.find("pgn set") == 0)
     setPgnTag(cmd.substr(8));
+  else if(cmd.find("pgn path") == 0)
+    setPgnPath(cmd.substr(9));
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -239,6 +241,7 @@ void ConsoleUI::printHelp()
   std::cout << "pgn save          Save game to PGN" << std::endl;
   std::cout << "pgn info          Show PGN info" << std::endl;
   std::cout << "pgn set <t> <v>   Set a value to the PGN tag" << std::endl;
+  std::cout << "pgn path <p>      Set the PGN path" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 
@@ -342,7 +345,8 @@ void ConsoleUI::displayCtrlSquares()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::savePgn()
 {
-  m_pgn.savePgn(m_gl.getGameHistory());
+  if(m_pgn.savePgn(m_gl.getGameHistory()) == 0)
+    std::cout << "PGN saved to " << m_pgn.getPath() << std::endl;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -388,7 +392,13 @@ void ConsoleUI::setPgnTag(const std::string& args)
   else if(tagCased == Pgn::TAG_BLACK)
     m_pgn.setBlackName(value);
   else
-    std::cout << "Unkown tag /" << tag << "/" << tagCased << std::endl;
+    std::cout << "Unkown tag " << tag << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::setPgnPath(const std::string& args)
+{
+  m_pgn.setPath(args.substr(0, args.size() - 1));
 }
 
 }       // namespace

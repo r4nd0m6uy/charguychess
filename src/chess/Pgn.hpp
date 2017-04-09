@@ -54,6 +54,8 @@ public:
   const std::string& getBlackName() const;
   void setBlackName(const std::string& b);
   const std::string& getResult() const;
+  const std::string& getPath() const;
+  void setPath(const std::string& p);
 
 private:
   std::string m_event;

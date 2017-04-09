@@ -154,6 +154,18 @@ const std::string& Pgn::getResult() const
 }
 
 //--------------------------------------------------------------------------------------------
+const std::string& Pgn::getPath() const
+{
+  return m_filePath;
+}
+
+//--------------------------------------------------------------------------------------------
+void Pgn::setPath(const std::string& p)
+{
+  m_filePath = p;
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Pgn& pgn)
 {
   os << "[" << Pgn::TAG_EVENT << " \"" << pgn.getEvent() << "\"]" << std::endl;

@@ -67,6 +67,7 @@ private:
   void savePgn();
   void showPgnInfo();
   void setPgnTag(const std::string& args);
+  void setPgnPath(const std::string& args);
 };
 
 }       // namespace
