@@ -50,6 +50,7 @@ private:
   pid_t m_pid;
   int m_inputPipe[2];
   int m_outputPipe[2];
+  std::list<IProcessIoListener*> m_processIoListener;
 
   void closePipes();
 };

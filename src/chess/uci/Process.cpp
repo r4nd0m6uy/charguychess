@@ -170,6 +170,7 @@ int Process::stdinWrite(const char* data, int size)
 //--------------------------------------------------------------------------------------------
 void Process::registerIoListener(IProcessIoListener& listener)
 {
+  m_processIoListener.push_back(&listener);
 }
 
 //--------------------------------------------------------------------------------------------
@@ -192,7 +193,9 @@ void Process::readReady()
     return;
   }
 
-  LOGDB() << "subprocess data: " << std::string(buffer, readSize);
+  std::string ioData(buffer, readSize);
+  for(auto& processIoListener : m_processIoListener)
+    processIoListener->onStdout(ioData);
 }
 
 //--------------------------------------------------------------------------------------------

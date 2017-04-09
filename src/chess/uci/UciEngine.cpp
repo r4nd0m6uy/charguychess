@@ -16,8 +16,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <sstream>
+
 #include "../../logging/LogMacros.hpp"
 #include "UciEngine.hpp"
+
+
+
+#include <unistd.h>
 
 namespace cgc {
 
@@ -40,6 +46,7 @@ void UciEngine::registerEngineListener(IUciEngineListener& listener)
 //--------------------------------------------------------------------------------------------
 int UciEngine::computeBestMove(const GameHistory& gh)
 {
+  std::stringstream uciCmd;
   if(!m_uciProcess->isRunning())
   {
     if(m_uciProcess->start() != 0)
@@ -48,11 +55,24 @@ int UciEngine::computeBestMove(const GameHistory& gh)
     m_uciProcess->registerIoListener(*this);
   }
 
-  LOGIN() << "Computing best move not implemented yet!";
+  uciCmd << "position startpos moves";
 
-//  // Testing
-//  std::string uciCmd = "go infinite\n";
-//  m_uciProcess->stdinWrite(uciCmd.c_str(), uciCmd.size());
+  for(auto& turn : gh.getTurns())
+  {
+    Move wm = turn.getWhiteMove();
+    Move bm = turn.getBlackMove();
+
+    if(wm.isValid())
+      uciCmd << " " << wm.getFrom() << wm.getTo();
+    if(bm.isValid())
+      uciCmd << " " << bm.getFrom() << bm.getTo();
+  }
+  uciCmd << std::endl;
+
+  m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
+  uciCmd.clear();
+  uciCmd << "go depth 10" << std::endl;
+  m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
 
   return 0;
 }
@@ -60,7 +80,32 @@ int UciEngine::computeBestMove(const GameHistory& gh)
 //--------------------------------------------------------------------------------------------
 void UciEngine::onStdout(const std::string& out)
 {
+  m_uciBuffer += out;
+
   LOGDB() << "UCI output: " << out;
+
+  while(1)
+  {
+    std::string::size_type lineEnd = m_uciBuffer.find('\n');
+
+    if(lineEnd == std::string::npos)
+      break;
+
+    std::string line = m_uciBuffer.substr(0, lineEnd);
+    m_uciBuffer = m_uciBuffer.substr(lineEnd + 1);
+
+    if(line.find("bestmove") != std::string::npos)
+    {
+      std::string::size_type moveStart;
+      std::string::size_type moveEnd;
+      std::string move;
+
+      moveStart = line.find(" ");
+      moveEnd = line.find(" ", moveStart + 1);
+      move = line.substr(moveStart + 1, moveEnd - moveStart - 1);
+      LOGDB() << "UCI best move " << move;
+    }
+  }
 }
 
 }       // namespace

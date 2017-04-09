@@ -45,6 +45,7 @@ public:
 
 private:
   std::unique_ptr<Process> m_uciProcess;
+  std::string m_uciBuffer;
 };
 
 }       // namespace
