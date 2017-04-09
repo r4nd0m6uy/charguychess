@@ -130,7 +130,7 @@ int Process::start()
   {
     int buffsize = 64;
     char cmd[buffsize];
-    char *argv[]={ cmd };
+    char *argv[]={ cmd, 0 };
 
     dup2(m_inputPipe[1], 1);
     dup2(m_outputPipe[0], 0);
