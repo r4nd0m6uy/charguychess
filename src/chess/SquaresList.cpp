@@ -48,13 +48,13 @@ void SquaresList::add(const Square& s)
 }
 
 //--------------------------------------------------------------------------------------------
-bool SquaresList::contains(const Square& s)
+bool SquaresList::contains(const Square& s) const
 {
   return std::find(m_squaresList.begin(), m_squaresList.end(), s) != m_squaresList.end();
 }
 
 //--------------------------------------------------------------------------------------------
-bool SquaresList::contains(File f, Rank r)
+bool SquaresList::contains(File f, Rank r) const
 {
   return this->contains(Square(f, r));
 }

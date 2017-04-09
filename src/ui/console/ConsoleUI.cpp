@@ -115,7 +115,7 @@ void ConsoleUI::readReady()
   else if(cmd.find("show") == 0)
     showBoard(m_gl.getTurn(), m_gl.getBoard());
   else if(cmd.find("legal") == 0)
-    showLegalSquare(cmd.substr(6, 2));
+    showLegalSquares(cmd.substr(6, 2));
   else if(cmd.find("ctrlSquares") == 0)
     displayCtrlSquares();
   else if(cmd.find("move") == 0)
@@ -157,7 +157,12 @@ void ConsoleUI::boardValueChanged(BoardValue bv)
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::onMoveComputed(const Move& m)
 {
+  LegalSquares ls(m.getFrom());
+
+  ls.add(m.getTo());
+
   std::cout << std::endl << "Chess engine suggests " << m << std::endl;
+  showLegalSquares(ls);
   printPrompt();
 }
 
@@ -278,7 +283,7 @@ void ConsoleUI::readMove(const std::string& move)
 }
 
 //--------------------------------------------------------------------------------------------
-void ConsoleUI::showLegalSquare(const std::string& square)
+void ConsoleUI::showLegalSquares(const std::string& square)
 {
   Square s(square);
   LegalSquares ls(s);
@@ -290,6 +295,12 @@ void ConsoleUI::showLegalSquare(const std::string& square)
   }
 
   m_gl.getLegalSquares(ls);
+  showLegalSquares(ls);
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::showLegalSquares(const LegalSquares& ls)
+{
   std::cout << RANK_SEPARATOR << std::endl;
   for(Rank r = EIGHT ; r != INVALID_RANK ; --r)
   {

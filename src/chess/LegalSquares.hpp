@@ -39,8 +39,8 @@ public:
   void clear();
   void add(const Square& square);
   void add(File f, Rank r);
-  bool contains(const Square& square);
-  bool contains(File f, Rank r);
+  bool contains(const Square& square) const;
+  bool contains(File f, Rank r) const;
   int count() const;
   const SquaresList& getSquaresList();
 

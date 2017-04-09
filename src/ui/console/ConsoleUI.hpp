@@ -68,7 +68,8 @@ private:
   void printGreeting();
   void printHelp();
   void readMove(const std::string& move);
-  void showLegalSquare(const std::string& square);
+  void showLegalSquares(const std::string& square);
+  void showLegalSquares(const LegalSquares& ls);
   void displayCtrlSquares();
   void savePgn();
   void showPgnInfo();

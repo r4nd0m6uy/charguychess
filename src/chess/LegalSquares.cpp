@@ -64,13 +64,13 @@ void LegalSquares::add(File f, Rank r)
 }
 
 //--------------------------------------------------------------------------------------------
-bool LegalSquares::contains(const Square& square)
+bool LegalSquares::contains(const Square& square) const
 {
   return m_legalSquares.contains(square);
 }
 
 //--------------------------------------------------------------------------------------------
-bool LegalSquares::contains(File f, Rank r)
+bool LegalSquares::contains(File f, Rank r) const
 {
   return this->contains(Square(f, r));
 }
