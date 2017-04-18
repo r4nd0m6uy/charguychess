@@ -81,6 +81,8 @@ bool Process::isRunning()
       if(WIFEXITED(wstatus))
       {
         LOGIN() << "Process " << m_command << " has terminated";
+        m_el.deregisterHandledIo(*this);
+        closePipes();
         m_pid = INVALID_PID;
         return false;
       }
@@ -161,7 +163,6 @@ int Process::stop()
   {
     LOGDB() << "Stopping " << m_command;
     kill(m_pid, SIGTERM);
-    closePipes();
   }
 
   return 0;
@@ -197,6 +198,11 @@ void Process::readReady()
   {
     LOGER() << "Error reading sub process pipe: " << strerror(errno) << std::endl;
     return;
+  }
+  else if(readSize == 0 && !isRunning())
+  {
+    LOGER() << m_command << " stopped unexpectly";
+    stop();
   }
 
   std::string ioData(buffer, readSize);

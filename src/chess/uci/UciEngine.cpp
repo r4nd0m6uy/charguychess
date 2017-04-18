@@ -21,10 +21,6 @@
 #include "../../logging/LogMacros.hpp"
 #include "UciEngine.hpp"
 
-
-
-#include <unistd.h>
-
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
