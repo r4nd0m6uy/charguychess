@@ -30,6 +30,7 @@
 
 /* local variables */
 std::string hardwareArg = "none";
+std::string config_path = "";
 
 //--------------------------------------------------------------------------------------------
 void printVersion()
@@ -50,8 +51,9 @@ void printVersion()
 void printHelp(char* appName)
 {
   std::cout << appName << " [OPTIONS]:" << std::endl;
-  std::cout << "-v|--version    Show version information" << std::endl;
   std::cout << "-h|--help       Show this help message" << std::endl;
+  std::cout << "-v|--version    Show version information" << std::endl;
+  std::cout << "-c|--config     Path to configuration file" << std::endl;
   std::cout << "-H|--hardware   Hardware to use" << std::endl;
   std::cout << "                  * none: No hardware" << std::endl;
   std::cout << "                  * sim:  Simulate hardware" << std::endl;
@@ -70,6 +72,7 @@ int parseArgs(int argc, char* argv[], int& retCode)
   {
     {"help",      no_argument,        0,    'h'},
     {"version",   no_argument,        0,    'v'},
+    {"config",    required_argument,  0,    'c'},
     {"hardware",  required_argument,  0,    'H'},
     {"loglevel",  required_argument,  0,    'l'},
     {0, 0, 0, 0}
@@ -77,22 +80,25 @@ int parseArgs(int argc, char* argv[], int& retCode)
 
   while(1)
   {
-    c = getopt_long(argc, argv, "vhH:l:", long_options, 0);
+    c = getopt_long(argc, argv, "hvc:H:l:", long_options, 0);
 
     if(c == -1)
       break;
 
     switch(c)
     {
+    case 'h':
+      printHelp(argv[0]);
+      retCode = 0;
+      return -1;
+      break;
     case 'v':
       printVersion();
       retCode = 0;
       return -1;
       break;
-    case 'h':
-      printHelp(argv[0]);
-      retCode = 0;
-      return -1;
+    case 'c':
+      config_path = optarg;
       break;
     case 'H':
       hardwareArg = optarg;
@@ -132,6 +138,10 @@ int main(int argc, char* argv[])
 
   if(parseArgs(argc, argv, ret) != 0)
     return ret;
+
+  // Parse configuration
+  if(config_path != "")
+    options.parseOptions(config_path);
 
   // Initialize the event loop
   if(el.init() != 0)

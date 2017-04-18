@@ -32,9 +32,30 @@ Options::~Options()
 }
 
 //--------------------------------------------------------------------------------------------
-int Options::parseOptions(const std::string files)
+int Options::parseOptions(const std::string file)
 {
-  LOGWA() << "Parsing configuration not implemented yet!";
+  libconfig::Config cfg;
+  std::string stringOption;
+
+  try
+  {
+    cfg.readFile(file.c_str());
+  }
+  catch(const std::exception& ex)
+  {
+    LOGER() << "Cannot parse configuration " << file << ": " << ex.what();
+    return -1;
+  }
+
+  if(cfg.lookupValue("uci.path", stringOption))
+  {
+    LOGDB() << "Using UCI engine path " << stringOption;
+    m_uciOptions.setUciPath(stringOption);
+  }
+
+  parseUciOptions("black", m_uciOptions.getBlackOptions(), cfg);
+  parseUciOptions("white", m_uciOptions.getWhiteOptions(), cfg);
+  parseUciOptions("hint", m_uciOptions.getHintOptions(), cfg);
 
   return 0;
 }
@@ -45,4 +66,39 @@ UciOptions& Options::getUciOptions()
   return m_uciOptions;
 }
 
+//--------------------------------------------------------------------------------------------
+void Options::parseUciOptions(const std::string& color, UciPlayerOptions& po,
+    libconfig::Config& c)
+{
+  std::string stringOption;
+  int intOption;
+
+  if(c.lookupValue("uci." + color + ".mode", stringOption))
+  {
+    if(stringOption == "depth")
+    {
+      LOGDB() << "Using UCI depth mode for " << color;
+      po.setSearchMode(UciPlayerOptions::DEPTH);
+    }
+    else if(stringOption == "time")
+    {
+      LOGDB() << "Using UCI time limit mode for " << color;
+      po.setSearchMode(UciPlayerOptions::TIME_LIMIT);
+    }
+    else
+      LOGWA() << "Invalid UCI mode for " << color << ": " << stringOption;
+  }
+
+  if(c.lookupValue("uci." + color + ".depth", intOption))
+  {
+    LOGDB() << "Using UCI depth of " << intOption << " for " << color;
+    po.setSearchMaxDepth(intOption);
+  }
+
+  if(c.lookupValue("uci." + color + ".time", intOption))
+  {
+    LOGDB() << "Using UCI time limit of " << intOption << " ms for " << color;
+    po.setSearchTimeout(intOption);
+  }
+}
 }       // namespace

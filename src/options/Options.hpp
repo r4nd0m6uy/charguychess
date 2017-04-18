@@ -19,6 +19,8 @@
 #ifndef _CGC_OPTIONS_HPP_
 #define _CGC_OPTIONS_HPP_
 
+#include <libconfig.h++>
+
 #include "UciOptions.hpp"
 
 namespace cgc {
@@ -32,11 +34,14 @@ public:
   Options();
   ~Options();
 
-  int parseOptions(const std::string files);
+  int parseOptions(const std::string file);
   UciOptions& getUciOptions();
 
 private:
   UciOptions m_uciOptions;
+
+  static void parseUciOptions(const std::string& color, UciPlayerOptions& po,
+      libconfig::Config& c);
 };
 
 }       // namespace

@@ -1,6 +1,8 @@
 find_package(PkgConfig REQUIRED)
 pkg_search_module(LIBEVENT REQUIRED libevent>=2.0)
 message(STATUS "Found libevent version ${LIBEVENT_VERSION}")
+pkg_search_module(LIBCONFIG REQUIRED libconfig++>=1.5)
+message(STATUS "Found libconfig version ${LIBCONFIG_VERSION}")
 
 set(APP_SOURCES
   chess/ChessDefinitions.cpp
@@ -63,11 +65,11 @@ set(APP_SOURCES
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})
 
-include_directories(${LIBEVENT_INCLUDE_DIRS} ../src/)
-link_directories(${LIBEVENT_LIBRARIES})
+include_directories(${LIBEVENT_INCLUDE_DIRS} ${LIBCONFIG_INCLUDE_DIRS} ../src/)
+link_directories(${LIBEVENT_LIBRARIES} ${LIBCONFIG_LIBRARIES})
 
 add_executable(${APP_NAME} main.cpp)
-target_link_libraries(${APP_NAME} ${APP_LIB_NAME} ${LIBEVENT_LDFLAGS})
+target_link_libraries(${APP_NAME} ${APP_LIB_NAME} ${LIBEVENT_LDFLAGS} ${LIBCONFIG_LDFLAGS})
 
 install (TARGETS ${APP_NAME} DESTINATION bin)
 
