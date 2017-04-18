@@ -56,6 +56,9 @@ set(APP_SOURCES
   event-loop/HandledQuitSignal.cpp
   event-loop/ITimedOut.cpp
   event-loop/Timer.cpp
+  options/UciPlayerOptions.cpp
+  options/UciOptions.cpp
+  options/Options.cpp
 )
 
 add_library(${APP_LIB_NAME} ${APP_SOURCES})

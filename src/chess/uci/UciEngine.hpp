@@ -21,6 +21,7 @@
 
 #include <memory>
 
+#include "../../options/UciOptions.hpp"
 #include "../GameHistory.hpp"
 #include "Process.hpp"
 #include "IUciEngineListener.hpp"
@@ -34,7 +35,7 @@ class UciEngine:
     public IProcessIoListener
 {
 public:
-  UciEngine(std::unique_ptr<Process> uciProcess);
+  UciEngine(std::unique_ptr<Process> uciProcess, UciOptions& uciOptions);
   ~UciEngine();
 
   void registerEngineListener(IUciEngineListener& listener);
@@ -45,6 +46,7 @@ public:
 
 private:
   std::unique_ptr<Process> m_uciProcess;
+  UciOptions& m_uciOptions;
   std::string m_uciBuffer;
   std::list<IUciEngineListener*> m_uciListeners;
 };

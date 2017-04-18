@@ -16,45 +16,38 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_PROCESS_HPP_
-#define _CGC_PROCESS_HPP_
+#ifndef _CGC_UCI_OPTIONS_HPP_
+#define _CGC_UCI_OPTIONS_HPP_
 
-#include "IProcessIoListener.hpp"
-#include "../../event-loop/EventLoop.hpp"
+#include <string>
+
+#include "UciPlayerOptions.hpp"
 
 namespace cgc {
 
 /**
- * \brief Represent a backgroung process
+ * \brief Holds options about the UCI engine
  */
-class Process:
-    public IHandledIo
+class UciOptions
 {
 public:
-  Process(EventLoop& el);
-  ~Process();
+  static const std::string DEFAULT_UCI_PATH;
 
-  void setCommand(const std::string& command);
-  bool isRunning();
-  int start();
-  int stop();
-  int stdinWrite(const char* data, int size);
-  void registerIoListener(IProcessIoListener& listener);
+  UciOptions();
+  ~UciOptions();
 
-  // IHandledIo
-  virtual IoHandle getHandle() override;
-  virtual void readReady() override;
+  const std::string& getUciPath() const;
+  void setUciPath(const std::string& uciPath);
+  UciPlayerOptions& getWhiteOptions();
+  UciPlayerOptions& getBlackOptions();
+  UciPlayerOptions& getHintOptions();
 
 private:
-  std::string m_command;
-  EventLoop& m_el;
-  pid_t m_pid;
-  int m_inputPipe[2];
-  int m_outputPipe[2];
-  std::list<IProcessIoListener*> m_processIoListener;
-
-  void closePipes();
+  std::string m_uciPath;
+  UciPlayerOptions m_blackOptions;
+  UciPlayerOptions m_whiteOptions;
+  UciPlayerOptions m_hintOptions;
 };
 
 }       // namespace
-#endif  // _CGC_PROCESS_HPP_
+#endif  // _CGC_OPTIONS_HPP_

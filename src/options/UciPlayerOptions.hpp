@@ -16,45 +16,41 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_PROCESS_HPP_
-#define _CGC_PROCESS_HPP_
-
-#include "IProcessIoListener.hpp"
-#include "../../event-loop/EventLoop.hpp"
+#ifndef _CGC_UCI_PLAYER_OPTIONS_HPP_
+#define _CGC_UCI_PLAYER_OPTIONS_HPP_
 
 namespace cgc {
 
 /**
- * \brief Represent a backgroung process
+ * \brief Holds options about the UCI engine
  */
-class Process:
-    public IHandledIo
+class UciPlayerOptions
 {
 public:
-  Process(EventLoop& el);
-  ~Process();
+  enum SearchMode{
+    DEPTH,
+    TIME_LIMIT
+  };
 
-  void setCommand(const std::string& command);
-  bool isRunning();
-  int start();
-  int stop();
-  int stdinWrite(const char* data, int size);
-  void registerIoListener(IProcessIoListener& listener);
+  static const SearchMode DEFAULT_SEARCH_MODE;
+  static const int DEFAULT_MAX_DEPTH;
+  static const int DEFAULT_MAX_TIMEOUT;
 
-  // IHandledIo
-  virtual IoHandle getHandle() override;
-  virtual void readReady() override;
+  UciPlayerOptions();
+  ~UciPlayerOptions();
+
+  SearchMode getSearchMode() const;
+  void setSearchMode(const SearchMode& mode);
+  int getSearchMaxDepth() const;
+  void setSearchMaxDepth(int searchMaxDepth);
+  int getSearchTimeout() const;
+  void setSearchTimeout(int serachTimeout);
 
 private:
-  std::string m_command;
-  EventLoop& m_el;
-  pid_t m_pid;
-  int m_inputPipe[2];
-  int m_outputPipe[2];
-  std::list<IProcessIoListener*> m_processIoListener;
-
-  void closePipes();
+  SearchMode m_searchMode;
+  int m_maxDepth;
+  int m_timeout;
 };
 
 }       // namespace
-#endif  // _CGC_PROCESS_HPP_
+#endif  // _CGC_UCI_PLAYER_OPTIONS_HPP_

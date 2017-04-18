@@ -32,8 +32,7 @@ namespace cgc {
 static const int INVALID_FD = -1;
 static const pid_t INVALID_PID = -1;
 //--------------------------------------------------------------------------------------------
-Process::Process(const std::string& command, EventLoop& el):
-    m_command(command),
+Process::Process(EventLoop& el):
     m_el(el),
     m_pid(INVALID_PID)
 {
@@ -47,6 +46,13 @@ Process::Process(const std::string& command, EventLoop& el):
 Process::~Process()
 {
   stop();
+}
+
+
+//--------------------------------------------------------------------------------------------
+void Process::setCommand(const std::string& command)
+{
+  m_command = command;
 }
 
 //--------------------------------------------------------------------------------------------

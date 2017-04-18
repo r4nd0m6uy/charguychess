@@ -16,45 +16,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_PROCESS_HPP_
-#define _CGC_PROCESS_HPP_
+#ifndef _CGC_OPTIONS_HPP_
+#define _CGC_OPTIONS_HPP_
 
-#include "IProcessIoListener.hpp"
-#include "../../event-loop/EventLoop.hpp"
+#include "UciOptions.hpp"
 
 namespace cgc {
 
 /**
- * \brief Represent a backgroung process
+ * \brief Holds options of the game
  */
-class Process:
-    public IHandledIo
+class Options
 {
 public:
-  Process(EventLoop& el);
-  ~Process();
+  Options();
+  ~Options();
 
-  void setCommand(const std::string& command);
-  bool isRunning();
-  int start();
-  int stop();
-  int stdinWrite(const char* data, int size);
-  void registerIoListener(IProcessIoListener& listener);
-
-  // IHandledIo
-  virtual IoHandle getHandle() override;
-  virtual void readReady() override;
+  int parseOptions(const std::string files);
+  UciOptions& getUciOptions();
 
 private:
-  std::string m_command;
-  EventLoop& m_el;
-  pid_t m_pid;
-  int m_inputPipe[2];
-  int m_outputPipe[2];
-  std::list<IProcessIoListener*> m_processIoListener;
-
-  void closePipes();
+  UciOptions m_uciOptions;
 };
 
 }       // namespace
-#endif  // _CGC_PROCESS_HPP_
+#endif  // _CGC_OPTIONS_HPP_

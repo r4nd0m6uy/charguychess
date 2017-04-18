@@ -21,6 +21,7 @@
 #include <iostream>
 #include <csignal>
 
+#include "options/Options.hpp"
 #include "event-loop/HandledQuitSignal.hpp"
 #include "ui/console/ConsoleUI.hpp"
 #include "ui/hardware/ChessHardwareFactory.hpp"
@@ -118,11 +119,13 @@ int parseArgs(int argc, char* argv[], int& retCode)
 //--------------------------------------------------------------------------------------------
 int main(int argc, char* argv[])
 {
+  cgc::Options options;
   cgc::EventLoop el;
   cgc::HandledQuitSignal quitSignal(el);
   cgc::GameLogic gl;
-  cgc::UciEngine uciEngine(std::unique_ptr<cgc::Process>(
-      new cgc::Process("/usr/local/bin/stockfish", el)));
+  cgc::UciEngine uciEngine(
+      std::unique_ptr<cgc::Process>(new cgc::Process(el)),
+      options.getUciOptions());
   cgc::ConsoleUI cUi(gl, el, uciEngine);
   std::unique_ptr<cgc::ChessHardware> hw(nullptr);
   int ret;

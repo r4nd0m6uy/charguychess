@@ -16,45 +16,33 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef _CGC_PROCESS_HPP_
-#define _CGC_PROCESS_HPP_
-
-#include "IProcessIoListener.hpp"
-#include "../../event-loop/EventLoop.hpp"
+#include "../logging/LogMacros.hpp"
+#include "Options.hpp"
 
 namespace cgc {
 
-/**
- * \brief Represent a backgroung process
- */
-class Process:
-    public IHandledIo
+//--------------------------------------------------------------------------------------------
+Options::Options()
 {
-public:
-  Process(EventLoop& el);
-  ~Process();
+}
 
-  void setCommand(const std::string& command);
-  bool isRunning();
-  int start();
-  int stop();
-  int stdinWrite(const char* data, int size);
-  void registerIoListener(IProcessIoListener& listener);
+//--------------------------------------------------------------------------------------------
+Options::~Options()
+{
+}
 
-  // IHandledIo
-  virtual IoHandle getHandle() override;
-  virtual void readReady() override;
+//--------------------------------------------------------------------------------------------
+int Options::parseOptions(const std::string files)
+{
+  LOGWA() << "Parsing configuration not implemented yet!";
 
-private:
-  std::string m_command;
-  EventLoop& m_el;
-  pid_t m_pid;
-  int m_inputPipe[2];
-  int m_outputPipe[2];
-  std::list<IProcessIoListener*> m_processIoListener;
+  return 0;
+}
 
-  void closePipes();
-};
+//--------------------------------------------------------------------------------------------
+UciOptions& Options::getUciOptions()
+{
+  return m_uciOptions;
+}
 
 }       // namespace
-#endif  // _CGC_PROCESS_HPP_

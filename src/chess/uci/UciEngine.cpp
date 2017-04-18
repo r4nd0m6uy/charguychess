@@ -28,8 +28,9 @@
 namespace cgc {
 
 //--------------------------------------------------------------------------------------------
-UciEngine::UciEngine(std::unique_ptr<Process> uciProcess):
-    m_uciProcess(std::move(uciProcess))
+UciEngine::UciEngine(std::unique_ptr<Process> uciProcess, UciOptions& uciOptions):
+    m_uciProcess(std::move(uciProcess)),
+    m_uciOptions(uciOptions)
 {
 }
 
@@ -50,6 +51,7 @@ int UciEngine::computeBestMove(const GameHistory& gh)
   std::stringstream uciCmd;
   if(!m_uciProcess->isRunning())
   {
+    m_uciProcess->setCommand(m_uciOptions.getUciPath());
     if(m_uciProcess->start() != 0)
       return -1;
 
