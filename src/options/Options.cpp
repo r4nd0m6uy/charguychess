@@ -41,6 +41,12 @@ int Options::parseOptions(const std::string file)
   {
     cfg.readFile(file.c_str());
   }
+  catch(const libconfig::ParseException& ex)
+  {
+    LOGER() << "Cannot parse configuration " << file << " on line " << ex.getLine() << ": "
+        << ex.getError();
+    return -1;
+  }
   catch(const std::exception& ex)
   {
     LOGER() << "Cannot parse configuration " << file << ": " << ex.what();
