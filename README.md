@@ -6,6 +6,7 @@ The software for the DIY chess hardware we want to build with my father.
 This software depends on the following libraries:
 
 * libevent >= 2.0
+* libconfig++ >= 1.5
 
 The test application depends on the following library:
 
@@ -52,6 +53,7 @@ are available in *tests/simulation*, for example:
 # Missing features
 To do so it is playable:
 * En passant
+* PGN ambiguity
 
 Nice feature for the future:
 * Read from PGN
@@ -59,6 +61,5 @@ Nice feature for the future:
 
 # TODO
 To do list so I know where I was when a dig into the project again:
-* Deregister from event loop (process)
-* Handle unexpected process termination (uci)
-* Add configuration class / file (libconfig)
+* Add states for computer turn using UCI engine
+* Add output driver to show computer moves / hints on the board
