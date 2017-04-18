@@ -44,6 +44,8 @@ void UciEngine::registerEngineListener(IUciEngineListener& listener)
 //--------------------------------------------------------------------------------------------
 int UciEngine::computeBestMove(const GameHistory& gh)
 {
+  UciPlayerOptions hintOptions = m_uciOptions.getHintOptions();
+
   std::stringstream uciCmd;
   if(!m_uciProcess->isRunning())
   {
@@ -68,9 +70,16 @@ int UciEngine::computeBestMove(const GameHistory& gh)
   }
   uciCmd << std::endl;
 
+  LOGDB() << "Sending position to UCI engine: " << uciCmd.str();
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
-  uciCmd.clear();
-  uciCmd << "go depth 1" << std::endl;
+
+  uciCmd.str("");
+  if(hintOptions.getSearchMode() == UciPlayerOptions::DEPTH)
+    uciCmd << "go depth " << hintOptions.getSearchMaxDepth() << std::endl;
+  else
+    uciCmd << "go movetime " << hintOptions.getSearchTimeout() << std::endl;
+
+  LOGDB() << "Sending search command to UCI engine: " << uciCmd.str();
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
 
   return 0;
