@@ -12,6 +12,7 @@ addons:
     packages:
     - cmake
     - libevent-dev
+    - libconfig++-dev
 
 before_install:
     # Install CppUTest
