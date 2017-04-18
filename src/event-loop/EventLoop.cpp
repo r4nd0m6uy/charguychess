@@ -122,10 +122,28 @@ int EventLoop::registerHandledIo(IHandledIo& handler, int what)
     return -1;
   }
 
-  event_add(ev, NULL);
+  event_add(ev, nullptr);
   wrappedEvent->setEvent(ev);
   m_handledIos.push_back(wrappedEvent);
   return 0;
+}
+
+//--------------------------------------------------------------------------------------------
+void EventLoop::deregisterHandledIo(IHandledIo& handler)
+{
+  if(m_eventBase == nullptr)
+    return;
+
+  for(auto& handledIo : m_handledIos)
+  {
+    if(&handledIo->getHandledIo() == &handler)
+    {
+      event_del(handledIo->getEvent());
+      m_handledIos.remove(handledIo);
+      delete handledIo;
+      break;
+    }
+  }
 }
 
 //--------------------------------------------------------------------------------------------

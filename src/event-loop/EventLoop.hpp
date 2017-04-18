@@ -50,6 +50,7 @@ public:
 
   int init();
   int registerHandledIo(IHandledIo& handler, int what);
+  void deregisterHandledIo(IHandledIo& handler);
   int registerHandledSignal(IHandledSignal& handler, SignalHandle s);
   int createTimer(const std::string& name, ITimedOut& to, std::unique_ptr<Timer>& timer);
   int run();
