@@ -1,7 +1,7 @@
 find_package(PkgConfig REQUIRED)
 pkg_search_module(LIBEVENT REQUIRED libevent>=2.0)
 message(STATUS "Found libevent version ${LIBEVENT_VERSION}")
-pkg_search_module(LIBCONFIG REQUIRED libconfig++>=1.5)
+pkg_search_module(LIBCONFIG REQUIRED libconfig++>=1.4.9)
 message(STATUS "Found libconfig version ${LIBCONFIG_VERSION}")
 
 set(APP_SOURCES
