@@ -238,9 +238,9 @@ bool GameLogic::applyMove(const Move& m)
     getLegalSquares(ls);
     if(ls.contains(m.getTo()))
     {
-      if(ls.getFrom().getRank() == m.getFrom().getRank())
+      if(ls.getFrom().getFile() != m.getFrom().getFile())
         isFileAmbiguous = true;
-      if(ls.getFrom().getFile() == m.getFrom().getFile())
+      else if(ls.getFrom().getRank() != m.getFrom().getRank())
         isRankAmbiguous = true;
     }
   }

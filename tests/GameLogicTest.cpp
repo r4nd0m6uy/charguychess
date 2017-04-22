@@ -41,6 +41,22 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveKnightAmbiguityNotSameRankNorFile)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, KNIGHT, B, EIGHT);
+  b.setPiece(WHITE, KNIGHT, F, SIX);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(B, EIGHT, D, SEVEN)));
+  const Move& m = gl.getGameHistory().getTurns().front().getWhiteMove();
+  STRCMP_EQUAL("Nbd7", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveFileRankAmbiguity)
 {
   Board b;
