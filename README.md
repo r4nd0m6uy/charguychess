@@ -53,7 +53,6 @@ are available in *tests/simulation*, for example:
 # Missing features
 To do so it is playable:
 * En passant
-* PGN ambiguity
 
 Nice feature for the future:
 * Read from PGN
