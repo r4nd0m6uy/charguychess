@@ -29,7 +29,9 @@ Move::Move():
     m_isMate(false),
     m_promotion(NO_PIECE),
     m_isKingSideCastling(false),
-    m_isQueenSideCastling(false)
+    m_isQueenSideCastling(false),
+    m_isRankAmbiguous(false),
+    m_isFileAmbiguous(false)
 {
 }
 
@@ -242,6 +244,18 @@ void Move::setQueenSideCastling(bool isCastling)
 }
 
 //--------------------------------------------------------------------------------------------
+void Move::setRankAmbiguous(bool isAmbiguous)
+{
+  m_isRankAmbiguous = isAmbiguous;
+}
+
+//--------------------------------------------------------------------------------------------
+void Move::setFileAmbiguous(bool isAmbiguous)
+{
+  m_isFileAmbiguous = isAmbiguous;
+}
+
+//--------------------------------------------------------------------------------------------
 std::string Move::toString() const
 {
   std::stringstream ss;
@@ -258,6 +272,12 @@ std::string Move::toString() const
     ss << m_who;
   else if(m_who == PAWN && m_isCapture)
     ss << getFrom().getFile();
+
+  // Ambiguty
+  if(m_isFileAmbiguous)
+    ss << getFrom().getFile();
+  if(m_isRankAmbiguous)
+    ss << getFrom().getRank();
 
   // Capture
   if(m_isCapture)

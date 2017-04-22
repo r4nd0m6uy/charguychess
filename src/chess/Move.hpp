@@ -55,6 +55,8 @@ public:
   void setKingSideCastling(bool isCastling);
   bool isQueenSideCastling() const;
   void setQueenSideCastling(bool isCastling);
+  void setRankAmbiguous(bool isAmbiguous);
+  void setFileAmbiguous(bool isAmbiguous);
   std::string toString() const;
 
 private:
@@ -67,6 +69,8 @@ private:
   PieceType m_promotion;
   bool m_isKingSideCastling;
   bool m_isQueenSideCastling;
+  bool m_isRankAmbiguous;
+  bool m_isFileAmbiguous;
 };
 
 std::ostream& operator<<(std::ostream& os, const Move& m);

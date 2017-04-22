@@ -36,6 +36,28 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringAmbiguousRank)
+{
+  Move m(E, TWO, E, FOUR);
+
+  m.setWho(ROOK);
+  m.setRankAmbiguous(true);
+
+  STRCMP_EQUAL("R2e4", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(MoveTest, toStringAmbiguousFile)
+{
+  Move m(E, TWO, E, FOUR);
+
+  m.setWho(ROOK);
+  m.setFileAmbiguous(true);
+
+  STRCMP_EQUAL("Ree4", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, parseInvalideMove)
 {
   Move m;
