@@ -205,6 +205,10 @@ bool GameLogic::isMoveLegal(const Move& m) const
 //--------------------------------------------------------------------------------------------
 bool GameLogic::applyMove(const Move& m)
 {
+  bool isFileAmbiguous = false;
+  bool isRankAmbiguous = false;
+  SquaresList sl;
+
   // Precondition
   if(!isMoveLegal(m))
     return false;
@@ -221,6 +225,27 @@ bool GameLogic::applyMove(const Move& m)
   // Save move for history
   Move mHist(m_board.getPieceType(m.getFrom()), m.getFrom(), m.getTo());
   mHist.setIsCapture(m_board.getPieceType(m.getTo()) != NO_PIECE);
+
+  // Check for ambiguty
+  getPiecesLocation(sl, m_turn, m_board.getPieceType(m.getFrom()));
+  for(auto& square : sl.getSquares())
+  {
+    LegalSquares ls(square);
+
+    if(square == m.getFrom())
+      continue;
+
+    getLegalSquares(ls);
+    if(ls.contains(m.getTo()))
+    {
+      if(ls.getFrom().getRank() == m.getFrom().getRank())
+        isFileAmbiguous = true;
+      if(ls.getFrom().getFile() == m.getFrom().getFile())
+        isRankAmbiguous = true;
+    }
+  }
+  mHist.setFileAmbiguous(isFileAmbiguous);
+  mHist.setRankAmbiguous(isRankAmbiguous);
 
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
@@ -715,6 +740,21 @@ void GameLogic::getKingSquares(LegalSquares& ls, bool isControlled) const
         !checkedSquares.contains(C, EIGHT) &&
         !checkedSquares.contains(D, EIGHT))
       ls.add(C, EIGHT);
+  }
+}
+
+//--------------------------------------------------------------------------------------------
+void GameLogic::getPiecesLocation(SquaresList& sl, Color c, PieceType p) const
+{
+  sl.clear();
+
+  for(File f = A ; f != INVALID_FILE ; ++f)
+  {
+    for(Rank r = ONE ; r != INVALID_RANK ; ++r)
+    {
+      if(m_board.getPieceColor(f, r) == c && m_board.getPieceType(f, r) == p)
+        sl.add(Square(f, r));
+    }
   }
 }
 

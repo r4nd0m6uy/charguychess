@@ -77,6 +77,7 @@ private:
   void getQueenSquares(LegalSquares& ls, bool isControlled) const;
   void getKnightSquares(LegalSquares& ls, bool isControlled) const;
   void getKingSquares(LegalSquares& ls, bool isControlled) const;
+  void getPiecesLocation(SquaresList& sl, Color c, PieceType p) const;
   Square getKingLocation(Color c) const;
   bool doesMoveMakeCheck(const Move& m) const;
   void raiseBoardChanged();

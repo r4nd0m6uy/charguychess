@@ -41,6 +41,55 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveFileRankAmbiguity)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, QUEEN, G, EIGHT);
+  b.setPiece(WHITE, QUEEN, H, EIGHT);
+  b.setPiece(WHITE, QUEEN, H, SEVEN);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(H, EIGHT, G, SEVEN)));
+  const Move& m = gl.getGameHistory().getTurns().front().getWhiteMove();
+  STRCMP_EQUAL("Qh8g7", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveRankAmbiguity)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, QUEEN, H, EIGHT);
+  b.setPiece(WHITE, QUEEN, H, SEVEN);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(H, SEVEN, G, SEVEN)));
+  const Move& m = gl.getGameHistory().getTurns().front().getWhiteMove();
+  STRCMP_EQUAL("Q7g7", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveFileAmbiguity)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(WHITE, QUEEN, G, EIGHT);
+  b.setPiece(WHITE, QUEEN, H, EIGHT);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(G, EIGHT, G, SEVEN)));
+  const Move& m = gl.getGameHistory().getTurns().front().getWhiteMove();
+  STRCMP_EQUAL("Qgg7", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, weirdQueenMove)
 {
   Board b;
