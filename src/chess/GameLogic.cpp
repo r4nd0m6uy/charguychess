@@ -497,7 +497,13 @@ void GameLogic::getBishopSquares(LegalSquares& ls, bool isControlled) const
 
         // Check that the move doesn't create any check situation for legal moves
         if(!isControlled && this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
-          continue;
+        {
+          r += hDir;
+          if(r == INVALID_RANK)
+            break;
+          else
+            continue;
+        }
 
         ls.add(s);
 

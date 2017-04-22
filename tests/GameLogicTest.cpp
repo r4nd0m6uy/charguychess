@@ -41,6 +41,25 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, weirdQueenMove)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares ls(D, EIGHT);
+
+  b.clear();
+  b.setPiece(BLACK, KING, E, EIGHT);
+  b.setPiece(BLACK, QUEEN, D, EIGHT);
+  b.setPiece(WHITE, QUEEN, F, SEVEN);
+  b.setPiece(WHITE, BISHOP, C, FOUR);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  gl.getLegalSquares(ls);
+  CHECK_EQUAL(0, ls.getSquaresList().count());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveTestGameBothSidesCastle)
 {
   GameLogic gl;
