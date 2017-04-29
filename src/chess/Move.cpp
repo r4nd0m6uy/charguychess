@@ -315,6 +315,19 @@ std::string Move::toString() const
 }
 
 //--------------------------------------------------------------------------------------------
+std::string Move::toUciString() const
+{
+  std::stringstream ss;
+
+  ss << getFrom() << getTo();
+
+  if(hasPromotion())
+    ss << m_promotion;
+
+  return ss.str();
+}
+
+//--------------------------------------------------------------------------------------------
 std::ostream& operator<<(std::ostream& os, const Move& m)
 {
   os << m.toString();

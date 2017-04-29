@@ -58,6 +58,7 @@ public:
   void setRankAmbiguous(bool isAmbiguous);
   void setFileAmbiguous(bool isAmbiguous);
   std::string toString() const;
+  std::string toUciString() const;
 
 private:
   Square m_from;

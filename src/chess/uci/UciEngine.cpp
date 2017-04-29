@@ -62,9 +62,9 @@ int UciEngine::computeBestMove(const GameHistory& gh, const UciPlayerOptions& up
     Move bm = turn.getBlackMove();
 
     if(wm.isValid())
-      uciCmd << " " << wm.getFrom() << wm.getTo();
+      uciCmd << " " << wm.toUciString();
     if(bm.isValid())
-      uciCmd << " " << bm.getFrom() << bm.getTo();
+      uciCmd << " " << bm.toUciString();
   }
   uciCmd << std::endl;
 
