@@ -74,6 +74,18 @@ int Options::parseOptions(const std::string file)
 }
 
 //--------------------------------------------------------------------------------------------
+Options::PlayerType Options::getWhitePlayerType() const
+{
+  return m_whitePt;
+}
+
+//--------------------------------------------------------------------------------------------
+Options::PlayerType Options::getBlackPlayerType() const
+{
+  return m_blackPt;
+}
+
+//--------------------------------------------------------------------------------------------
 UciOptions& Options::getUciOptions()
 {
   return m_uciOptions;

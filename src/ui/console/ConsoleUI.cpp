@@ -35,11 +35,13 @@ static const std::string BOTTOM_LABEL =   "   A   B   C   D   E   F   G   H";
 static const std::string PROMPT = "charguychess> ";
 
 //--------------------------------------------------------------------------------------------
-ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop, UciEngine& uciEngine):
+ConsoleUI::ConsoleUI(GameLogic& gl, EventLoop& eventLoop, UciEngine& uciEngine,
+  Options& options):
     m_gl(gl),
     m_eventLoop(eventLoop),
     m_uciEngine(uciEngine),
-    m_isMoveEnabled(true),
+    m_options(options),
+    m_hasHardware(false),
     m_isDriverBbEnabled(false)
 {
 }
@@ -63,20 +65,22 @@ int ConsoleUI::init()
   printGreeting();
   printPrompt();
 
+  // Computer start playing
+  if(!m_hasHardware && getCurrentPlayerType() == Options::UCI)
+    m_uciEngine.computeBestMove(m_gl.getGameHistory());
+
   LOGDB() << "Console UI ready!";
 
   return 0;
 }
 
 //--------------------------------------------------------------------------------------------
-void ConsoleUI::enableMoveCommand(bool isEnabled)
+void ConsoleUI::setHasHardware(bool hasHardware)
 {
-  if(isEnabled)
-    LOGIN() << "Move input from console UI enabled";
-  else
-    LOGIN() << "Move input from console UI disabled";
+  if(hasHardware)
+    LOGIN() << "Hardware pressent, move input from console UI disabled";
 
-  m_isMoveEnabled = isEnabled;
+  m_hasHardware = hasHardware;
 }
 
 //--------------------------------------------------------------------------------------------
@@ -157,12 +161,29 @@ void ConsoleUI::boardValueChanged(BoardValue bv)
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::onMoveComputed(const Move& m)
 {
-  LegalSquares ls(m.getFrom());
+  if(getCurrentPlayerType() == Options::UCI)
+  {
+    if(!m_gl.applyMove(m))
+    {
+      LOGER() << "BUG: Game logic doesn't accept UCI move " << m;
+      LOGIN() << "saving pgn for analyze ...";
+      m_pgn.savePgn(m_gl.getGameHistory());
+      m_eventLoop.breakLoop();
+    }
 
-  ls.add(m.getTo());
+    if(getCurrentPlayerType() == Options::UCI)
+      m_uciEngine.computeBestMove(m_gl.getGameHistory());
+  }
+  else
+  {
+    LegalSquares ls(m.getFrom());
 
-  std::cout << std::endl << "Chess engine suggests " << m << std::endl;
-  showLegalSquares(ls);
+    ls.add(m.getTo());
+
+    std::cout << std::endl << "Chess engine suggests " << m << std::endl;
+    showLegalSquares(ls);
+  }
+
   printPrompt();
 }
 
@@ -265,13 +286,20 @@ void ConsoleUI::printHelp()
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::readMove(const std::string& move)
 {
-  if(!m_isMoveEnabled)
+  Move m;
+
+  if(m_hasHardware)
   {
     std::cout << "Move from console deactivated, please use connected hardware" << std::endl;
     return;
   }
 
-  Move m;
+  if(getCurrentPlayerType() == Options::UCI)
+  {
+    LOGER() << "Cannot move, it's computer turn!";
+    return;
+  }
+
   if(!m.parseString(move))
   {
     std::cout << "Cannot parse " << move << std::endl;
@@ -280,6 +308,10 @@ void ConsoleUI::readMove(const std::string& move)
 
   if(!m_gl.applyMove(m))
     std::cout << "Illegal move " << move << std::endl;
+
+  // Computer to play
+  if(getCurrentPlayerType() == Options::UCI)
+    m_uciEngine.computeBestMove(m_gl.getGameHistory());
 }
 
 //--------------------------------------------------------------------------------------------
@@ -427,10 +459,25 @@ void ConsoleUI::setPgnPath(const std::string& args)
 //--------------------------------------------------------------------------------------------
 void ConsoleUI::computeBestMove()
 {
+  if(getCurrentPlayerType() == Options::UCI)
+  {
+    LOGER() << "Cannot compute best move when it's computer turn!";
+    return;
+  }
+
   if(m_uciEngine.computeBestMove(m_gl.getGameHistory()) == 0)
     std::cout << "Computing best move ..." << std::endl;
   else
     std::cout << "Error requesting best move to UCI engine!" << std::endl;
+}
+
+//--------------------------------------------------------------------------------------------
+Options::PlayerType ConsoleUI::getCurrentPlayerType()
+{
+  if(m_gl.getTurn() == WHITE)
+    return m_options.getWhitePlayerType();
+  else
+    return m_options.getBlackPlayerType();
 }
 
 }       // namespace

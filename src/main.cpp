@@ -132,7 +132,7 @@ int main(int argc, char* argv[])
   cgc::UciEngine uciEngine(
       std::unique_ptr<cgc::Process>(new cgc::Process(el)),
       options.getUciOptions());
-  cgc::ConsoleUI cUi(gl, el, uciEngine);
+  cgc::ConsoleUI cUi(gl, el, uciEngine, options);
   std::unique_ptr<cgc::ChessHardware> hw(nullptr);
   int ret;
 
@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 
   // Create the driver when requested
   if(hardwareArg == "none")
-    cUi.enableMoveCommand(true);
+    cUi.setHasHardware(false);
   else
   {
     if(hardwareArg == "cgc")
@@ -167,11 +167,11 @@ int main(int argc, char* argv[])
     {
       LOGWA() << "Cannot initialize chess hardware, it will not work!";
       hw = nullptr;
-      cUi.enableMoveCommand(true);
+      cUi.setHasHardware(false);
     }
     else
     {
-      cUi.enableMoveCommand(false);
+      cUi.setHasHardware(true);
       hw->registerBoardInputObserver(cUi);
     }
   }
