@@ -17,6 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include <sstream>
+
 #include "Move.hpp"
 
 namespace cgc {
@@ -120,6 +121,20 @@ bool Move::parseString(const std::string& s)
       else
         return false;
     }
+
+    // Promotional move from UCI engine
+    else if(s.size() >= 5)
+    {
+      if(s[4] == 'q')
+        m_promotion = QUEEN;
+      else if(s[4] == 'r')
+        m_promotion = ROOK;
+      else if(s[4] == 'n')
+        m_promotion = KNIGHT;
+      else if(s[4] == 'b')
+        m_promotion = BISHOP;
+      else
+        return false;}
   }
 
   return this->isValid();

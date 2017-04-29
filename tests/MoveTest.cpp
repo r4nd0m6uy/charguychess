@@ -36,6 +36,16 @@ TEST_GROUP(MoveTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(MoveTest, parseUciPromotion)
+{
+  std::string uciMove = "f7f8q";
+  Move m(uciMove);
+
+  CHECK(m.hasPromotion())
+  CHECK_EQUAL(QUEEN, m.getPromotion());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(MoveTest, toStringAmbiguousRank)
 {
   Move m(E, TWO, E, FOUR);
