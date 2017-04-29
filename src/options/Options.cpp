@@ -21,8 +21,13 @@
 
 namespace cgc {
 
+const Options::PlayerType Options::DEFAULT_WHITE_PLAYER_TYPE  = Options::HUMAN;
+const Options::PlayerType Options::DEFAULT_BLACK_PLAYER_TYPE  = Options::UCI;
+
 //--------------------------------------------------------------------------------------------
-Options::Options()
+Options::Options():
+    m_whitePt(DEFAULT_WHITE_PLAYER_TYPE),
+    m_blackPt(DEFAULT_BLACK_PLAYER_TYPE)
 {
 }
 
@@ -59,6 +64,8 @@ int Options::parseOptions(const std::string file)
     m_uciOptions.setUciPath(stringOption);
   }
 
+  parsePlayerType("white", m_whitePt, cfg);
+  parsePlayerType("black", m_blackPt, cfg);
   parseUciOptions("black", m_uciOptions.getBlackOptions(), cfg);
   parseUciOptions("white", m_uciOptions.getWhiteOptions(), cfg);
   parseUciOptions("hint", m_uciOptions.getHintOptions(), cfg);
@@ -70,6 +77,28 @@ int Options::parseOptions(const std::string file)
 UciOptions& Options::getUciOptions()
 {
   return m_uciOptions;
+}
+
+//--------------------------------------------------------------------------------------------
+void Options::parsePlayerType(const std::string& color, PlayerType& pt, libconfig::Config& c)
+{
+  std::string stringOption;
+
+  if(c.lookupValue("players." + color, stringOption))
+  {
+    if(stringOption == "human")
+    {
+      LOGDB() << "Using human for " << color << " player";
+      pt = HUMAN;
+    }
+    else if(stringOption == "uci")
+    {
+      LOGDB() << "Using uci engine for " << color << " player";
+      pt = UCI;
+    }
+    else
+      LOGWA() << "Invalid player type for " << color << ": " << stringOption;
+  }
 }
 
 //--------------------------------------------------------------------------------------------

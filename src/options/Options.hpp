@@ -31,17 +31,30 @@ namespace cgc {
 class Options
 {
 public:
+  enum PlayerType{
+    HUMAN,
+    UCI
+  };
+
+  static const PlayerType DEFAULT_WHITE_PLAYER_TYPE;
+  static const PlayerType DEFAULT_BLACK_PLAYER_TYPE;
+
   Options();
   ~Options();
 
   int parseOptions(const std::string file);
+  PlayerType getWhitePlayerType() const;
+  PlayerType getBlackPlayerType() const;
   UciOptions& getUciOptions();
 
 private:
+  PlayerType m_whitePt;
+  PlayerType m_blackPt;
   UciOptions m_uciOptions;
 
   static void parseUciOptions(const std::string& color, UciPlayerOptions& po,
       libconfig::Config& c);
+  static void parsePlayerType(const std::string& color, PlayerType& pt, libconfig::Config& c);
 };
 
 }       // namespace
