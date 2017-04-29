@@ -63,11 +63,7 @@ int ConsoleUI::init()
   m_uciEngine.registerEngineListener(*this);
 
   printGreeting();
-  printPrompt();
-
-  // Computer start playing
-  if(!m_hasHardware && getCurrentPlayerType() == Options::UCI)
-    m_uciEngine.computeBestMove(m_gl.getGameHistory());
+  newGame();
 
   LOGDB() << "Console UI ready!";
 
@@ -87,6 +83,7 @@ void ConsoleUI::setHasHardware(bool hasHardware)
 void ConsoleUI::boardChanged(Color playerTurn, const Board& newStatus)
 {
   showBoard(playerTurn, newStatus);
+  printPrompt();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -125,7 +122,7 @@ void ConsoleUI::readReady()
   else if(cmd.find("move") == 0)
     readMove(cmd.substr(5));
   else if(cmd.find("new") == 0)
-    m_gl.newGame();
+    newGame();
   else if(cmd.find("hwAutoDsp") == 0)
     m_isDriverBbEnabled = cmd[10] == '1';
   else if(cmd.find("pgn save") == 0)
@@ -163,6 +160,7 @@ void ConsoleUI::onMoveComputed(const Move& m)
 {
   if(getCurrentPlayerType() == Options::UCI)
   {
+    // Apply computer move
     if(!m_gl.applyMove(m))
     {
       LOGER() << "BUG: Game logic doesn't accept UCI move " << m;
@@ -172,19 +170,19 @@ void ConsoleUI::onMoveComputed(const Move& m)
     }
 
     if(getCurrentPlayerType() == Options::UCI)
-      m_uciEngine.computeBestMove(m_gl.getGameHistory());
+      startComputerMove();
   }
   else
   {
+    // Show user hint
     LegalSquares ls(m.getFrom());
 
     ls.add(m.getTo());
 
     std::cout << std::endl << "Chess engine suggests " << m << std::endl;
     showLegalSquares(ls);
+    printPrompt();
   }
-
-  printPrompt();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -255,7 +253,6 @@ void ConsoleUI::showBoard(Color playerTurn, const Board& newStatus)
 
   // History
   std::cout << m_gl.getGameHistory() << std::endl;
-
 }
 
 //--------------------------------------------------------------------------------------------
@@ -311,7 +308,7 @@ void ConsoleUI::readMove(const std::string& move)
 
   // Computer to play
   if(getCurrentPlayerType() == Options::UCI)
-    m_uciEngine.computeBestMove(m_gl.getGameHistory());
+    startComputerMove();
 }
 
 //--------------------------------------------------------------------------------------------
@@ -465,7 +462,8 @@ void ConsoleUI::computeBestMove()
     return;
   }
 
-  if(m_uciEngine.computeBestMove(m_gl.getGameHistory()) == 0)
+  if(m_uciEngine.computeBestMove(
+      m_gl.getGameHistory(), m_options.getUciOptions().getHintOptions()) == 0)
     std::cout << "Computing best move ..." << std::endl;
   else
     std::cout << "Error requesting best move to UCI engine!" << std::endl;
@@ -480,4 +478,30 @@ Options::PlayerType ConsoleUI::getCurrentPlayerType()
     return m_options.getBlackPlayerType();
 }
 
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::startComputerMove()
+{
+  if(m_gl.isMated(m_gl.getTurn()))
+  {
+    LOGIN() << "Not starting computer move, it's mate!";
+    return;
+  }
+
+  if(m_gl.getTurn() == WHITE)
+    m_uciEngine.computeBestMove(
+      m_gl.getGameHistory(), m_options.getUciOptions().getWhiteOptions());
+  else
+    m_uciEngine.computeBestMove(
+      m_gl.getGameHistory(), m_options.getUciOptions().getBlackOptions());
+}
+
+//--------------------------------------------------------------------------------------------
+void ConsoleUI::newGame()
+{
+  m_gl.newGame();
+
+  // Computer start playing
+  if(!m_hasHardware && getCurrentPlayerType() == Options::UCI)
+    startComputerMove();
+}
 }       // namespace

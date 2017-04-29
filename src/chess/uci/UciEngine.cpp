@@ -42,10 +42,8 @@ void UciEngine::registerEngineListener(IUciEngineListener& listener)
 }
 
 //--------------------------------------------------------------------------------------------
-int UciEngine::computeBestMove(const GameHistory& gh)
+int UciEngine::computeBestMove(const GameHistory& gh, const UciPlayerOptions& upo)
 {
-  UciPlayerOptions hintOptions = m_uciOptions.getHintOptions();
-
   std::stringstream uciCmd;
   if(!m_uciProcess->isRunning())
   {
@@ -74,10 +72,10 @@ int UciEngine::computeBestMove(const GameHistory& gh)
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
 
   uciCmd.str("");
-  if(hintOptions.getSearchMode() == UciPlayerOptions::DEPTH)
-    uciCmd << "go depth " << hintOptions.getSearchMaxDepth() << std::endl;
+  if(upo.getSearchMode() == UciPlayerOptions::DEPTH)
+    uciCmd << "go depth " << upo.getSearchMaxDepth() << std::endl;
   else
-    uciCmd << "go movetime " << hintOptions.getSearchTimeout() << std::endl;
+    uciCmd << "go movetime " << upo.getSearchTimeout() << std::endl;
 
   LOGDB() << "Sending search command to UCI engine: " << uciCmd.str();
   m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
@@ -114,7 +112,7 @@ void UciEngine::onStdout(const std::string& out)
 
       if(!m.parseString(line.substr(moveStart + 1, moveEnd - moveStart - 1)))
       {
-        LOGER() << "BUG: unparsable UCI move " << move;
+        LOGER() << "BUG: unparsable UCI move " << line;
         exit(-1);
       }
 

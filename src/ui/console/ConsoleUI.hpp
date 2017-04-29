@@ -80,6 +80,8 @@ private:
   void setPgnPath(const std::string& args);
   void computeBestMove();
   Options::PlayerType getCurrentPlayerType();
+  void startComputerMove();
+  void newGame();
 };
 
 }       // namespace

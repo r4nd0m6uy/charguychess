@@ -39,7 +39,7 @@ public:
   ~UciEngine();
 
   void registerEngineListener(IUciEngineListener& listener);
-  int computeBestMove(const GameHistory& gh);
+  int computeBestMove(const GameHistory& gh, const UciPlayerOptions& upo);
 
   // IProcessIoListener
   virtual void onStdout(const std::string& out) override;
