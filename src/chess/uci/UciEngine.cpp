@@ -104,13 +104,19 @@ void UciEngine::onStdout(const std::string& out)
 
     if(line.find("bestmove") != std::string::npos)
     {
+      Move m;
       std::string::size_type moveStart;
       std::string::size_type moveEnd;
       std::string move;
 
       moveStart = line.find(" ");
       moveEnd = line.find(" ", moveStart + 1);
-      Move m(line.substr(moveStart + 1, moveEnd - moveStart - 1));
+
+      if(!m.parseString(line.substr(moveStart + 1, moveEnd - moveStart - 1)))
+      {
+        LOGER() << "BUG: unparsable UCI move " << move;
+        exit(-1);
+      }
 
       LOGDB() << "Parsed UCI best move " << m;
       for(auto& uciListener : m_uciListeners)
