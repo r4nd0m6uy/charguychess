@@ -41,6 +41,25 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, captureCheckingPiece)
+{
+  Board b;
+  GameLogic gl;
+
+  b.clear();
+  b.setPiece(BLACK, PAWN, F, SEVEN);
+  b.setPiece(BLACK, PAWN, G, SEVEN);
+  b.setPiece(BLACK, PAWN, H, SEVEN);
+  b.setPiece(BLACK, ROOK, A, EIGHT);
+  b.setPiece(BLACK, KING, G, EIGHT);
+  b.setPiece(WHITE, QUEEN, C, EIGHT);
+  gl.setBoard(b);
+  gl.setTurn(BLACK);
+
+  CHECK(gl.applyMove(Move(A, EIGHT, C, EIGHT)));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, pawnMoveIsNeverAmbiguous)
 {
   Board b;

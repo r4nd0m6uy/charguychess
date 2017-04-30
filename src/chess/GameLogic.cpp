@@ -580,7 +580,11 @@ void GameLogic::getRookSquares(LegalSquares& ls, bool isControlled) const
 
         // Check that the move doesn't create any check situation for legal moves
         if(!isControlled && this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
-          break;
+        {
+          r += vDir;
+          f += hDir;
+          continue;
+        }
 
         ls.add(s);
 
