@@ -32,18 +32,22 @@ class UciOptions
 {
 public:
   static const std::string DEFAULT_UCI_PATH;
+  static const int DEFAULT_THREADS_COUNT;
 
   UciOptions();
   ~UciOptions();
 
   const std::string& getUciPath() const;
   void setUciPath(const std::string& uciPath);
+  int getThreadsCount() const;
+  void setThreadsCount(int tc);
   UciPlayerOptions& getWhiteOptions();
   UciPlayerOptions& getBlackOptions();
   UciPlayerOptions& getHintOptions();
 
 private:
   std::string m_uciPath;
+  int m_threadsCount;
   UciPlayerOptions m_blackOptions;
   UciPlayerOptions m_whiteOptions;
   UciPlayerOptions m_hintOptions;

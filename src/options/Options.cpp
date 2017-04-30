@@ -41,6 +41,7 @@ int Options::parseOptions(const std::string file)
 {
   libconfig::Config cfg;
   std::string stringOption;
+  int intOption;
 
   try
   {
@@ -62,6 +63,12 @@ int Options::parseOptions(const std::string file)
   {
     LOGDB() << "Using UCI engine path " << stringOption;
     m_uciOptions.setUciPath(stringOption);
+  }
+
+  if(cfg.lookupValue("uci.threads", intOption))
+  {
+    LOGDB() << "Using " << intOption << " UCI threads";
+    m_uciOptions.setThreadsCount(intOption);
   }
 
   parsePlayerType("white", m_whitePt, cfg);

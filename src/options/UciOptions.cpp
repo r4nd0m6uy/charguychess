@@ -20,12 +20,13 @@
 
 namespace cgc {
 
-//const std::string UciOptions::DEFAULT_UCI_PATH  = "/usr/bin/stockfish";
-const std::string UciOptions::DEFAULT_UCI_PATH  = "/usr/local/bin/stockfish";
+const std::string UciOptions::DEFAULT_UCI_PATH  = "/usr/bin/stockfish";
+const int UciOptions::DEFAULT_THREADS_COUNT     = 1;
 
 //--------------------------------------------------------------------------------------------
 UciOptions::UciOptions():
-    m_uciPath(DEFAULT_UCI_PATH)
+    m_uciPath(DEFAULT_UCI_PATH),
+    m_threadsCount(DEFAULT_THREADS_COUNT)
 {
 }
 
@@ -44,6 +45,18 @@ const std::string& UciOptions::getUciPath() const
 void UciOptions::setUciPath(const std::string& uciPath)
 {
   m_uciPath = uciPath;
+}
+
+//--------------------------------------------------------------------------------------------
+int UciOptions::getThreadsCount() const
+{
+  return m_threadsCount;
+}
+
+//--------------------------------------------------------------------------------------------
+void UciOptions::setThreadsCount(int tc)
+{
+  m_threadsCount = tc;
 }
 
 //--------------------------------------------------------------------------------------------

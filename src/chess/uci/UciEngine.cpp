@@ -51,6 +51,10 @@ int UciEngine::computeBestMove(const GameHistory& gh, const UciPlayerOptions& up
     if(m_uciProcess->start() != 0)
       return -1;
 
+    uciCmd << "setoption name Threads value " << m_uciOptions.getThreadsCount() << std::endl;
+    m_uciProcess->stdinWrite(uciCmd.str().c_str(), uciCmd.str().size());
+    uciCmd.str("");
+
     m_uciProcess->registerIoListener(*this);
   }
 
