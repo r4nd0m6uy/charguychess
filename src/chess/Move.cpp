@@ -44,7 +44,9 @@ Move::Move(const std::string& str):
     m_isMate(false),
     m_promotion(NO_PIECE),
     m_isKingSideCastling(false),
-    m_isQueenSideCastling(false)
+    m_isQueenSideCastling(false),
+    m_isRankAmbiguous(false),
+    m_isFileAmbiguous(false)
 {
   parseString(str);
 }
@@ -59,7 +61,9 @@ Move::Move(const Square& from, const Square& to):
     m_isMate(false),
     m_promotion(NO_PIECE),
     m_isKingSideCastling(false),
-    m_isQueenSideCastling(false)
+    m_isQueenSideCastling(false),
+    m_isRankAmbiguous(false),
+    m_isFileAmbiguous(false)
 {
 }
 
@@ -73,7 +77,9 @@ Move::Move(File fFrom, Rank rFrom, File fTo, Rank rTo):
     m_isMate(false),
     m_promotion(NO_PIECE),
     m_isKingSideCastling(false),
-    m_isQueenSideCastling(false)
+    m_isQueenSideCastling(false),
+    m_isRankAmbiguous(false),
+    m_isFileAmbiguous(false)
 {
 }
 
@@ -87,7 +93,9 @@ Move::Move(PieceType who, const Square& from, const Square& to):
     m_isMate(false),
     m_promotion(NO_PIECE),
     m_isKingSideCastling(false),
-    m_isQueenSideCastling(false)
+    m_isQueenSideCastling(false),
+    m_isRankAmbiguous(false),
+    m_isFileAmbiguous(false)
 {
 }
 
