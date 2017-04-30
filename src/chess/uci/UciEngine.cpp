@@ -84,6 +84,13 @@ int UciEngine::computeBestMove(const GameHistory& gh, const UciPlayerOptions& up
 }
 
 //--------------------------------------------------------------------------------------------
+void UciEngine::stop()
+{
+  std::string cmd = "stop\n";
+  m_uciProcess->stdinWrite(cmd.c_str(), cmd.size());
+}
+
+//--------------------------------------------------------------------------------------------
 void UciEngine::onStdout(const std::string& out)
 {
   m_uciBuffer += out;

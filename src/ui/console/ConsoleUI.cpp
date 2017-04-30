@@ -135,6 +135,8 @@ void ConsoleUI::readReady()
     setPgnPath(cmd.substr(9));
   else if(cmd.find("bestmove") == 0)
     computeBestMove();
+  else if(cmd.find("stop") == 0)
+    m_uciEngine.stop();
   else if(cmd.find("quit") == 0)
     m_eventLoop.breakLoop();
   else if(cmd != "\n")
@@ -277,6 +279,7 @@ void ConsoleUI::printHelp()
   std::cout << "pgn set <t> <v>   Set a value to the PGN tag" << std::endl;
   std::cout << "pgn path <p>      Set the PGN path" << std::endl;
   std::cout << "bestmove          Compute best move" << std::endl;
+  std::cout << "stop              Stop current search" << std::endl;
   std::cout << "quit              Quit the application" << std::endl;
 }
 

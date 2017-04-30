@@ -40,6 +40,7 @@ public:
 
   void registerEngineListener(IUciEngineListener& listener);
   int computeBestMove(const GameHistory& gh, const UciPlayerOptions& upo);
+  void stop();
 
   // IProcessIoListener
   virtual void onStdout(const std::string& out) override;
