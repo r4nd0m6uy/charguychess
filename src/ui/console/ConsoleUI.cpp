@@ -297,7 +297,7 @@ void ConsoleUI::readMove(const std::string& move)
     return;
   }
 
-  if(!m.parseString(move))
+  if(!m.parseString(move.substr(0, move.size() - 1)))
   {
     std::cout << "Cannot parse " << move << std::endl;
     return;
