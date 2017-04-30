@@ -41,6 +41,20 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, pawnMoveIsNeverAmbiguous)
+{
+  Board b;
+  GameLogic gl;
+
+  b.setPiece(BLACK, PAWN, D, THREE);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(C, TWO, D, THREE)));
+  const Move& m = gl.getGameHistory().getTurns().front().getWhiteMove();
+  STRCMP_EQUAL("cxd3", m.toString().c_str());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, applyMoveKnightAmbiguityNotSameRankNorFile)
 {
   Board b;

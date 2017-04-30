@@ -205,10 +205,6 @@ bool GameLogic::isMoveLegal(const Move& m) const
 //--------------------------------------------------------------------------------------------
 bool GameLogic::applyMove(const Move& m)
 {
-  bool isFileAmbiguous = false;
-  bool isRankAmbiguous = false;
-  SquaresList sl;
-
   // Precondition
   if(!isMoveLegal(m))
     return false;
@@ -227,25 +223,33 @@ bool GameLogic::applyMove(const Move& m)
   mHist.setIsCapture(m_board.getPieceType(m.getTo()) != NO_PIECE);
 
   // Check for ambiguty
-  getPiecesLocation(sl, m_turn, m_board.getPieceType(m.getFrom()));
-  for(auto& square : sl.getSquares())
+  if(m_board.getPieceType(m.getFrom()) != PAWN)
   {
-    LegalSquares ls(square);
+    bool isFileAmbiguous = false;
+    bool isRankAmbiguous = false;
+    SquaresList sl;
 
-    if(square == m.getFrom())
-      continue;
-
-    getLegalSquares(ls);
-    if(ls.contains(m.getTo()))
+    getPiecesLocation(sl, m_turn, m_board.getPieceType(m.getFrom()));
+    for(auto& square : sl.getSquares())
     {
-      if(ls.getFrom().getFile() != m.getFrom().getFile())
-        isFileAmbiguous = true;
-      else if(ls.getFrom().getRank() != m.getFrom().getRank())
-        isRankAmbiguous = true;
+      LegalSquares ls(square);
+
+      if(square == m.getFrom())
+        continue;
+
+      getLegalSquares(ls);
+      if(ls.contains(m.getTo()))
+      {
+        if(ls.getFrom().getFile() != m.getFrom().getFile())
+          isFileAmbiguous = true;
+        else if(ls.getFrom().getRank() != m.getFrom().getRank())
+          isRankAmbiguous = true;
+      }
     }
+
+    mHist.setFileAmbiguous(isFileAmbiguous);
+    mHist.setRankAmbiguous(isRankAmbiguous);
   }
-  mHist.setFileAmbiguous(isFileAmbiguous);
-  mHist.setRankAmbiguous(isRankAmbiguous);
 
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
