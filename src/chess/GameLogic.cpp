@@ -251,6 +251,16 @@ bool GameLogic::applyMove(const Move& m)
     mHist.setRankAmbiguous(isRankAmbiguous);
   }
 
+  // White en passant move
+  if(m_turn == WHITE &&
+      m_board.getPieceType(m.getFrom()) == PAWN &&
+      m.getFrom().getRank() == FIVE &&
+      m_board.isEmpty(m.getTo()))
+  {
+    m_board.clear(Square(m.getTo().getFile(), FIVE));
+    mHist.setIsCapture(true);
+  }
+
   // Apply move
   m_board.setPiece(m_board.getPiece(m.getFrom()), m.getTo());
   m_board.clear(m.getFrom());
@@ -263,7 +273,7 @@ bool GameLogic::applyMove(const Move& m)
   }
 
   // White castling move
-  if(m_turn == WHITE &&
+  else if(m_turn == WHITE &&
       m_board.getPieceType(m.getTo()) == KING &&
       m.getFrom() == Square(E, ONE))
   {
@@ -312,7 +322,7 @@ bool GameLogic::applyMove(const Move& m)
   }
 
   // Update casltling information after moving the rook
-  if(m_turn == BLACK &&
+  else if(m_turn == BLACK &&
       m_board.getPieceType(m.getTo()) == ROOK)
   {
     if(m.getFrom() == Square(H, EIGHT))

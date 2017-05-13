@@ -41,6 +41,24 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, applyMoveWhiteEnPassantRight)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(E, FOUR);
+
+  b.setPiece(WHITE, PAWN, D, FOUR);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(D, FOUR, D, FIVE)));
+  CHECK(gl.applyMove(Move(E, SEVEN, E, FIVE)));
+  CHECK(gl.applyMove(Move(D, FIVE, E, SIX)));
+
+  CHECK(gl.getBoard().isEmpty(Square(E, FIVE)));
+  CHECK((gl.getGameHistory().getTurns().rbegin())->getWhiteMove().isCapture());
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, legalSquaresEnPassantBlackLeft)
 {
   Board b;
