@@ -459,20 +459,50 @@ void GameLogic::getPawnLegalSquares(LegalSquares& ls) const
   if(from.getFile() != H)
   {
     s = Square(from.getFile() + 1, from.getRank() + forwardDirection);
-    if(!m_board.isEmpty(s) &&
-        m_board.getPieceColor(s) != m_turn &&
-        !this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
-      ls.add(s);
+
+    if(!this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+    {
+      if(!m_board.isEmpty(s) &&
+          m_board.getPieceColor(s) != m_turn)
+        ls.add(s);
+
+      // En passant for white
+      else if(movedPawn.getColor() == WHITE &&
+          from.getRank() == FIVE &&
+          m_board.getPieceType(Square(from.getFile() + 1, FIVE)) == PAWN)
+      {
+        Move lastBlackMove = (++m_gh.getTurns().rbegin())->getBlackMove();
+
+        if(lastBlackMove.getFrom() == Square(from.getFile() + 1, SEVEN) &&
+            lastBlackMove.getTo() == Square(from.getFile() + 1, FIVE))
+          ls.add(s);
+      }
+    }
   }
 
   // Capture left
   if(from.getFile() != A)
   {
     s = Square(from.getFile() - 1, from.getRank() + forwardDirection);
-    if(!m_board.isEmpty(s) &&
-        m_board.getPieceColor(s) != m_turn &&
-        !this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
-      ls.add(s);
+
+    if(!this->doesMoveMakeCheck(Move(ls.getFrom(), s)))
+    {
+      if(!m_board.isEmpty(s) &&
+          m_board.getPieceColor(s) != m_turn)
+        ls.add(s);
+
+      // En passant for white
+      else if(movedPawn.getColor() == WHITE &&
+          from.getRank() == FIVE &&
+          m_board.getPieceType(Square(from.getFile() - 1, FIVE)) == PAWN)
+      {
+        Move lastBlackMove = (++m_gh.getTurns().rbegin())->getBlackMove();
+
+        if(lastBlackMove.getFrom() == Square(from.getFile() - 1, SEVEN) &&
+            lastBlackMove.getTo() == Square(from.getFile() - 1, FIVE))
+          ls.add(s);
+      }
+    }
   }
 }
 

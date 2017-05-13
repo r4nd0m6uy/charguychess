@@ -41,6 +41,62 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, enPassantWhiteAllowedLeft)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(D, FIVE);
+
+  b.setPiece(WHITE, PAWN, D, FOUR);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(D, FOUR, D, FIVE)));
+  CHECK(gl.applyMove(Move(C, SEVEN, C, FIVE)));
+
+  gl.getLegalSquares(lg);
+
+  CHECK_EQUAL(2, lg.count());
+  CHECK(lg.contains(D, SIX));
+  CHECK(lg.contains(C, SIX));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, enPassantWhiteAllowedRight)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(D, FIVE);
+
+  b.setPiece(WHITE, PAWN, D, FOUR);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(D, FOUR, D, FIVE)));
+  CHECK(gl.applyMove(Move(E, SEVEN, E, FIVE)));
+
+  gl.getLegalSquares(lg);
+
+  CHECK_EQUAL(2, lg.count());
+  CHECK(lg.contains(D, SIX));
+  CHECK(lg.contains(E, SIX));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, enPassantWhiteNotAllowed)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(D, FIVE);
+
+  b.setPiece(WHITE, PAWN, D, FIVE);
+  b.setPiece(BLACK, PAWN, E, FIVE);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(lg);
+  CHECK_EQUAL(1, lg.count());
+  CHECK(lg.contains(D, SIX));
+}
+
+//--------------------------------------------------------------------------------------------
 TEST(GameLogicTest, captureCheckingPiece)
 {
   Board b;

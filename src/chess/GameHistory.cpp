@@ -68,7 +68,7 @@ std::ostream& operator<<(std::ostream& os, const GameHistory& c)
   for(auto& turn : c.getTurns())
   {
     if(turn.getWhiteMove().isValid())
-      os << i << ". " << turn.getWhiteMove();
+      os << i << "." << turn.getWhiteMove();
     if(turn.getBlackMove().isValid())
       os << " " << turn.getBlackMove() << " ";
     else
