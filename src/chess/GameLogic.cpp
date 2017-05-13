@@ -477,6 +477,18 @@ void GameLogic::getPawnLegalSquares(LegalSquares& ls) const
             lastBlackMove.getTo() == Square(from.getFile() + 1, FIVE))
           ls.add(s);
       }
+
+      // En passant for black
+      else if(movedPawn.getColor() == BLACK &&
+          from.getRank() == FOUR &&
+          m_board.getPieceType(Square(from.getFile() + 1, FOUR)) == PAWN)
+      {
+        Move lastBlackMove = m_gh.getTurns().rbegin()->getWhiteMove();
+
+        if(lastBlackMove.getFrom() == Square(from.getFile() + 1, TWO) &&
+            lastBlackMove.getTo() == Square(from.getFile() + 1, FOUR))
+          ls.add(s);
+      }
     }
   }
 
@@ -500,6 +512,18 @@ void GameLogic::getPawnLegalSquares(LegalSquares& ls) const
 
         if(lastBlackMove.getFrom() == Square(from.getFile() - 1, SEVEN) &&
             lastBlackMove.getTo() == Square(from.getFile() - 1, FIVE))
+          ls.add(s);
+      }
+
+      // En passant for black
+      else if(movedPawn.getColor() == BLACK &&
+          from.getRank() == FOUR &&
+          m_board.getPieceType(Square(from.getFile() - 1, FOUR)) == PAWN)
+      {
+        Move lastBlackMove = m_gh.getTurns().rbegin()->getWhiteMove();
+
+        if(lastBlackMove.getFrom() == Square(from.getFile() - 1, TWO) &&
+            lastBlackMove.getTo() == Square(from.getFile() - 1, FOUR))
           ls.add(s);
       }
     }

@@ -41,7 +41,61 @@ TEST_GROUP(GameLogicTest)
 };
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, enPassantWhiteAllowedLeft)
+TEST(GameLogicTest, legalSquaresEnPassantBlackLeft)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(E, FOUR);
+
+  b.setPiece(BLACK, PAWN, E, FOUR);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(D, TWO, D, FOUR)));
+  gl.getLegalSquares(lg);
+
+  CHECK_EQUAL(2, lg.count());
+  CHECK(lg.contains(E, THREE));
+  CHECK(lg.contains(D, THREE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresEnPassantBlackRight)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(E, FOUR);
+
+  b.setPiece(BLACK, PAWN, E, FOUR);
+  gl.setBoard(b);
+
+  CHECK(gl.applyMove(Move(F, TWO, F, FOUR)));
+  gl.getLegalSquares(lg);
+
+  CHECK_EQUAL(2, lg.count());
+  CHECK(lg.contains(E, THREE));
+  CHECK(lg.contains(F, THREE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresenPassantBlackNotAllowed)
+{
+  Board b;
+  GameLogic gl;
+  LegalSquares lg(E, FOUR);
+
+  b.setPiece(WHITE, PAWN, D, FOUR);
+  b.setPiece(BLACK, PAWN, E, FOUR);
+  gl.setTurn(BLACK);
+  gl.setBoard(b);
+
+  gl.getLegalSquares(lg);
+
+  CHECK_EQUAL(1, lg.count());
+  CHECK(lg.contains(E, THREE));
+}
+
+//--------------------------------------------------------------------------------------------
+TEST(GameLogicTest, legalSquaresenPassantWhiteAllowedLeft)
 {
   Board b;
   GameLogic gl;
@@ -61,7 +115,7 @@ TEST(GameLogicTest, enPassantWhiteAllowedLeft)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, enPassantWhiteAllowedRight)
+TEST(GameLogicTest, legalSquaresenPassantWhiteAllowedRight)
 {
   Board b;
   GameLogic gl;
@@ -81,7 +135,7 @@ TEST(GameLogicTest, enPassantWhiteAllowedRight)
 }
 
 //--------------------------------------------------------------------------------------------
-TEST(GameLogicTest, enPassantWhiteNotAllowed)
+TEST(GameLogicTest, legalSquaresenPassantWhiteNotAllowed)
 {
   Board b;
   GameLogic gl;
@@ -92,6 +146,7 @@ TEST(GameLogicTest, enPassantWhiteNotAllowed)
   gl.setBoard(b);
 
   gl.getLegalSquares(lg);
+
   CHECK_EQUAL(1, lg.count());
   CHECK(lg.contains(D, SIX));
 }
