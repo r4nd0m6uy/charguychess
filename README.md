@@ -52,7 +52,8 @@ are available in *tests/simulation*, for example:
 
 # Missing features
 To do so it is playable:
-* En passant
+* stalemate
+* draw
 
 Nice feature for the future:
 * Read from PGN
